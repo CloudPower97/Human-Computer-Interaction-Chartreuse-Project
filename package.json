@@ -1,0 +1,33 @@
+{
+  "name": "hci_2018",
+  "version": "1.0.0",
+  "description": "This is the HCI project we are involved into as part of our academy course.",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp-newer": "^1.4.0",
+    "gulp-scss": "^1.4.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.24.5",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-clean-css": "^3.9.4",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^4.0.0",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-rename": "^1.3.0",
+    "gulp-responsive": "^2.11.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-uglify-es": "^1.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Claudio Cortese, Emilia Del Re",
+  "license": "ISC",
+  "keywords": [
+    "hci",
+    "project",
+    "academy"
+  ]
+}
