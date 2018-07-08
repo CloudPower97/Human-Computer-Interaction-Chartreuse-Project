@@ -242,7 +242,9 @@ html {
                 text-align: center;
                 transform: skewY(1.5deg);
                 position: relative;
-
+                outline: 0;
+                border: 0;
+                
                 &::after {
                   position: absolute;
                   bottom: 0px;
@@ -306,7 +308,6 @@ html {
               }
             }
 
-            // Edge non supporta clip-path... cosa e' che supporta sto browser??
             @supports not (
               clip-path: polygon(0 0, 100% 60%, 100% 100%, 0% 100%)
             ) {
@@ -404,7 +405,7 @@ html {
             font-size: 28px;
             margin: 15px 0px;
             line-height: 100%;
-            
+
             &:first-letter {
               color: #c0b283;
               font-size: 30px;
