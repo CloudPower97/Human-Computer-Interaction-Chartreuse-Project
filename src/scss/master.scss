@@ -17,7 +17,13 @@
         &::after {
           transform: skewY(0deg);
           bottom: 0px;
-          height: 2px;
+          height: 4px;
+        }
+        
+        &:hover{
+          &::after{
+            height: 4px;
+          }
         }
       }
     }
@@ -244,7 +250,7 @@ html {
                 position: relative;
                 outline: 0;
                 border: 0;
-                
+
                 &::after {
                   position: absolute;
                   bottom: 0px;
