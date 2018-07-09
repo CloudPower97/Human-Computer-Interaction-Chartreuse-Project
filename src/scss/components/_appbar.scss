@@ -1,0 +1,105 @@
+#app-bar {
+  display: flex;
+  flex-direction: column;
+  grid-area: sidebar;
+  background: linear-gradient(to bottom, #2980b9, #6dd5fa);
+  animation: slideIn 1s ease 0s 1 normal forwards;
+  position: relative;
+  overflow: hidden;
+  transform: translateX(-100px);
+  box-shadow: 0px 0px 20px 0px rgba(45, 45, 45, 0.7);
+  will-change: transform;
+
+  button {
+    background: transparent;
+    border: transparent;
+    border-left: 3px solid transparent;
+    transition: all 0.5s ease;
+    height: 64px;
+    color: #f4f4f4;
+    cursor: pointer;
+    position: relative;
+    outline: 0;
+
+    svg {
+      transition: all 0.5s ease;
+    }
+
+    &:not(#top-btn).active {
+      border-color: white;
+
+      svg {
+        transform: scale(1.625);
+        filter: drop-shadow(1px 1px 2px #333);
+      }
+    }
+
+    &.hide {
+      transform: translateY(200px);
+      opacity: 0;
+      cursor: default;
+    }
+
+    &:hover,
+    &:focus {
+      background: rgba(0, 0, 0, 0.2);
+
+      &:first-of-type {
+        span {
+          font-size: 1.12rem;
+        }
+      }
+
+      &:not(:first-of-type) {
+        svg {
+          transform: scale(1.5);
+        }
+      }
+    }
+
+    &:active {
+      svg {
+        transform: scale(0.9);
+      }
+    }
+
+    &#top-btn {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+
+      &:hover,
+      &:focus {
+        svg {
+          transform: translateY(-5px);
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #app-bar {
+    flex-direction: row;
+    justify-content: space-around;
+    background: linear-gradient(to right, #2980b9, #6dd5fa);
+    animation: appbarSlideUp 1s ease 1 0s normal forwards;
+    z-index: 2;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+    button {
+      width: 100%;
+
+      &.active {
+        border-left: none !important;
+        border-bottom: 3px solid white;
+      }
+
+      &#top-btn {
+        position: static;
+      }
+    }
+  }  
+}

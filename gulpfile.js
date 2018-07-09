@@ -23,7 +23,11 @@ gulp.task("watch", ["browserSync"], function() {
   gulp.watch(folder.dist + "js/**/*", browserSync.reload);
 });
 
-gulp.task("browserSync", ["styles", "scripts", "minifyHTML"], function() {
+gulp.task("browserSync", [
+    "styles",
+    "scripts",
+    "minifyHTML"
+  ], function() {
   browserSync.init({
     server: {
       baseDir: folder.dist
@@ -36,7 +40,11 @@ gulp.task("scss", function() {
     .src(folder.src + "scss/master.scss")
     .pipe(
       sass({
-        outputStyle: "compressed"
+        outputStyle: "compressed",
+        includePaths: [
+          "./src/scss/components/",
+          "./src/scss/base"
+        ]
       })
     )
     .pipe(
@@ -50,7 +58,10 @@ gulp.task("scss", function() {
 
 gulp.task("styles", ["scss"], function() {
   return gulp
-    .src([folder.tmp + "css/master.css", folder.src + "css/normalize.css"])
+    .src([
+      folder.src + "css/normalize.css",
+      folder.tmp + "css/master.css"
+    ])
     .pipe(concat("master.css"))
     .pipe(cleanCSS({}))
     .pipe(gulp.dest(folder.dist + "css"));
@@ -71,7 +82,10 @@ gulp.task("compressImages", function() {
           optimizationLevel: 5
         }),
         imagemin.svgo({
-          plugins: [{ removeViewBox: true }, { cleanupIDs: false }]
+          plugins: [
+          { removeViewBox: true },
+          { cleanupIDs: false }
+        ]
         })
       ])
     )

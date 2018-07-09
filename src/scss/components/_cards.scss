@@ -1,0 +1,199 @@
+.card {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 600px;
+  height: 200px;
+  margin: 5vw;
+  display: grid;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 6px 20px 2px rgba(55, 55, 55, 0.5);
+  position: relative;
+  grid-template-columns: 64px 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "action text" "action text";
+  overflow: hidden;
+  border-radius: 5px;
+  background: #f4f4f4;
+  transition: all 0.5s ease;
+
+  &--text {
+    grid-area: text;
+    overflow: auto;
+    height: 100%;
+    position: relative;
+    padding-top: 45px;
+    transition: all 0.5s ease;
+    opacity: 1;
+
+    &::before {
+      content: "Salvato da : " attr(data-caption);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 75px;
+      padding: 25px;
+      color: #777;
+      font-family: "Libre Baskerville", serif;
+      font-weight: 300;
+      font-size: 1rem;
+    }
+
+    p {
+      margin-left: 50px;
+      margin-right: 50px;
+      text-align: left;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: 10px;
+        width: 97%;
+        height: 1px;
+        background: #777;
+      }
+    }
+
+    &.hide {
+      transform: rotateX(90deg);
+      opacity: 0;
+    }
+  }
+
+  &--action {
+    grid-area: action;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: 6px 0px 20px 0px rgba(51, 51, 51, 0.5);
+    border-radius: 0px 10px 10px 0px;
+    z-index: 1;
+    overflow: hidden;
+
+    & > button {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      outline: 0;
+      -webkit-tap-highlight-color: transparent;
+      transition: all .5s ease;
+      
+      & > span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.5s ease;
+
+        & > svg {
+          color: #777;
+          transition: all 0.5s ease;
+        }
+      }
+
+      &:not(:last-of-type) {
+        & > span {
+          border-bottom: 1px solid #777;
+        }
+      }
+
+      &:hover,
+      &:focus {
+        background: #333;
+
+        & > span {
+          & > svg {
+            transform: scale(1.5);
+            color: #f4f4f4;
+          }
+        }
+
+        &:last-of-type {
+          & > span {
+            & > svg {
+              color: #ea0e0e;
+            }
+          }
+        }
+      }
+
+      &:active {
+        box-shadow: 0px 0px 20px #333, inset 0px 0px 90px rgba(71,71,71, .8);
+
+        & > span {
+          svg {
+            transform: scale(0.8);
+          }
+        }
+      }
+    }
+  }
+
+  &--alert {
+    grid-area: text;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    opacity: 0;
+    transition: all 0.5s ease;
+    transform: rotateX(-90deg);
+
+    & > div {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 50%;
+
+      button {
+        flex-basis: 30%;
+        padding: 10px;
+
+        &:hover {
+          &:first-of-type {
+            &::after {
+              background: hsla(2, 88%, 43%, 1);
+            }
+          }
+
+          &:last-of-type {
+            &::after {
+              background: hsla(114, 75%, 40%, 1);
+            }
+          }
+        }
+      }
+    }
+
+    &.show {
+      opacity: 1;
+      transform: rotateX(0deg);
+    }
+  }
+
+  &.remove {
+    box-shadow: 0px 6px 20px 2px rgba(55, 55, 55, 0.5), inset 0px 0px 200px;
+    transform: rotateY(90deg);
+  }
+
+  &.sliding {
+    animation: moveLeft 0.5s ease 0s 1 normal;
+
+    @media (max-width: 768px) {
+      animation: moveUp 0.5s ease 0s 1 normal;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+@keyframes appbarSlideUp {
+  0% {
+    transform: translateY(100px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slideIn {
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes showSlides {
+  50% {
+    transform: translateX(-50vw);
+    transition: all 0.5s ease;
+  }
+}

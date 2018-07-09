@@ -238,8 +238,7 @@
       <div id="editor">
         <div id="model">
 
-          <iframe id="model-viewer" src="" allow="autoplay; fullscreen; vr" allowvr allowfullscreen mozallowfullscreen="true"
-            webkitallowfullscreen="true">
+          <iframe id="model-viewer" src="" allow="autoplay; fullscreen; vr" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true">
           </iframe>
 
           <span class="fa-fw fa-stack">
@@ -252,6 +251,73 @@
           <img class="draggable" src="http://i63.tinypic.com/2cooa5y.png" alt="Planimetria della Certosa di San Martino">
         </div>
 
+      </div>
+    </section>
+
+    <section id="saved-elements" class="tab-container">
+      <div role="tablist">
+        <button role="tab" aria-selected="true" aria-controls="testi-salvati-tab" id="testi-salvati-label" tabindex="0">
+          <span class="fa-fw">
+            <i class="fas fa-align-left"></i>
+          </span>
+
+          Testi salvati
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="immagini-salvate-tab" id="immagini-salvate-label" tabindex="0">
+          <span class="fa-fw">
+            <i class="fas fa-images"></i>
+          </span>
+
+          Immagini Salvate
+        </button>
+      </div>
+
+      <div class="tabs smooth">
+        <div role="tabpanel" id="testi-salvati-tab" aria-labelledby="testi-salvati-label" data-saved-elements="Sembra che tu non abbia salvato ancora alcun testo... Perche' non ci provi subito?">
+          <span class="no-data"></span>
+
+          <template id="card-template">
+            <div class="card">
+              <div class="card--text" data-caption="">
+                <p></p>
+              </div>
+
+              <div class="card--alert" hidden>
+                <span>Sei sicuro di voler eliminare questo elemento salvato?</span>
+
+                <div>
+                  <button class="btn" data-remove tabindex="0">Si</button>
+                  <button class="btn" tabindex="0">No</button>
+                </div>
+              </div>
+
+              <div class="card--action" role="menubar" aria-orientation="vertical">
+                <button data-view-element role="menuitem">
+                  <span class="fa-fw">
+                    <i class="fas fa-eye"></i>
+                  </span>
+                </button>
+
+                <button data-share role="menuitem" aria-controls="social-modal">
+                  <span class="fa-fw">
+                    <i class="fas fa-share-alt"></i>
+                  </span>
+                </button>
+
+                <button data-delete-item role="menuitem" aria-controls="card--alert">
+                  <span class="fa-fw">
+                    <i class="fas fa-times"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </template>
+
+        </div>
+
+        <div role="tabpanel" id="immagini-salvate-tab" aria-labelledby="immagini-salvate-label" data-saved-elements="Sembra che tu non abbia salvato ancora alcuna immagine... Perche' non ci provi subito?">
+          <span class="no-data"></span>
+        </div>
       </div>
     </section>
 
@@ -402,6 +468,46 @@
           </label>
         </div>
 
+      </div>
+    </div>
+
+    <div id="social-modal" aria-hidden="true" role="dialog" class="modal">
+      <div class="modal-content">
+
+        <button id="facebook" tabindex="0">
+          <span class="fa-fw">
+            <i class="fab fa-facebook"></i>
+          </span>
+
+          Facebook
+        </button>
+
+        <button id="twitter" tabindex="0">
+          <span class="fa-stack fa-fw">
+            <i class="fas fa-square fa-stack-2x"></i>
+            <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+          </span>
+
+          Twitter
+        </button>
+
+        <button id="google-plus" tabindex="0">
+          <span class="fa-fw">
+            <i class="fab fa-google-plus"></i>
+          </span>
+
+          Google Plus
+        </button>
+
+        <button id="link" tabindex="0">
+          <span class="fa-stack fa-fw">
+            <i class="fas fa-square fa-stack-2x"></i>
+            <i class="fas fa-link fa-stack-1x fa-inverse"></i>
+            <i class="fas fa-check fa-stack-1x fa-inverse"></i>
+            <i class="fas fa-times fa-stack-1x fa-inverse"></i>
+          </span>
+          Copia Link
+        </button>
       </div>
     </div>
 

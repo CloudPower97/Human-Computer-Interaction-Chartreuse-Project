@@ -1,0 +1,155 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  transition: all 0.5s ease;
+  text-align: center;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 300;
+  color: #777;
+}
+
+h1 {
+  font-family: var(--heading-font);
+  font-size: calc(4.2rem + var(--font-size-increase));
+  margin: 2.8rem 0 1.68rem 0;
+}
+
+h2 {
+  font-size: calc(3.56rem + var(--font-size-increase));
+  margin: 2.3733333333rem 0 1.424rem 0;
+}
+
+h3 {
+  font-size: calc(2.92rem + var(--font-size-increase));
+  margin: 1.9466666667rem 0 1.168rem 0;
+}
+
+h4 {
+  font-size: calc(2.28rem + var(--font-size-increase));
+  margin: 1.52rem 0 0.912rem 0;
+}
+
+h5 {
+  font-size: calc(1.64rem + var(--font-size-increase));
+  margin: 1.0933333333rem 0 0.656rem 0;
+}
+
+h6 {
+  font-size: calc(1.15rem + var(--font-size-increase));
+  margin: 0.7666666667rem 0 0.46rem 0;
+}
+
+p {
+  transition: all 0.5s ease;
+  padding-left: var(--paragraph-margin-left);
+  padding-right: var(--paragraph-margin-right);
+  line-height: var(--line-height);
+
+  &:first-letter {
+    color: #c0b283;
+    float: left;
+    font-size: 75px;
+    line-height: 60px;
+    padding-top: 4px;
+    padding-right: 8px;
+    padding-left: 3px;
+  }
+
+  @media only screen and (min-width: 360px) {
+    font-size: calc(1.2rem + var(--font-size-increase));
+  }
+  
+  @media only screen and (min-width: 390px) {
+    font-size: calc(1.224rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 420px) {
+    font-size: calc(1.248rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 450px) {
+    font-size: calc(1.272rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 480px) {
+    font-size: calc(1.296rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 510px) {
+    font-size: calc(1.32rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 540px) {
+    font-size: calc(1.344rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 570px) {
+    font-size: calc(1.368rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 600px) {
+    font-size: calc(1.392rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 630px) {
+    font-size: calc(1.416rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 660px) {
+    font-size: calc(1.44rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 690px) {
+    font-size: calc(1.464rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 720px) {
+    font-size: calc(1.488rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 750px) {
+    font-size: calc(1.512rem + var(--font-size-increase));
+  }
+
+  @media (max-width: 768px) {
+    margin-left: calc(var(--paragraph-margin-left) - 10vw);
+    margin-right: calc(var(--paragraph-margin-left) - 10vw);
+  }
+
+  @media only screen and (min-width: 780px) {
+    font-size: calc(1.536rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 810px) {
+    font-size: calc(1.56rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 840px) {
+    font-size: calc(1.584rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 870px) {
+    font-size: calc(1.608rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 900px) {
+    font-size: calc(1.632rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 930px) {
+    font-size: calc(1.656rem + var(--font-size-increase));
+  }
+
+  @media only screen and (min-width: 960px) {
+    font-size: calc(1.68rem + var(--font-size-increase));
+  }
+}

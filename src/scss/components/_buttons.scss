@@ -1,0 +1,67 @@
+.btn {
+  background: #f4f4f4;
+  color: #333;
+  padding: 25px;
+  outline: 0;
+  border: 2.5px solid var(--button-border-color);
+  border-radius: 5px 5px 0px 0px;
+  position: relative;
+  box-shadow: 0px 7px 20px 0px rgba(51, 51, 51, 0.5);
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+
+  & > span {
+    font-size: small;
+
+    & svg {
+      transition: all 0.5s ease;
+      font-size: small;
+      transform: translateX(0px);
+    }
+
+    &::before {
+      content: "\00a0";
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: #c78283;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-101%);
+    transition: all 0.5s ease-out;
+  }
+
+  &:hover,
+  &:focus {
+    box-shadow: 0px 7px 20px 0px rgba(51, 51, 51, 0.8);
+    transform: scale(1.1);
+    font-size: larger;
+    color: #333;
+
+    &::after {
+      transform: translateX(0%);
+    }
+
+    & > span {
+      font-size: medium;
+
+      & svg {
+        transform: translateX(10px);
+      }
+    }
+  }
+
+  &:active {
+    font-size: medium;
+    transform: scale(1);
+    background-color: #e9e9e9;
+  }
+}
