@@ -169,14 +169,6 @@ body {
 
     #saved-elements{
       display: block;
-
-      & > div[role="tablist"]{
-        animation: slideIn 1s ease 0s 1 normal forwards;
-      }
-
-      & > div.tabs{
-        animation: slideIn 1s ease 0s 1 normal forwards;
-      }
     }
   }
 
@@ -802,12 +794,4 @@ main {
   grid-area: content;
   display: none;
   transition: all .5s ease;
-
-  & > div[role="tablist"]{
-    transform: translateX(-100vw);
-  }
-
-  & > div.tabs{
-    transform: translateX(100vw);    
-  }
 }
