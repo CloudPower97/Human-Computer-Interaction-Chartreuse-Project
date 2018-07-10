@@ -15,27 +15,44 @@ const gulp = require("gulp"),
   imagemin = require("gulp-imagemin"),
   responsive = require("gulp-responsive");
 
-gulp.task("watch", ["browserSync"], function() {
-  gulp.watch(folder.src + "scss/**/*", ["styles"]);
-  gulp.watch(folder.src + "js/**/*", ["scripts"]);
-  gulp.watch(folder.dist + "**/*.html", ["minifyHTML"]);
-  gulp.watch(folder.dist + "**/*.html", browserSync.reload);
-  gulp.watch(folder.dist + "js/**/*", browserSync.reload);
-});
+gulp.watch(folder.src + "scss/**/*").on("all", gulp.series(compileToCSS, () => browserSync.reload));
+gulp.watch(folder.src + "**/*.html").on("all", gulp.series(minifyHTML, () => browserSync.reload));
+gulp.watch(folder.src + "js/**/*").on("all", gulp.series(minifyJS, () => browserSync.reload));
 
-gulp.task("browserSync", [
-    "styles",
-    "scripts",
-    "minifyHTML"
-  ], function() {
+gulp.task("watch", gulp.series(gulp.parallel(
+    compileToCSS,
+    minifyJS,
+    minifyHTML)
+  , function() {
   browserSync.init({
     server: {
       baseDir: folder.dist
     }
   });
-});
+}));
 
-gulp.task("scss", function() {
+gulp.task("scss", compileToCSS);
+
+gulp.task("styles", gulp.series(compileToCSS, function() {
+  return gulp
+    .src([
+      folder.src + "css/normalize.css",
+      folder.tmp + "css/master.css"
+    ])
+    .pipe(concat("master.css"))
+    .pipe(cleanCSS({}))
+    .pipe(gulp.dest(folder.dist + "css"));
+}));
+
+gulp.task("compressImages", compressImages);
+
+gulp.task("resizeImages", resizeImages);
+
+gulp.task("minifyHTML", minifyHTML);
+
+gulp.task("scripts", minifyJS);
+
+function compileToCSS() {
   return gulp
     .src(folder.src + "scss/master.scss")
     .pipe(
@@ -54,20 +71,9 @@ gulp.task("scss", function() {
       })
     )
     .pipe(gulp.dest(folder.tmp + "css/"));
-});
+}
 
-gulp.task("styles", ["scss"], function() {
-  return gulp
-    .src([
-      folder.src + "css/normalize.css",
-      folder.tmp + "css/master.css"
-    ])
-    .pipe(concat("master.css"))
-    .pipe(cleanCSS({}))
-    .pipe(gulp.dest(folder.dist + "css"));
-});
-
-gulp.task("compressImages", function() {
+function compressImages() {
   return gulp
     .src(folder.src + "img/**/*")
     .pipe(
@@ -90,9 +96,9 @@ gulp.task("compressImages", function() {
       ])
     )
     .pipe(gulp.dest(folder.tmp + "img/"));
-});
+}
 
-gulp.task("resizeImages", function() {
+function resizeImages() {
   return gulp
     .src(folder.tmp + "img/**/*.+(png|jpg|jpeg|gif|svg)")
     .pipe(
@@ -158,9 +164,9 @@ gulp.task("resizeImages", function() {
       })
     )
     .pipe(gulp.dest(folder.dist + "img/"));
-});
+}
 
-gulp.task("minifyHTML", function() {
+function minifyHTML() {
   return gulp
     .src(folder.src + "html/**/*")
     .pipe(
@@ -172,9 +178,9 @@ gulp.task("minifyHTML", function() {
       })
     )
     .pipe(gulp.dest(folder.dist));
-});
+}
 
-gulp.task("scripts", function() {
+function minifyJS() {
   return gulp
     .src([
       folder.src + "js/fontAwesome.js",
@@ -186,4 +192,4 @@ gulp.task("scripts", function() {
     .pipe(gulp.dest(folder.tmp + "js/"))
     .pipe(uglify())
     .pipe(gulp.dest(folder.dist + "js/"));
-});
+}
