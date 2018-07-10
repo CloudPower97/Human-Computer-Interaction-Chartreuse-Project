@@ -15,66 +15,73 @@
     };
 
   const mediaQuery = window.matchMedia("(max-width: 768px)"),
-    appBar = document.getElementById("app-bar"),
-    chartreuseSelection = document.getElementById("images"),
-    modelViewer = document.getElementById("model-viewer"),
-    sketchFab = new Sketchfab(modelViewer),
-    fontModal = document.getElementById("font-modal"),
-    fontBtnHandler = function() {
-      const handler = function() {
-        const clickHandler = function(e) {
-          if (
-            document.body.hasAttribute("data-modal") &&
-            !document
-              .getElementById(document.body.dataset.modal)
-              .contains(e.target)
-          ) {
+        appBar = document.getElementById("app-bar"),
+        chartreuseSelection = document.getElementById("images"),
+        modelViewer = document.getElementById("model-viewer"),
+        sketchFab = new Sketchfab(modelViewer),
+        fontModal = document.getElementById("font-modal"),
+        savedElementsTab = document.getElementById("saved-elements"),
+        fontBtnHandler = function() {
+          const handler = function() {
+            const clickHandler = function(e) {
+              if (
+                document.body.hasAttribute("data-modal") &&
+                !document
+                  .getElementById(document.body.dataset.modal)
+                  .contains(e.target)
+              ) {
+                document.body.removeAttribute("data-modal");
+                document
+                  .querySelector("main")
+                  .removeEventListener("click", clickHandler);
+                console.log("listener rimosso");
+                document.getElementById("font-btn").classList.remove("active");
+              }
+            };
+
+            document.querySelector("main").addEventListener("click", clickHandler);
+
+            console.log("listener aggiunto");
+          };
+
+          appBar
+            .querySelectorAll("button:not(#font-btn)")
+            .forEach(function(button) {
+              console.log(button);
+              button.getAttribute("disabled") === ""
+                ? button.removeAttribute("disabled")
+                : button.setAttribute("disabled", "");
+            });
+
+          if (document.body.hasAttribute("data-modal")) {
             document.body.removeAttribute("data-modal");
-            document
-              .querySelector("main")
-              .removeEventListener("click", clickHandler);
-            console.log("listener rimosso");
-            document.getElementById("font-btn").classList.remove("active");
+          } else {
+            document.body.setAttribute("data-modal", "font-modal");
+            setTimeout(handler, 100);
           }
-        };
-
-        document.querySelector("main").addEventListener("click", clickHandler);
-
-        console.log("listener aggiunto");
-      };
-
-      appBar
-        .querySelectorAll("button:not(#font-btn)")
-        .forEach(function(button) {
-          console.log(button);
-          button.getAttribute("disabled") === ""
-            ? button.removeAttribute("disabled")
-            : button.setAttribute("disabled", "");
-        });
-
-      if (document.body.hasAttribute("data-modal")) {
-        document.body.removeAttribute("data-modal");
-      } else {
-        document.body.setAttribute("data-modal", "font-modal");
-        setTimeout(handler, 100);
-      }
-    },
-    exploreBtnHandler = function() {
-      document.body.classList.toggle("explore");
-      document.getElementById("top-btn").classList.toggle("hide");
-      sketchFab.init("a9214249dc844fa99e11e931ff17942e", {
-        success: function(api) {
-          api.start();
         },
-        ui_stop: 0
-      });
-    },
-    topBtnHandler = function() {
-      document
-        .getElementById("test")
-        .scrollIntoView({ block: "start", behavior: "smooth" });
-    },
-    selectionPopOver = document.getElementById("selection-pop-over");
+        exploreBtnHandler = function() {
+          document.body.classList.remove("saved-elements");
+          document.body.classList.toggle("explore");
+          document.getElementById("top-btn").classList.toggle("hide");
+          sketchFab.init("a9214249dc844fa99e11e931ff17942e", {
+            success: function(api) {
+              api.start();
+            },
+            ui_stop: 0
+          });
+        },
+        savedElementsBtnHandler = function() {
+          document.body.classList.remove("explore");
+          document.body.classList.toggle("saved-elements");
+          document.getElementById("top-btn").classList.toggle("hide");
+        },
+        topBtnHandler = function() {
+          document
+            .getElementById("test")
+            .scrollIntoView({ block: "start", behavior: "smooth" });
+        },
+        selectionPopOver = document.getElementById("selection-pop-over");
 
   if (localStorage.getItem("preferences")) {
     preferences = JSON.parse(localStorage.getItem("preferences"));
@@ -130,6 +137,8 @@
 
   updateChartreuseSelection();
 
+  initTab(savedElementsTab);
+
   function handleActiveButtons() {
     this.blur();
 
@@ -150,14 +159,89 @@
     appBarBtn.forEach(button => {
       if (button.id === "font-btn") {
         button.addEventListener("click", fontBtnHandler);
+      } else if (button.id === "social-btn") {
+        button.addEventListener("click", function() {
+          alert("devo aprire il modale dei social");
+        });
       } else if (button.id === "explore-btn") {
         button.addEventListener("click", exploreBtnHandler);
+      } else if (button.id === "saved-elements-btn") {
+        button.addEventListener("click", savedElementsBtnHandler);
       } else if (button.id === "top-btn") {
         button.addEventListener("click", topBtnHandler);
       }
 
       button.addEventListener("click", handleActiveButtons);
     });
+  }
+
+  function initTab(tabContainer) {
+    const tabList = tabContainer.querySelector("[role=\"tablist\"]");
+    const tabPanels = tabContainer.querySelector(".tabs");
+    const tabs = tabList.querySelectorAll("button");
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener("click", function() {
+        if (this.getAttribute("aria-selected") === "false") {
+          tabContainer.querySelector("button[aria-selected=\"true\"]").setAttribute("aria-selected", "false");
+          this.setAttribute("aria-selected", "true");
+          tabPanels.style.setProperty("--i", currentTab === 0 ? currentTab = 1 : currentTab = 0);
+          tabPanels.style.setProperty("--f", 0.5);
+        }
+      });
+    });
+
+    tabPanels.querySelectorAll("[role=\"tabpanel\"]").forEach(function(tab) {
+      if (tab.dataset.savedElements !== "true") {
+        tab.querySelector(".no-data").appendChild(document.createTextNode(tab.dataset.savedElements));
+      }
+    });
+
+    function unifyEvent(e) {
+      return e.changedTouches ? e.changedTouches[0] : e;
+    }
+
+    function swipeStart(e) {
+      startingPosition = unifyEvent(e).clientX;
+      tabPanels.classList.toggle("smooth", !(touched = true));
+    }
+
+    function swipe(e) {
+      e.preventDefault();
+
+      if (touched)
+        tabPanels.style.setProperty("--tx", `${Math.round(unifyEvent(e).clientX - startingPosition)}px`);
+    }
+
+    function swipeEnd(e) {
+      if (touched) {
+        let swiped = unifyEvent(e).clientX - startingPosition,
+            sign = Math.sign(swiped),
+            f = +(sign * swiped / window.innerWidth).toFixed(2);
+
+        if ((currentTab > 0 || sign < 0) && (currentTab < 1 || sign > 0) && f > 0.35) {
+          tabPanels.style.setProperty("--i", currentTab -= sign);
+          f = 1 - f;
+        }
+
+        tabPanels.style.setProperty("--tx", "0px");
+        tabPanels.style.setProperty("--f", f);
+        tabPanels.classList.toggle("smooth", !(touched = false));
+        tabContainer.querySelector("button[aria-selected=\"true\"]").setAttribute("aria-selected", "false");
+        tabs[currentTab].setAttribute("aria-selected", true);
+        startingPosition = null;
+      }
+    }
+
+    tabPanels.addEventListener("mousedown", swipeStart, false);
+    tabPanels.addEventListener("touchstart", swipeStart, false);
+
+    tabPanels.addEventListener("mousemove", swipe, false);
+    tabPanels.addEventListener("touchmove", swipe, false);
+
+    tabPanels.addEventListener("mouseup", swipeEnd, false);
+    tabPanels.addEventListener("touchend", swipeEnd, false);
+
   }
 
   function initFontModal(fontModal) {
@@ -579,6 +663,7 @@
 
 let startingPosition = null,
   currentImage = 0,
+  currentTab = 0,
   touched = false;
 
 // target elements with the "draggable" class
