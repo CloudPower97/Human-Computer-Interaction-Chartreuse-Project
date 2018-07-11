@@ -10,9 +10,7 @@
       textColor: "",
       nightMode: ""
     },
-    text = {
-      selected: []
-    };
+    savedText = [];
 
   const mediaQuery = window.matchMedia("(max-width: 768px)"),
         appBar = document.getElementById("app-bar"),
@@ -21,6 +19,7 @@
         sketchFab = new Sketchfab(modelViewer),
         fontModal = document.getElementById("font-modal"),
         savedElementsTab = document.getElementById("saved-elements"),
+        savedTextTab = savedElementsTab.querySelector("#testi-salvati-tab"),
         fontBtnHandler = function() {
           const handler = function() {
             const clickHandler = function(e) {
@@ -120,7 +119,75 @@
   }
 
   if (localStorage.getItem("savedText")) {
-    text = JSON.parse(localStorage.getItem("savedText"));
+    const fragment = document.createDocumentFragment(),
+          cardTemplate = document.getElementById("card-template");
+
+    savedText = JSON.parse(localStorage.getItem("savedText"));
+
+    savedText.forEach(function(elem) {
+      let clone = document.importNode(cardTemplate.content, true),
+          cardText = clone.querySelector(".card--text"),
+          cardAlert = clone.querySelector(".card--alert"),
+          cardActionButtons = clone.querySelectorAll(".card--action > button"),
+          cardAlertButtons = cardAlert.querySelectorAll("button");
+
+      cardText.dataset.caption = elem.container;
+
+      cardText.querySelector("p").append(elem.text);
+
+      cardActionButtons.forEach(function(button) {
+
+        button.addEventListener("click", function() {
+          this.blur();
+        });
+
+        if ("deleteItem" in button.dataset) {
+          button.addEventListener("click", triggerAlert);
+        } else if ("share" in button.dataset) {
+          // apri modale social
+        } else {
+          button.addEventListener("click", seeElement);
+        }
+      });
+
+      cardAlertButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+          this.blur();
+        });
+
+        if ("remove" in button.dataset) {
+          button.dataset.remove = elem.id;
+
+          button.addEventListener("click", deleteElement);
+        } else {
+          button.addEventListener("click", triggerAlert);
+        }
+      });
+
+      fragment.appendChild(clone);
+
+      function triggerAlert() {
+        cardText.classList.toggle("hide");
+        cardAlert.classList.toggle("show");
+        cardAlert.querySelector("button").focus();
+      }
+
+      function seeElement() {
+        alert("dovrei andare a vedere elemento");
+      }
+
+      function deleteElement(e) {
+
+        console.log(this.closest(".card").style.cssText = "display : none;");
+        savedText.splice(savedText.findIndex(function(elem) {
+          return elem.id === e.target.dataset.remove;
+        }), 1);
+
+        localStorage.setItem("savedText", JSON.stringify(savedText));
+      }
+    });
+
+    savedTextTab.appendChild(fragment);
   }
 
   initAppBar(appBar);
@@ -191,6 +258,7 @@
       });
     });
 
+    // NON FUNZIONA IL DATASET
     tabPanels.querySelectorAll("[role=\"tabpanel\"]").forEach(function(tab) {
       if (tab.dataset.savedElements !== "true") {
         tab.querySelector(".no-data").appendChild(document.createTextNode(tab.dataset.savedElements));
@@ -298,13 +366,13 @@
           button.dataset.active = preferences.paragraphFont.split("'")[1];
           button.style.fontFamily = preferences.paragraphFont;
         } else if ("margin" in firstLi) {
-          for (var value of li.values()) {
+          for (let value of li.values()) {
             if (value.dataset.margin === preferences.marginRight) {
               button.dataset.active = value.dataset.description;
             }
           }
         } else {
-          for (var value of li.values()) {
+          for (let value of li.values()) {
             if (value.dataset.lineHeight === preferences.lineHeight) {
               button.dataset.active = value.dataset.description;
             }
@@ -354,11 +422,11 @@
         button.addEventListener("click", function(e) {
           const _this = this;
           e.stopPropagation();
-          text.selected.push({
+          savedText.push({
             text: document.body.dataset.selectedText.toString(),
             container: document.body.dataset.selectedTextContainer
           });
-          localStorage.setItem("savedText", JSON.stringify(text).trim());
+          localStorage.setItem("savedText", JSON.stringify(savedText).trim());
           this.blur();
           this.classList.add("active");
 
