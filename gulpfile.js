@@ -13,44 +13,55 @@ const gulp = require("gulp"),
   autoprefixer = require("gulp-autoprefixer"),
   htmlmin = require("gulp-htmlmin"),
   imagemin = require("gulp-imagemin"),
-  responsive = require("gulp-responsive");
+  responsive = require("gulp-responsive"),
+  del = require("del"),
+  changed = require("gulp-changed");
 
-gulp.watch(folder.src + "scss/**/*").on("all", gulp.series(compileToCSS, () => browserSync.reload));
-gulp.watch(folder.src + "**/*.html").on("all", gulp.series(minifyHTML, () => browserSync.reload));
-gulp.watch(folder.src + "js/**/*").on("all", gulp.series(minifyJS, () => browserSync.reload));
+gulp
+  .watch(folder.src + "scss/**/*")
+  .on("all", gulp.series(compileToCSS, minifyCSS));
+gulp.watch(folder.src + "**/*.html").on("all", minifyHTML);
+gulp.watch(folder.src + "js/**/*").on("all", minifyJS);
 
-gulp.task("watch", gulp.series(gulp.parallel(
-    compileToCSS,
-    minifyJS,
-    minifyHTML)
-  , function() {
-  browserSync.init({
-    server: {
-      baseDir: folder.dist
+gulp.task(
+  "watch",
+  gulp.series(
+    gulp.parallel(compileToCSS, minifyJS, minifyHTML),
+    removeTmp,
+    function() {
+      browserSync.init({
+        server: {
+          baseDir: folder.dist
+        }
+      });
     }
-  });
-}));
+  )
+);
 
 gulp.task("scss", compileToCSS);
 
-gulp.task("styles", gulp.series(compileToCSS, function() {
-  return gulp
-    .src([
-      folder.src + "css/normalize.css",
-      folder.tmp + "css/master.css"
-    ])
-    .pipe(concat("master.css"))
-    .pipe(cleanCSS({}))
-    .pipe(gulp.dest(folder.dist + "css"));
-}));
+gulp.task("styles", gulp.series(compileToCSS, minifyCSS));
 
-gulp.task("compressImages", compressImages);
+gulp.task("clean", removeTmp);
 
-gulp.task("resizeImages", resizeImages);
+gulp.task("optimizeImages", gulp.series(compressImages, resizeImages));
 
 gulp.task("minifyHTML", minifyHTML);
 
 gulp.task("scripts", minifyJS);
+
+function removeTmp() {
+  return del("./tmp");
+}
+
+function minifyCSS() {
+  return gulp
+    .src([folder.src + "css/normalize.css", folder.tmp + "css/master.css"])
+    .pipe(concat("master.css"))
+    .pipe(cleanCSS({}))
+    .pipe(gulp.dest(folder.dist + "css"))
+    .pipe(browserSync.reload({ stream: true }));
+}
 
 function compileToCSS() {
   return gulp
@@ -58,10 +69,7 @@ function compileToCSS() {
     .pipe(
       sass({
         outputStyle: "compressed",
-        includePaths: [
-          "./src/scss/components/",
-          "./src/scss/base"
-        ]
+        includePaths: ["./src/scss/components/", "./src/scss/base"]
       })
     )
     .pipe(
@@ -76,6 +84,7 @@ function compileToCSS() {
 function compressImages() {
   return gulp
     .src(folder.src + "img/**/*")
+    .pipe(changed(folder.tmp + "img/"))
     .pipe(
       imagemin([
         imagemin.gifsicle({
@@ -88,10 +97,7 @@ function compressImages() {
           optimizationLevel: 5
         }),
         imagemin.svgo({
-          plugins: [
-          { removeViewBox: true },
-          { cleanupIDs: false }
-        ]
+          plugins: [{ removeViewBox: true }, { cleanupIDs: false }]
         })
       ])
     )
@@ -177,7 +183,8 @@ function minifyHTML() {
         minifyJS: true
       })
     )
-    .pipe(gulp.dest(folder.dist));
+    .pipe(gulp.dest(folder.dist))
+    .pipe(browserSync.reload({ stream: true }));
 }
 
 function minifyJS() {
@@ -191,5 +198,6 @@ function minifyJS() {
     .pipe(concat("main.js"))
     .pipe(gulp.dest(folder.tmp + "js/"))
     .pipe(uglify())
-    .pipe(gulp.dest(folder.dist + "js/"));
+    .pipe(gulp.dest(folder.dist + "js/"))
+    .pipe(browserSync.reload({ stream: true }));
 }
