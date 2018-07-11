@@ -26,7 +26,7 @@ gulp.watch(folder.src + "js/**/*").on("all", minifyJS);
 gulp.task(
   "watch",
   gulp.series(
-    gulp.parallel(compileToCSS, minifyJS, minifyHTML),
+    gulp.parallel(gulp.series(compileToCSS, minifyCSS), minifyJS, minifyHTML, gulp.series(compressImages, resizeImages)),
     removeTmp,
     function() {
       browserSync.init({
@@ -56,7 +56,10 @@ function removeTmp() {
 
 function minifyCSS() {
   return gulp
-    .src([folder.src + "css/normalize.css", folder.tmp + "css/master.css"])
+    .src([
+      folder.src + "css/normalize.css",
+      folder.tmp + "css/master.css"
+    ])
     .pipe(concat("master.css"))
     .pipe(cleanCSS({}))
     .pipe(gulp.dest(folder.dist + "css"))
@@ -69,7 +72,10 @@ function compileToCSS() {
     .pipe(
       sass({
         outputStyle: "compressed",
-        includePaths: ["./src/scss/components/", "./src/scss/base"]
+        includePaths: [
+"./src/scss/components/",
+"./src/scss/base"
+]
       })
     )
     .pipe(
@@ -97,7 +103,10 @@ function compressImages() {
           optimizationLevel: 5
         }),
         imagemin.svgo({
-          plugins: [{ removeViewBox: true }, { cleanupIDs: false }]
+          plugins: [
+{ removeViewBox: true },
+{ cleanupIDs: false }
+]
         })
       ])
     )
