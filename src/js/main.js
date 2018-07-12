@@ -516,9 +516,9 @@
     const previousActive = chartreuseSelection.querySelector(".active");
 
     previousActive && previousActive.classList.toggle("active");
-    e.target.closest("div").blur();
-    e.target.closest("div").classList.toggle("active");
-    sketchFab.init(e.target.closest("div").dataset.certosa, {
+    e.target.closest("div[data-certosa]").blur();
+    e.target.closest("div[data-certosa]").classList.toggle("active");
+    sketchFab.init(e.target.closest("div[data-certosa]").dataset.certosa, {
       success: function(api) {
         api.start();
       }
