@@ -27,6 +27,15 @@ gulp
 gulp.watch(folder.src + "**/*.html").on("all", minifyHTML);
 gulp.watch(folder.src + "js/**/*").on("all", minifyJS);
 
+gulp.task("build", gulp.series(removeDist,
+  gulp.parallel(
+    gulp.series(compileToCSS, minifyCSS),
+    minifyJS,
+    minifyHTML,
+    gulp.series(compressImages, resizeImages)
+  ),
+  removeTmp));
+
 gulp.task(
   "watch",
   gulp.series(removeDist,
