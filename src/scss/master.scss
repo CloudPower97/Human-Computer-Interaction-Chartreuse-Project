@@ -783,7 +783,7 @@ main {
 
   @media only screen and (max-width: 768px) {
     grid-template-columns: 1fr;
-    grid-template-rows: inherit;
+    grid-template-rows: 1fr;
     grid-template-areas: "editor" "list";
   }
 }
