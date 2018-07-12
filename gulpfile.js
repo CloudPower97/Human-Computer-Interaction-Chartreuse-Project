@@ -203,6 +203,18 @@ function resizeImages() {
               extname: ".webp"
             }
           }
+        ],
+        "portrait_warning.png": [
+          {
+            rename: {
+              extname: ".webp"
+            }
+          },
+          {
+            rename: {
+              extname: ".png"
+            }
+          }
         ]
       })
     )
