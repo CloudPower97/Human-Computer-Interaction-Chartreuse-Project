@@ -13,6 +13,7 @@ const gulp = require("gulp"),
   flexBug = require("postcss-flexbugs-fixes"),
   fontMagician = require("postcss-font-magician"),
   easingGradients = require("postcss-easing-gradients"),
+  brandColors = require("postcss-brand-colors"),
   cssNano = require("cssnano"),
   concat = require("gulp-concat"),
   uglify = require("gulp-uglify-es").default,
@@ -91,7 +92,8 @@ function minifyCSS() {
         discardComments({ removeAll: true }),
         flexBug(),
         fontMagician(),
-        easingGradients()
+        easingGradients(),
+        brandColors()
       ])
     )
     .pipe(gulp.dest(folder.dist + "css"))

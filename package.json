@@ -19,6 +19,7 @@
     "gulp-responsive": "^2.11.0",
     "gulp-sass": "^4.0.1",
     "gulp-uglify-es": "^1.0.4",
+    "postcss-brand-colors": "^2.0.0",
     "postcss-discard-comments": "^4.0.0",
     "postcss-easing-gradients": "^3.0.0",
     "postcss-flexbugs-fixes": "^3.3.1",
