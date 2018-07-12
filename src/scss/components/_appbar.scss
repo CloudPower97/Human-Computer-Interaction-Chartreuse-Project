@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   grid-area: sidebar;
-  background: linear-gradient(to bottom, #2980b9, #6dd5fa);
+  background: linear-gradient(to bottom, #2980b9, ease-in, #6dd5fa);
   animation: slideIn 1s ease 0s 1 normal forwards;
   position: relative;
   overflow: hidden;
@@ -82,7 +82,7 @@
   #app-bar {
     flex-direction: row;
     justify-content: space-around;
-    background: linear-gradient(to right, #2980b9, #6dd5fa);
+    background: linear-gradient(to right, #2980b9, ease-in, #6dd5fa);
     animation: appbarSlideUp 1s ease 1 0s normal forwards;
     z-index: 2;
     position: fixed;
