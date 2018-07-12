@@ -7,10 +7,14 @@ const folder = {
 const gulp = require("gulp"),
   sass = require("gulp-sass"),
   browserSync = require("browser-sync").create(),
-  cleanCSS = require("gulp-clean-css"),
+  postcss = require("gulp-postcss"),
+  autoprefixer = require("autoprefixer"),
+  discardComments = require("postcss-discard-comments"),
+  flexBug = require("postcss-flexbugs-fixes"),
+  fontMagician = require("postcss-font-magician"),
+  cssNano = require("cssnano"),
   concat = require("gulp-concat"),
   uglify = require("gulp-uglify-es").default,
-  autoprefixer = require("gulp-autoprefixer"),
   htmlmin = require("gulp-htmlmin"),
   imagemin = require("gulp-imagemin"),
   responsive = require("gulp-responsive"),
@@ -25,8 +29,13 @@ gulp.watch(folder.src + "js/**/*").on("all", minifyJS);
 
 gulp.task(
   "watch",
-  gulp.series(
-    gulp.parallel(gulp.series(compileToCSS, minifyCSS), minifyJS, minifyHTML, gulp.series(compressImages, resizeImages)),
+  gulp.series(removeDist,
+    gulp.parallel(
+      gulp.series(compileToCSS, minifyCSS),
+      minifyJS,
+      minifyHTML,
+      gulp.series(compressImages, resizeImages)
+    ),
     removeTmp,
     function() {
       browserSync.init({
@@ -50,6 +59,10 @@ gulp.task("minifyHTML", minifyHTML);
 
 gulp.task("scripts", minifyJS);
 
+function removeDist() {
+  return del("./dist");
+}
+
 function removeTmp() {
   return del("./tmp");
 }
@@ -61,7 +74,15 @@ function minifyCSS() {
       folder.tmp + "css/master.css"
     ])
     .pipe(concat("master.css"))
-    .pipe(cleanCSS({}))
+    .pipe(
+      postcss([
+        autoprefixer({ browsers: ["last 2 version"], grid: true }),
+        cssNano(),
+        discardComments({ removeAll: true }),
+        flexBug(),
+        fontMagician()
+      ])
+    )
     .pipe(gulp.dest(folder.dist + "css"))
     .pipe(browserSync.reload({ stream: true }));
 }
@@ -76,12 +97,6 @@ function compileToCSS() {
 "./src/scss/components/",
 "./src/scss/base"
 ]
-      })
-    )
-    .pipe(
-      autoprefixer({
-        browsers: ["last 2 versions"],
-        grid: true
       })
     )
     .pipe(gulp.dest(folder.tmp + "css/"));
