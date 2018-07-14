@@ -154,7 +154,7 @@ body {
         animation: slideIn 1s ease 0s 1 normal forwards;
       }
 
-      @media only screen and (max-width: 1024px) and (orientation: landscape){
+      @media only screen and (pointer: coarse) and (any-hover: none) and (max-width: 832px) and (orientation: landscape){
         &::before{
           content: "";          
           position: absolute;
@@ -188,7 +188,7 @@ body {
       grid-area: no-render;
     }
 
-    @media only screen and (max-width: 1024px) and (orientation: landscape){
+    @media only screen and (pointer: coarse) and (any-hover: none) and (max-width: 832px) and (orientation: landscape){
       main{
         overflow: hidden;
       }
