@@ -14,6 +14,7 @@ const gulp = require("gulp"),
   fontMagician = require("postcss-font-magician"),
   easingGradients = require("postcss-easing-gradients"),
   brandColors = require("postcss-brand-colors"),
+  cssAssets = require("postcss-assets"),
   cssNano = require("cssnano"),
   concat = require("gulp-concat"),
   uglify = require("gulp-uglify-es").default,
@@ -42,10 +43,9 @@ gulp.task(
   "watch",
   gulp.series(removeDist,
     gulp.parallel(
-      gulp.series(compileToCSS, minifyCSS),
+      gulp.series(compressImages, resizeImages, compileToCSS, minifyCSS),
       minifyJS,
-      minifyHTML,
-      gulp.series(compressImages, resizeImages)
+      minifyHTML
     ),
     removeTmp,
     function() {
@@ -60,7 +60,7 @@ gulp.task(
 
 gulp.task("scss", compileToCSS);
 
-gulp.task("styles", gulp.series(compileToCSS, minifyCSS));
+gulp.task("styles", gulp.series(compressImages, resizeImages, compileToCSS, minifyCSS));
 
 gulp.task("clean", removeTmp);
 
@@ -87,6 +87,10 @@ function minifyCSS() {
     .pipe(concat("master.css"))
     .pipe(
       postcss([
+        cssAssets({
+          basePath: folder.dist,
+          loadPaths: ["./img/"]
+        }),
         autoprefixer({ grid: true }),
         discardComments({ removeAll: true }),
         flexBug(),
