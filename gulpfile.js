@@ -87,13 +87,13 @@ function minifyCSS() {
     .pipe(concat("master.css"))
     .pipe(
       postcss([
-        autoprefixer({ browsers: ["last 2 version"], grid: true }),
-        cssNano(),
+        autoprefixer({ grid: true }),
         discardComments({ removeAll: true }),
         flexBug(),
         fontMagician(),
         easingGradients(),
-        brandColors()
+        brandColors(),
+        cssNano()
       ])
     )
     .pipe(gulp.dest(folder.dist + "css"))
