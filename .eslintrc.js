@@ -32,7 +32,7 @@ module.exports = {
             "1tbs"
         ],
         "callback-return": "error",
-        "camelcase": "true",
+        "camelcase": 1,
         "capitalized-comments": [
             "error",
             "never"
