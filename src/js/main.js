@@ -119,75 +119,81 @@
   }
 
   if (localStorage.getItem("savedText")) {
-    const fragment = document.createDocumentFragment(),
-          cardTemplate = document.getElementById("card-template");
+    const savedTextTab = document.getElementById("testi-salvati-tab");
 
     savedText = JSON.parse(localStorage.getItem("savedText"));
 
-    savedText.forEach(function(elem) {
-      let clone = document.importNode(cardTemplate.content, true),
-          cardText = clone.querySelector(".card--text"),
-          cardAlert = clone.querySelector(".card--alert"),
-          cardActionButtons = clone.querySelectorAll(".card--action > button"),
-          cardAlertButtons = cardAlert.querySelectorAll("button");
+    if(savedText.length > 0){
+      const fragment = document.createDocumentFragment(),
+            cardTemplate = document.getElementById("card-template");
 
-      cardText.dataset.caption = elem.container;
+      savedTextTab.dataset.savedElements = true;
 
-      cardText.querySelector("p").append(elem.text);
-
-      cardActionButtons.forEach(function(button) {
-
-        button.addEventListener("click", function() {
-          this.blur();
+      savedText.forEach(function(elem) {
+        let clone = document.importNode(cardTemplate.content, true),
+            cardText = clone.querySelector(".card--text"),
+            cardAlert = clone.querySelector(".card--alert"),
+            cardActionButtons = clone.querySelectorAll(".card--action > button"),
+            cardAlertButtons = cardAlert.querySelectorAll("button");
+  
+        cardText.dataset.caption = elem.container;
+  
+        cardText.querySelector("p").append(elem.text);
+  
+        cardActionButtons.forEach(function(button) {
+  
+          button.addEventListener("click", function() {
+            this.blur();
+          });
+  
+          if ("deleteItem" in button.dataset) {
+            button.addEventListener("click", triggerAlert);
+          } else if ("share" in button.dataset) {
+            // apri modale social
+          } else {
+            button.addEventListener("click", seeElement);
+          }
         });
-
-        if ("deleteItem" in button.dataset) {
-          button.addEventListener("click", triggerAlert);
-        } else if ("share" in button.dataset) {
-          // apri modale social
-        } else {
-          button.addEventListener("click", seeElement);
+  
+        cardAlertButtons.forEach(function(button) {
+          button.addEventListener("click", function() {
+            this.blur();
+          });
+  
+          if ("remove" in button.dataset) {
+            button.dataset.remove = elem.id;
+  
+            button.addEventListener("click", deleteElement);
+          } else {
+            button.addEventListener("click", triggerAlert);
+          }
+        });
+  
+        fragment.appendChild(clone);
+  
+        function triggerAlert() {
+          cardText.classList.toggle("hide");
+          cardAlert.classList.toggle("show");
+          cardAlert.querySelector("button").focus();
+        }
+  
+        function seeElement() {
+          alert("dovrei andare a vedere elemento");
+        }
+  
+        function deleteElement(e) {
+  
+          console.log(this.closest(".card").style.cssText = "display : none;");
+          savedText.splice(savedText.findIndex(function(elem) {
+            return elem.id === e.target.dataset.remove;
+          }), 1);
+  
+          localStorage.setItem("savedText", JSON.stringify(savedText));
         }
       });
-
-      cardAlertButtons.forEach(function(button) {
-        button.addEventListener("click", function() {
-          this.blur();
-        });
-
-        if ("remove" in button.dataset) {
-          button.dataset.remove = elem.id;
-
-          button.addEventListener("click", deleteElement);
-        } else {
-          button.addEventListener("click", triggerAlert);
-        }
-      });
-
-      fragment.appendChild(clone);
-
-      function triggerAlert() {
-        cardText.classList.toggle("hide");
-        cardAlert.classList.toggle("show");
-        cardAlert.querySelector("button").focus();
-      }
-
-      function seeElement() {
-        alert("dovrei andare a vedere elemento");
-      }
-
-      function deleteElement(e) {
-
-        console.log(this.closest(".card").style.cssText = "display : none;");
-        savedText.splice(savedText.findIndex(function(elem) {
-          return elem.id === e.target.dataset.remove;
-        }), 1);
-
-        localStorage.setItem("savedText", JSON.stringify(savedText));
-      }
-    });
-
-    savedTextTab.appendChild(fragment);
+  
+      savedTextTab.appendChild(fragment);      
+    }
   }
 
   initAppBar(appBar);
@@ -258,7 +264,6 @@
       });
     });
 
-    // NON FUNZIONA IL DATASET
     tabPanels.querySelectorAll("[role=\"tabpanel\"]").forEach(function(tab) {
       if (tab.dataset.savedElements !== "true") {
         tab.querySelector(".no-data").appendChild(document.createTextNode(tab.dataset.savedElements));
