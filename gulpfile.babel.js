@@ -26,10 +26,69 @@ import changed from "gulp-changed";
 import rev, { manifest as _manifest } from "gulp-rev";
 import revDelete from "gulp-rev-delete-original";
 import revRewrite from "gulp-rev-rewrite";
+import critical from "critical";
 
-watch(folder.src + "scss/**/*").on("all", series(createRevisionManifest, rewriteWithRevisionManifest, compileToCSS, minifyCSS, removeTmp));
+watch(folder.src + "scss/**/*").on(
+  "all",
+  series(
+    createRevisionManifest,
+    rewriteWithRevisionManifest,
+    compileToCSS,
+    minifyCSS,
+    removeTmp
+  )
+);
 watch(folder.src + "**/*.html").on("all", minifyHTML);
-watch(folder.src + "js/**/*").on("all", series(createRevisionManifest, rewriteWithRevisionManifest, minifyJS, removeTmp));
+watch(folder.src + "js/**/*").on(
+  "all",
+  series(
+    createRevisionManifest,
+    rewriteWithRevisionManifest,
+    minifyJS,
+    removeTmp
+  )
+);
+
+task("critical", function() {
+  critical.generate({
+    inline: true,
+    base: folder.dist,
+    src: "index.html",
+    dest: "index.html",
+    minify: true,
+    dimensions: [{
+      width: 320,
+      height: 480
+    },{
+      width: 1024,
+      height: 768
+    },{
+      widht: 1280,
+      height: 800
+    },{
+      widht: 1280,
+      height: 1024
+    },{
+      width: 1366,
+      height: 768
+    },{
+      width: 1920,
+      height: 1080
+    }],
+    ignore: [
+      /#font-modal(.*)/,
+      /#explore(.*)/,
+      /#social-modal(.*)/,
+      ".modal",
+      "template",
+      /.tab-container(.*)/,
+      /.card(.*)/,
+      /#selection(.*)/,
+      /body.explore(.*)/,
+      /#saved-elements(.*)/      
+      ],
+  });
+});
 
 task(
   "build",
