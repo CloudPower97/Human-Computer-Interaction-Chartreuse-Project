@@ -27,9 +27,9 @@ import rev, { manifest as _manifest } from "gulp-rev";
 import revDelete from "gulp-rev-delete-original";
 import revRewrite from "gulp-rev-rewrite";
 
-watch(folder.src + "scss/**/*").on("all", series(compileToCSS, minifyCSS));
+watch(folder.src + "scss/**/*").on("all", series(createRevisionManifest, rewriteWithRevisionManifest, compileToCSS, minifyCSS, removeTmp));
 watch(folder.src + "**/*.html").on("all", minifyHTML);
-watch(folder.src + "js/**/*").on("all", minifyJS);
+watch(folder.src + "js/**/*").on("all", series(createRevisionManifest, rewriteWithRevisionManifest, minifyJS, removeTmp));
 
 task(
   "build",
