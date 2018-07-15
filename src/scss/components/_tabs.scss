@@ -99,7 +99,6 @@
       transform: translate(calc(var(--tx, 0px) + var(--i, 0)/var(--n)*-100%));      
       
       & > [role="tabpanel"]{
-        pointer-events: none;            
         flex: 1 0 50%;
         position: relative;       
         width: 100%;
