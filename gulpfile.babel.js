@@ -26,7 +26,7 @@ import changed from "gulp-changed";
 import rev, { manifest as _manifest } from "gulp-rev";
 import revDelete from "gulp-rev-delete-original";
 import revRewrite from "gulp-rev-rewrite";
-import critical from "critical";
+const critical = require("critical").stream;
 
 watch(folder.src + "scss/**/*").on(
   "all",
@@ -34,7 +34,8 @@ watch(folder.src + "scss/**/*").on(
     createRevisionManifest,
     rewriteWithRevisionManifest,
     compileToCSS,
-    minifyCSS,
+    minifyCSS, 
+    inlineCriticalCSS,       
     removeTmp
   )
 );
@@ -44,51 +45,12 @@ watch(folder.src + "js/**/*").on(
   series(
     createRevisionManifest,
     rewriteWithRevisionManifest,
-    minifyJS,
+    minifyJS,    
     removeTmp
   )
 );
 
-task("critical", function() {
-  critical.generate({
-    inline: true,
-    base: folder.dist,
-    src: "index.html",
-    dest: "index.html",
-    minify: true,
-    dimensions: [{
-      width: 320,
-      height: 480
-    },{
-      width: 1024,
-      height: 768
-    },{
-      widht: 1280,
-      height: 800
-    },{
-      widht: 1280,
-      height: 1024
-    },{
-      width: 1366,
-      height: 768
-    },{
-      width: 1920,
-      height: 1080
-    }],
-    ignore: [
-      /#font-modal(.*)/,
-      /#explore(.*)/,
-      /#social-modal(.*)/,
-      ".modal",
-      "template",
-      /.tab-container(.*)/,
-      /.card(.*)/,
-      /#selection(.*)/,
-      /body.explore(.*)/,
-      /#saved-elements(.*)/      
-      ],
-  });
-});
+task("critical", inlineCriticalCSS);
 
 task(
   "build",
@@ -100,6 +62,7 @@ task(
       minifyHTML
     ),
     series(createRevisionManifest, rewriteWithRevisionManifest),
+    inlineCriticalCSS,    
     removeTmp
   )
 );
@@ -114,6 +77,7 @@ task(
       minifyHTML
     ),
     series(createRevisionManifest, rewriteWithRevisionManifest),
+    inlineCriticalCSS,    
     removeTmp,
     function() {
       browserSync.init({
@@ -177,6 +141,47 @@ function compileToCSS() {
     )
     .pipe(dest(folder.tmp + "css/"));
 }
+
+function inlineCriticalCSS(){  
+  return _src(folder.dist + "index.html")
+        .pipe(critical({
+          inline: true,
+          base: folder.dist,
+          src: "index.html",
+          dest: "index.html",
+          minify: true,
+          dimensions: [{
+            width: 320,
+            height: 480
+          },{
+            width: 1024,
+            height: 768
+          },{
+            widht: 1280,
+            height: 800
+          },{
+            widht: 1280,
+            height: 1024
+          },{
+            width: 1366,
+            height: 768
+          },{
+            width: 1920,
+            height: 1080
+          }],
+          ignore: [
+            /#font-modal(.*)/,
+            /#explore(.*)/,
+            /#social-modal(.*)/,
+            "template",
+            /.tab-container(.*)/,
+            /.card(.*)/,
+            /body.explore(.*)/,
+            /#saved-elements(.*)/      
+            ],
+        }))
+        .pipe(dest(folder.dist));
+};
 
 function compressImages() {
   return _src(folder.src + "img/**/*")
