@@ -118,10 +118,14 @@ function minifyCSS() {
           basePath: folder.dist,
           loadPaths: ["./img/"]
         }),
-        autoprefixer({ grid: true }),
+        autoprefixer({
+          grid: true 
+        }),
         discardComments({ removeAll: true }),
         flexBug(),
-        fontMagician(),
+        fontMagician({
+          foundries: ["google"],
+        }),
         easingGradients(),
         brandColors(),
         cssNano()
@@ -147,8 +151,6 @@ function inlineCriticalCSS(){
         .pipe(critical({
           inline: true,
           base: folder.dist,
-          src: "index.html",
-          dest: "index.html",
           minify: true,
           dimensions: [{
             width: 320,
