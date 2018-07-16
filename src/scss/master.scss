@@ -109,7 +109,7 @@ body {
         display: block;
       }
 
-      #test {
+      #intro {
         header {
           nav {
             background: #949292;
@@ -134,7 +134,7 @@ body {
   }
 
   &.explore {
-    #test {
+    #intro {
       display: none;
       grid-area: no-render;
     }
@@ -196,7 +196,7 @@ body {
   }
 
   &.saved-elements {
-    #test {
+    #intro {
       display: none;
       grid-area: no-render;
     }
@@ -247,7 +247,7 @@ main {
   }
 }
 
-#test {
+#intro {
   grid-area: content;
   max-width: calc(100vw - 64px - 7px);
 
@@ -831,4 +831,51 @@ main {
   grid-area: content;
   display: none;
   transition: all 0.5s ease;
+}
+
+#top-btn{
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  border-radius: 50%;
+  border: 0;
+  z-index: 999;
+  width: 64px;
+  height: 64px;
+  color: #373737;
+  cursor: pointer;
+  transition: all .5s ease;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  opacity: 1;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active{
+    background: linear-gradient(to bottom, #2980b9, ease-in, #6dd5fa);
+    color: white;
+  }
+
+  &:hover,
+  &:focus{
+    filter: drop-shadow(0 10px 20px rgba(41,41,41,.5));
+    transform: translateY(-12px);    
+  }
+
+  &:active,
+  &.active{
+    filter: drop-shadow(0 10px 20px rgba(41,41,41,.5));
+    transform: translateY(-25px);
+  }
+
+  &.active{
+
+  }
+
+  &.hide{
+    transform: translateY(200px);
+    opacity: 0;
+    cursor: default;    
+  }  
 }

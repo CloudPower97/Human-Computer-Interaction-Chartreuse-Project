@@ -25,20 +25,14 @@
       transition: all 0.5s ease;
     }
 
-    &:not(#top-btn).active {
-      border-color: white;
+    // &:not(#top-btn).active {
+    //   border-color: white;
 
-      svg {
-        transform: scale(1.625);
-        filter: drop-shadow(1px 1px 2px #333);
-      }
-    }
-
-    &.hide {
-      transform: translateY(200px);
-      opacity: 0;
-      cursor: default;
-    }
+    //   svg {
+    //     transform: scale(1.625);
+    //     filter: drop-shadow(1px 1px 2px #333);
+    //   }
+    // }
 
     &:hover,
     &:focus {
@@ -63,18 +57,18 @@
       }
     }
 
-    &#top-btn {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
+    // &#top-btn {
+    //   position: absolute;
+    //   bottom: 0;
+    //   width: 100%;
 
-      &:hover,
-      &:focus {
-        svg {
-          transform: translateY(-5px);
-        }
-      }
-    }
+    //   &:hover,
+    //   &:focus {
+    //     svg {
+    //       transform: translateY(-5px);
+    //     }
+    //   }
+    // }
   }
 }
 

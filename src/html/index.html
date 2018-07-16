@@ -36,7 +36,7 @@
 
 <body>
   <main id="main">
-    <section id="test">
+    <section id="intro">
       <header>
         <nav id="nav-bar">
           <ul>
@@ -534,16 +534,9 @@
 
   <div id="app-bar" role="menubar" tabindex="-1" aria-orientation="vertical">
 
-    <button id="font-btn" role="menuitem" aria-haspopup="dialog" aria-controls="font-modal" tabindex="0">
+    <button id="home" role="menuitem" aria-controls="intro" tabindex="0">
       <span class="fa-fw">
-        <i class="fas fa-font fa-2x"></i>
-        <i class="fas fa-font"></i>
-      </span>
-    </button>
-
-    <button id="social-btn" role="menuitem" aria-haspopup="dialog" aria-controls="social-modal">
-      <span class="fa-fw">
-        <i class="fas fa-share-alt"></i>
+        <i class="fas fa-home"></i>
       </span>
     </button>
 
@@ -553,18 +546,32 @@
       </span>
     </button>
 
+    <button id="social-btn" role="menuitem" aria-haspopup="dialog" aria-controls="social-modal">
+      <span class="fa-fw">
+        <i class="fas fa-share-alt"></i>
+      </span>
+    </button>
+
     <button id="saved-elements-btn" role="menuitem" aria-controls="saved-elements">
       <span class="fa-fw">
         <i class="fas fa-user"></i>
       </span>
-    </button>
+    </button>    
 
-    <button id="top-btn" role="menuitem">
+    <button id="font-btn" role="menuitem" aria-haspopup="dialog" aria-controls="font-modal" >
       <span class="fa-fw">
-        <i class="fas fa-arrow-up"></i>
+        <i class="fas fa-font fa-2x"></i>
+        <i class="fas fa-font"></i>
       </span>
     </button>
+
   </div>
+
+  <button id="top-btn" class="hide">
+    <span class="fa-fw">
+      <i class="fas fa-arrow-up"></i>
+    </span>
+  </button>
 
   <script src="js/main.js"></script>
 </body>
