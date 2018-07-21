@@ -32,14 +32,11 @@
             document
               .querySelector("main")
               .removeEventListener("click", clickHandler);
-            console.log("listener rimosso");
             document.getElementById("font-btn").classList.remove("active");
           }
         };
 
         document.querySelector("main").addEventListener("click", clickHandler);
-
-        console.log("listener aggiunto");
       };
 
       appBar
@@ -60,8 +57,9 @@
     exploreBtnHandler = function() {
       document.body.classList.remove("saved-elements");
       document.body.classList.toggle("explore");
-      document.getElementById("top-btn").classList.toggle("hide");
-      appBar.querySelector("#home").classList.toggle("active", true);
+      appBar.querySelector("#home").classList.toggle("active");
+
+      document.getElementById("top-btn").classList.add("hide");
       sketchFab.init("a9214249dc844fa99e11e931ff17942e", {
         success: function(api) {
           api.start();
@@ -72,8 +70,8 @@
     savedElementsBtnHandler = function() {
       document.body.classList.remove("explore");
       document.body.classList.toggle("saved-elements");
-      appBar.querySelector("#home").classList.toggle("active", true);
-      document.getElementById("top-btn").classList.toggle("hide");
+      document.getElementById("top-btn").classList.add("hide");
+      appBar.querySelector("#home").classList.toggle("active");
     },
     homeBtnHandler = function() {
       document.body.classList.remove("saved-elements", "explore");
@@ -224,8 +222,11 @@
       if (this.getAttribute("aria-haspopup")) {
         activeButton = appBar.querySelector("button:not(#home).active");
       } else {
-        activeButton = appBar.querySelector("button.active");
-        activeButton && activeButton.classList.remove("active");
+        activeButton = appBar.querySelectorAll("button.active");
+        activeButton &&
+          activeButton.forEach(function(button) {
+            button.classList.remove("active");
+          });
       }
 
       this.classList.add("active");
@@ -255,7 +256,7 @@
   }
 
   function initTab(tabContainer) {
-    const tabList = tabContainer.querySelector("[role=\"tablist\"]");
+    const tabList = tabContainer.querySelector('[role="tablist"]');
     const tabPanels = tabContainer.querySelector(".tabs");
     const tabs = tabList.querySelectorAll("button");
 
@@ -263,7 +264,7 @@
       tab.addEventListener("click", function() {
         if (this.getAttribute("aria-selected") === "false") {
           tabContainer
-            .querySelector("button[aria-selected=\"true\"]")
+            .querySelector('button[aria-selected="true"]')
             .setAttribute("aria-selected", "false");
           this.setAttribute("aria-selected", "true");
           tabPanels.style.setProperty(
@@ -275,7 +276,7 @@
       });
     });
 
-    tabPanels.querySelectorAll("[role=\"tabpanel\"]").forEach(function(tab) {
+    tabPanels.querySelectorAll('[role="tabpanel"]').forEach(function(tab) {
       if (tab.dataset.savedElements !== "true") {
         tab
           .querySelector(".no-data")
@@ -321,7 +322,7 @@
         tabPanels.style.setProperty("--f", f);
         tabPanels.classList.toggle("smooth", !(touched = false));
         tabContainer
-          .querySelector("button[aria-selected=\"true\"]")
+          .querySelector('button[aria-selected="true"]')
           .setAttribute("aria-selected", "false");
         tabs[currentTab].setAttribute("aria-selected", true);
         startingPosition = null;
