@@ -13,74 +13,72 @@
     savedText = [];
 
   const mediaQuery = window.matchMedia("(max-width: 768px)"),
-        appBar = document.getElementById("app-bar"),
-        chartreuseSelection = document.getElementById("images"),
-        modelViewer = document.getElementById("model-viewer"),
-        sketchFab = new Sketchfab(modelViewer),
-        fontModal = document.getElementById("font-modal"),
-        savedElementsTab = document.getElementById("saved-elements"),
-        savedTextTab = savedElementsTab.querySelector("#testi-salvati-tab"),
-        fontBtnHandler = function() {
-          const handler = function() {
-            const clickHandler = function(e) {
-              if (
-                document.body.hasAttribute("data-modal") &&
-                !document
-                  .getElementById(document.body.dataset.modal)
-                  .contains(e.target)
-              ) {
-                document.body.removeAttribute("data-modal");
-                document
-                  .querySelector("main")
-                  .removeEventListener("click", clickHandler);
-                console.log("listener rimosso");
-                document.getElementById("font-btn").classList.remove("active");
-              }
-            };
-
-            document.querySelector("main").addEventListener("click", clickHandler);
-
-            console.log("listener aggiunto");
-          };
-
-          appBar
-            .querySelectorAll("button:not(#font-btn)")
-            .forEach(function(button) {
-              console.log(button);
-              button.getAttribute("disabled") === ""
-                ? button.removeAttribute("disabled")
-                : button.setAttribute("disabled", "");
-            });
-
-          if (document.body.hasAttribute("data-modal")) {
+    appBar = document.getElementById("app-bar"),
+    chartreuseSelection = document.getElementById("images"),
+    modelViewer = document.getElementById("model-viewer"),
+    sketchFab = new Sketchfab(modelViewer),
+    fontModal = document.getElementById("font-modal"),
+    savedElementsTab = document.getElementById("saved-elements"),
+    fontBtnHandler = function() {
+      const handler = function() {
+        const clickHandler = function(e) {
+          if (
+            document.body.hasAttribute("data-modal") &&
+            !document
+              .getElementById(document.body.dataset.modal)
+              .contains(e.target)
+          ) {
             document.body.removeAttribute("data-modal");
-          } else {
-            document.body.setAttribute("data-modal", "font-modal");
-            setTimeout(handler, 100);
+            document
+              .querySelector("main")
+              .removeEventListener("click", clickHandler);
+            console.log("listener rimosso");
+            document.getElementById("font-btn").classList.remove("active");
           }
+        };
+
+        document.querySelector("main").addEventListener("click", clickHandler);
+
+        console.log("listener aggiunto");
+      };
+
+      appBar
+        .querySelectorAll("button:not(#font-btn)")
+        .forEach(function(button) {
+          button.getAttribute("disabled") === ""
+            ? button.removeAttribute("disabled")
+            : button.setAttribute("disabled", "");
+        });
+
+      if (document.body.hasAttribute("data-modal")) {
+        document.body.removeAttribute("data-modal");
+      } else {
+        document.body.setAttribute("data-modal", "font-modal");
+        setTimeout(handler, 100);
+      }
+    },
+    exploreBtnHandler = function() {
+      document.body.classList.remove("saved-elements");
+      document.body.classList.toggle("explore");
+      document.getElementById("top-btn").classList.toggle("hide");
+      appBar.querySelector("#home").classList.toggle("active", true);
+      sketchFab.init("a9214249dc844fa99e11e931ff17942e", {
+        success: function(api) {
+          api.start();
         },
-        exploreBtnHandler = function() {
-          document.body.classList.remove("saved-elements");
-          document.body.classList.toggle("explore");
-          document.getElementById("top-btn").classList.toggle("hide");
-          sketchFab.init("a9214249dc844fa99e11e931ff17942e", {
-            success: function(api) {
-              api.start();
-            },
-            ui_stop: 0
-          });
-        },
-        savedElementsBtnHandler = function() {
-          document.body.classList.remove("explore");
-          document.body.classList.toggle("saved-elements");
-          document.getElementById("top-btn").classList.toggle("hide");
-        },
-        topBtnHandler = function() {
-          document
-            .getElementById("test")
-            .scrollIntoView({ block: "start", behavior: "smooth" });
-        },
-        selectionPopOver = document.getElementById("selection-pop-over");
+        ui_stop: 0
+      });
+    },
+    savedElementsBtnHandler = function() {
+      document.body.classList.remove("explore");
+      document.body.classList.toggle("saved-elements");
+      appBar.querySelector("#home").classList.toggle("active", true);
+      document.getElementById("top-btn").classList.toggle("hide");
+    },
+    homeBtnHandler = function() {
+      document.body.classList.remove("saved-elements", "explore");
+    },
+    selectionPopOver = document.getElementById("selection-pop-over");
 
   if (localStorage.getItem("preferences")) {
     preferences = JSON.parse(localStorage.getItem("preferences"));
@@ -123,29 +121,28 @@
 
     savedText = JSON.parse(localStorage.getItem("savedText"));
 
-    if(savedText.length > 0){
+    if (savedText.length > 0) {
       const fragment = document.createDocumentFragment(),
-            cardTemplate = document.getElementById("card-template");
+        cardTemplate = document.getElementById("card-template");
 
       savedTextTab.dataset.savedElements = true;
 
       savedText.forEach(function(elem) {
         let clone = document.importNode(cardTemplate.content, true),
-            cardText = clone.querySelector(".card--text"),
-            cardAlert = clone.querySelector(".card--alert"),
-            cardActionButtons = clone.querySelectorAll(".card--action > button"),
-            cardAlertButtons = cardAlert.querySelectorAll("button");
-  
+          cardText = clone.querySelector(".card--text"),
+          cardAlert = clone.querySelector(".card--alert"),
+          cardActionButtons = clone.querySelectorAll(".card--action > button"),
+          cardAlertButtons = cardAlert.querySelectorAll("button");
+
         cardText.dataset.caption = elem.container;
-  
+
         cardText.querySelector("p").append(elem.text);
-  
+
         cardActionButtons.forEach(function(button) {
-  
           button.addEventListener("click", function() {
             this.blur();
           });
-  
+
           if ("deleteItem" in button.dataset) {
             button.addEventListener("click", triggerAlert);
           } else if ("share" in button.dataset) {
@@ -154,45 +151,49 @@
             button.addEventListener("click", seeElement);
           }
         });
-  
+
         cardAlertButtons.forEach(function(button) {
           button.addEventListener("click", function() {
             this.blur();
           });
-  
+
           if ("remove" in button.dataset) {
             button.dataset.remove = elem.id;
-  
+
             button.addEventListener("click", deleteElement);
           } else {
             button.addEventListener("click", triggerAlert);
           }
         });
-  
+
         fragment.appendChild(clone);
-  
+
         function triggerAlert() {
           cardText.classList.toggle("hide");
           cardAlert.classList.toggle("show");
           cardAlert.querySelector("button").focus();
         }
-  
+
         function seeElement() {
           alert("dovrei andare a vedere elemento");
         }
-  
+
         function deleteElement(e) {
-  
-          console.log(this.closest(".card").style.cssText = "display : none;");
-          savedText.splice(savedText.findIndex(function(elem) {
-            return elem.id === e.target.dataset.remove;
-          }), 1);
-  
+          console.log(
+            (this.closest(".card").style.cssText = "display : none;")
+          );
+          savedText.splice(
+            savedText.findIndex(function(elem) {
+              return elem.id === e.target.dataset.remove;
+            }),
+            1
+          );
+
           localStorage.setItem("savedText", JSON.stringify(savedText));
         }
       });
-  
-      savedTextTab.appendChild(fragment);      
+
+      savedTextTab.appendChild(fragment);
     }
   }
 
@@ -215,12 +216,17 @@
   function handleActiveButtons() {
     this.blur();
 
-    if (this.classList.contains("active")) {
+    if (this.id !== "home" && this.classList.contains("active")) {
       this.classList.remove("active");
     } else {
-      const activeButton = appBar.querySelector("button.active");
+      let activeButton = null;
 
-      activeButton && activeButton.classList.remove("active");
+      if (this.getAttribute("aria-haspopup")) {
+        activeButton = appBar.querySelector("button:not(#home).active");
+      } else {
+        activeButton = appBar.querySelector("button.active");
+        activeButton && activeButton.classList.remove("active");
+      }
 
       this.classList.add("active");
     }
@@ -240,8 +246,8 @@
         button.addEventListener("click", exploreBtnHandler);
       } else if (button.id === "saved-elements-btn") {
         button.addEventListener("click", savedElementsBtnHandler);
-      } else if (button.id === "top-btn") {
-        button.addEventListener("click", topBtnHandler);
+      } else if (button.id === "home") {
+        button.addEventListener("click", homeBtnHandler);
       }
 
       button.addEventListener("click", handleActiveButtons);
@@ -256,9 +262,14 @@
     tabs.forEach(function(tab) {
       tab.addEventListener("click", function() {
         if (this.getAttribute("aria-selected") === "false") {
-          tabContainer.querySelector("button[aria-selected=\"true\"]").setAttribute("aria-selected", "false");
+          tabContainer
+            .querySelector("button[aria-selected=\"true\"]")
+            .setAttribute("aria-selected", "false");
           this.setAttribute("aria-selected", "true");
-          tabPanels.style.setProperty("--i", currentTab === 0 ? currentTab = 1 : currentTab = 0);
+          tabPanels.style.setProperty(
+            "--i",
+            currentTab === 0 ? (currentTab = 1) : (currentTab = 0)
+          );
           tabPanels.style.setProperty("--f", 0.5);
         }
       });
@@ -266,7 +277,9 @@
 
     tabPanels.querySelectorAll("[role=\"tabpanel\"]").forEach(function(tab) {
       if (tab.dataset.savedElements !== "true") {
-        tab.querySelector(".no-data").appendChild(document.createTextNode(tab.dataset.savedElements));
+        tab
+          .querySelector(".no-data")
+          .appendChild(document.createTextNode(tab.dataset.savedElements));
       }
     });
 
@@ -283,24 +296,33 @@
       e.preventDefault();
 
       if (touched)
-        tabPanels.style.setProperty("--tx", `${Math.round(unifyEvent(e).clientX - startingPosition)}px`);
+        tabPanels.style.setProperty(
+          "--tx",
+          `${Math.round(unifyEvent(e).clientX - startingPosition)}px`
+        );
     }
 
     function swipeEnd(e) {
       if (touched) {
         let swiped = unifyEvent(e).clientX - startingPosition,
-            sign = Math.sign(swiped),
-            f = +(sign * swiped / window.innerWidth).toFixed(2);
+          sign = Math.sign(swiped),
+          f = +((sign * swiped) / window.innerWidth).toFixed(2);
 
-        if ((currentTab > 0 || sign < 0) && (currentTab < 1 || sign > 0) && f > 0.35) {
-          tabPanels.style.setProperty("--i", currentTab -= sign);
+        if (
+          (currentTab > 0 || sign < 0) &&
+          (currentTab < 1 || sign > 0) &&
+          f > 0.35
+        ) {
+          tabPanels.style.setProperty("--i", (currentTab -= sign));
           f = 1 - f;
         }
 
         tabPanels.style.setProperty("--tx", "0px");
         tabPanels.style.setProperty("--f", f);
         tabPanels.classList.toggle("smooth", !(touched = false));
-        tabContainer.querySelector("button[aria-selected=\"true\"]").setAttribute("aria-selected", "false");
+        tabContainer
+          .querySelector("button[aria-selected=\"true\"]")
+          .setAttribute("aria-selected", "false");
         tabs[currentTab].setAttribute("aria-selected", true);
         startingPosition = null;
       }
@@ -314,7 +336,6 @@
 
     tabPanels.addEventListener("mouseup", swipeEnd, false);
     tabPanels.addEventListener("touchend", swipeEnd, false);
-
   }
 
   function initFontModal(fontModal) {
@@ -790,8 +811,21 @@ window.dragMoveListener = dragMoveListener;
 
 let scrollpos = document.getElementById("main").scrollTop;
 const header = document.getElementById("nav-bar");
-const add_class_on_scroll = () => header.classList.add("fixed");
-const remove_class_on_scroll = () => header.classList.remove("fixed");
+const topBtn = document.getElementById("top-btn");
+const add_class_on_scroll = () => {
+  topBtn.classList.remove("hide");
+  header.classList.add("fixed");
+};
+const remove_class_on_scroll = () => {
+  topBtn.classList.add("hide");
+  header.classList.remove("fixed");
+};
+const topBtnHandler = function() {
+  document
+    .getElementById("intro")
+    .scrollIntoView({ block: "start", behavior: "smooth" });
+  this.blur();
+};
 
 document.getElementById("main").addEventListener("scroll", function() {
   scrollpos = document.getElementById("main").scrollTop;
@@ -837,3 +871,5 @@ function openPopup(url) {
     }
   }, 250);
 }
+
+topBtn.addEventListener("click", topBtnHandler);

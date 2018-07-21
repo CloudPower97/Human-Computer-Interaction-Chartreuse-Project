@@ -869,13 +869,13 @@ main {
     transform: translateY(-25px);
   }
 
-  &.active{
-
-  }
-
   &.hide{
     transform: translateY(200px);
     opacity: 0;
     cursor: default;    
+  }  
+
+  @media only screen and (max-width: 768px) {
+    bottom: 70px;
   }  
 }
