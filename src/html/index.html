@@ -112,10 +112,10 @@
 
     <section id="explore">
       <div id="list">
-        <h2>Seleziona la certosa</h2>
+        <h2>Scegli la certosa</h2>
 
         <div id="images" role="menubar" aria-orientation="vertical">
-          <div data-certosa="a9214249dc844fa99e11e931ff17942e" role="menuitem" aria-controls="model map">
+          <div data-certosa="a9214249dc844fa99e11e931ff17942e" data-index="0" role="menuitem" aria-controls="editor" draggable="true">
             <figure>
               <picture>
                 <!-- webp images -->
@@ -154,7 +154,7 @@
             </figure>
           </div>
 
-          <div data-certosa="a10966d718a44958bf57e078fb02f62d" role="menuitem" aria-controls="model map">
+          <div data-certosa="a10966d718a44958bf57e078fb02f62d" data-index="1" role="menuitem" aria-controls="editor" draggable="true">
             <figure>
               <picture>
                 <!-- webp images -->
@@ -193,7 +193,7 @@
             </figure>
           </div>
 
-          <div data-certosa="3beb68e77080431b9bc1003bf0e23a3b" role="menuitem" aria-controls="model map">
+          <div data-certosa="3beb68e77080431b9bc1003bf0e23a3b" data-index="2" role="menuitem" aria-controls="editor" draggable="true">
             <figure>
               <picture>
                 <!-- webp images -->
@@ -235,9 +235,10 @@
       </div>
 
       <div id="editor">
-        <div id="model">
 
-          <iframe id="model-viewer" src="" allow="autoplay; fullscreen; vr" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true">
+        <div class="model" data-dropzone="first-model">
+
+          <iframe src="" allow="autoplay; fullscreen; vr" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true">
           </iframe>
 
           <span class="fa-fw fa-stack">
@@ -246,8 +247,15 @@
           </span>
         </div>
 
-        <div id="map">
-          <img class="draggable" src="http://i63.tinypic.com/2cooa5y.png" alt="Planimetria della Certosa di San Martino">
+        <div class="model" data-dropzone="second-model">
+
+          <iframe src="" allow="autoplay; fullscreen; vr" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true">
+          </iframe>
+
+          <span class="fa-fw fa-stack">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-camera fa-stack-1x fa-inverse"></i>
+          </span>
         </div>
 
       </div>

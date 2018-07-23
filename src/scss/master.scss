@@ -144,8 +144,7 @@ body {
       grid-area: content;
 
       #editor {
-        #map,
-        #model {
+        .model {
           animation: slideIn 1s ease 0s 1 normal forwards;
         }
       }
@@ -468,7 +467,14 @@ main {
   grid-template-columns: 400px auto;
   grid-template-rows: 1fr;
   grid-template-areas: "list editor";
-
+  background-color: white;
+  background-image: linear-gradient(#d4d7dd 2px, transparent 2px),
+  linear-gradient(90deg, #d4d7dd 2px, transparent 2px),
+  linear-gradient(#d4d7dd 1px, transparent 1px),
+  linear-gradient(90deg, #d4d7dd 1px, transparent 1px);
+  background-size:100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px;    
+  
   #list {
     background: #313030;
     grid-area: list;
@@ -515,12 +521,26 @@ main {
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        cursor: pointer;
         outline: 0;
         border: 0;
         -webkit-tap-highlight-color: transparent;
         padding: 0;
         font-family: "Montserrat", sans-serif;
+
+        &:not(.caption),
+        &:not(.features){
+          cursor: grab;
+        }
+
+        &.caption,
+        &.features
+        {
+          cursor: default;
+        }        
+
+        &[draggable="false"]{
+            cursor: not-allowed;                  
+        }
 
         figure {
           margin: 1rem;
@@ -622,6 +642,7 @@ main {
                   flex-direction: column;
                   align-items: center;
                   justify-content: center;
+                  cursor: default;
 
                   svg {
                     color: #f4f4f4;
@@ -659,7 +680,8 @@ main {
         }
 
         @media only screen and (min-width: 768px) {
-          &:hover {
+          &:hover,
+          &.active {
             & > figure {
               box-shadow: inset 0px 0px 100px 7px rgba(45, 45, 45, 0.8);
 
@@ -689,42 +711,22 @@ main {
             }
           }
 
-          &:active {
-            & > figure {
-              & > svg {
-                transform: translate(-50%, -50%) scale(0.6);
-                opacity: 1;
-                color: #c0b282;
+          &[draggable="true"]{
+            &:active {
+              & > figure {
+                & > svg {
+                  transform: translate(-50%, -50%) scale(0.6);
+                  opacity: 1;
+                  color: #c0b282;
+                }
               }
             }
           }
 
           &.active {
             & > figure {
-              &::before {
-                background: rgba(51, 51, 51, 0.3);
-              }
-
-              img {
-                filter: blur(1px);
-              }
-
               & > svg {
-                top: 50%;
-                transform: translate(-50%, -50%) scale(1.2);
-                opacity: 1;
                 color: #c0b282;
-              }
-
-              figcaption {
-                transform: translateY(70%);
-
-                .features {
-                  h3,
-                  svg {
-                    opacity: 0;
-                  }
-                }
               }
             }
           }
@@ -754,19 +756,83 @@ main {
     grid-area: editor;
     display: grid;
     grid-template-rows: 1fr 1fr;
-    grid-template-areas: "model" "map";
     max-height: 100vh;
     overflow: hidden;
 
-    #model {
-      grid-area: model;
+    .model {
       transition: all 0.5s ease;
-      transform: translateX(100vw);
-      box-shadow: 0px 0px 20px 2px #333;
-      background-color: #373737;
       width: calc(100vw - 400px - 64px);
       height: 100%;
       position: relative;
+      transform: translateX(100vw);
+
+      &::before{
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        transform: translate(-50%, -50%);
+        transition: all .5s ease;    
+        z-index: -1;
+      }
+      
+      &::after{
+        content: "Trascina qui per iniziare il tour della certosa";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        font-size: 2em;        
+        font-family: "Montserrat", sans-serif;
+        color: #373737;
+        text-align: center;
+        text-shadow: 0px 2px 20px rgba(41,41,41, .6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &.hide{
+        &::after{
+          content: "";
+          z-index: -1;
+        }
+      }
+
+      &.allowdrop{
+        &::before{
+          z-index: 1;
+          background-color: rgba(110,110,110, .7);
+        }
+
+        &::after{
+          content: "Rilascia qui per iniziare il tour della certosa";
+          z-index: 2;
+        }
+      }
+      
+      &.drop{
+        &::before{
+          z-index: 1;
+          background-color: rgba(40,40,40, .8);
+        }            
+
+        iframe{
+          opacity: 0;
+          transform: scale(.6);
+        }
+      }
+
+      &.dropped{
+        &::after{
+          color: white;
+        }        
+      }
 
       @media (max-width: 768px) {
         width: 100vw;
@@ -785,9 +851,11 @@ main {
       }
 
       iframe {
+        pointer-events: none;
         width: 100%;
         height: 100%;
         border: 0px;
+        transition: all .5s ease;
       }
 
       p {
@@ -795,27 +863,21 @@ main {
       }
     }
 
-    #map {
-      grid-area: map;
-      transition: all 0.5s ease;
-      transform: translateX(100vw);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: white;
-      background-image: linear-gradient(#d4d7dd 2px, transparent 2px),
-        linear-gradient(90deg, #d4d7dd 2px, transparent 2px),
-        linear-gradient(#d4d7dd 1px, transparent 1px),
-        linear-gradient(90deg, #d4d7dd 1px, transparent 1px);
-      background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-      background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
-      img {
-        max-width: 100%;
-      }
-    }
 
     @media only screen and (max-width: 768px) {
-      grid-template-areas: "map" "model";
+      grid-template-rows: 1fr;
+      
+      .model{
+        &::before,
+        &::after{
+          z-index: -1;
+          visibility: hidden;
+        }
+        
+        &:last-of-type{
+          display: none;
+        }
+      }
     }
   }
 

@@ -15,8 +15,6 @@
   const mediaQuery = window.matchMedia("(max-width: 768px)"),
     appBar = document.getElementById("app-bar"),
     chartreuseSelection = document.getElementById("images"),
-    modelViewer = document.getElementById("model-viewer"),
-    sketchFab = new Sketchfab(modelViewer),
     fontModal = document.getElementById("font-modal"),
     savedElementsTab = document.getElementById("saved-elements"),
     fontBtnHandler = function() {
@@ -60,12 +58,6 @@
       appBar.querySelector("#home").classList.toggle("active");
 
       document.getElementById("top-btn").classList.add("hide");
-      sketchFab.init("a9214249dc844fa99e11e931ff17942e", {
-        success: function(api) {
-          api.start();
-        },
-        ui_stop: 0
-      });
     },
     savedElementsBtnHandler = function() {
       document.body.classList.remove("explore");
@@ -76,7 +68,10 @@
     homeBtnHandler = function() {
       document.body.classList.remove("saved-elements", "explore");
     },
-    selectionPopOver = document.getElementById("selection-pop-over");
+    selectionPopOver = document.getElementById("selection-pop-over"),
+    dropZones = document
+      .getElementById("editor")
+      .querySelectorAll("[data-dropzone]");
 
   if (localStorage.getItem("preferences")) {
     preferences = JSON.parse(localStorage.getItem("preferences"));
@@ -210,6 +205,8 @@
   updateChartreuseSelection();
 
   initTab(savedElementsTab);
+
+  initExploreSection();
 
   function handleActiveButtons() {
     this.blur();
@@ -493,15 +490,15 @@
   }
 
   function updateChartreuseSelection() {
-    const chartreuse = chartreuseSelection.querySelectorAll(
+    const chartreuses = chartreuseSelection.querySelectorAll(
       "div[data-certosa]"
     );
 
     if (mediaQuery.matches) {
-      console.log("metto swipe");
-
-      chartreuse.forEach(function(chartreuse) {
-        chartreuse.removeEventListener("click", loadChartreuseModel, false);
+      const firstModelViewer = dropZones[0].firstElementChild;
+      chartreuses.forEach(function(chartreuses) {
+        // chartreuses.removeEventListener("click", loadChartreuseModel, false);
+        chartreuses.removeEventListener("dragstart", drag, false);
       });
 
       chartreuseSelection
@@ -513,6 +510,26 @@
           });
         });
 
+      if (!firstModelViewer.src.includes("sketchfab")) {
+        firstModelViewer.parentElement.classList.add("hide", "dropped");
+        firstModelViewer.dataset.index = 0;
+
+        new Sketchfab(firstModelViewer).init(
+          "a9214249dc844fa99e11e931ff17942e",
+          {
+            success: function(api) {
+              firstModelApi = api;
+            }
+          }
+        );
+      } else {
+        chartreuseSelection.style.setProperty(
+          "--i",
+          firstModelViewer.dataset.index
+        );
+        currentImage = firstModelViewer.dataset.index;
+      }
+
       chartreuseSelection.addEventListener("mousedown", swipeStart, false);
       chartreuseSelection.addEventListener("touchstart", swipeStart, false);
 
@@ -522,10 +539,8 @@
       chartreuseSelection.addEventListener("mouseup", swipeEnd, false);
       chartreuseSelection.addEventListener("touchend", swipeEnd, false);
     } else {
-      console.log(chartreuse);
-
-      chartreuse.forEach(function(chartreuse) {
-        chartreuse.addEventListener("click", loadChartreuseModel, false);
+      chartreuses.forEach(function(chartreuses) {
+        chartreuses.addEventListener("dragstart", drag, false);
       });
 
       chartreuseSelection.removeEventListener("mousedown", swipeStart, false);
@@ -539,16 +554,29 @@
     }
   }
 
-  function loadChartreuseModel(e) {
-    const previousActive = chartreuseSelection.querySelector(".active");
+  function initExploreSection() {
+    dropZones.forEach(dropZone => {
+      dropZone.addEventListener("dragenter", function(e) {
+        e.preventDefault();
+        this.classList.add("allowdrop");
+      });
 
-    previousActive && previousActive.classList.toggle("active");
-    e.target.closest("div[data-certosa]").blur();
-    e.target.closest("div[data-certosa]").classList.toggle("active");
-    sketchFab.init(e.target.closest("div[data-certosa]").dataset.certosa, {
-      success: function(api) {
-        api.start();
-      }
+      dropZone.addEventListener("dragleave", function(e) {
+        e.preventDefault();
+        this.classList.remove("allowdrop");
+      });
+
+      dropZone.addEventListener("dragover", allowDrop);
+
+      dropZone.addEventListener("drop", drop);
+
+      dropZone.addEventListener("mouseenter", function() {
+        dropZone.firstElementChild.style.cssText = "pointer-events: auto";
+      });
+
+      dropZone.addEventListener("mouseleave", function() {
+        dropZone.firstElementChild.style.cssText = "pointer-events: none";
+      });
     });
   }
 
@@ -728,21 +756,42 @@
         (currentImage < 2 || sign > 0) &&
         f > 0.4
       ) {
+        const firstModelViewer = document
+          .getElementById("editor")
+          .querySelector("[data-dropzone='first-model'] iframe");
+
+        firstModelViewer.parentElement.classList.add("hide", "dropped");
+
         chartreuseSelection.style.setProperty("--i", (currentImage -= sign));
+        firstModelViewer.parentElement.classList.add("hide", "dropped");
+        firstModelViewer.dataset.index = currentImage;
         f = 1 - f;
 
+        const activeChartreuse = chartreuseSelection
+          .querySelector("div[data-certosa].active");
+
+          activeChartreuse && activeChartreuse.classList.remove("active");
+
         if (sign > 0) {
-          sketchFab.init(
+          e.target
+            .closest("div")
+            .previousElementSibling.classList.add("active");
+          new Sketchfab(firstModelViewer).init(
             e.target.closest("div").previousElementSibling.dataset.certosa,
             {
-              success: function() {}
+              success: function(api) {
+                firstModelApi = api;
+              }
             }
           );
         } else if (sign < 0) {
-          sketchFab.init(
+          e.target.closest("div").nextElementSibling.classList.add("active");
+          new Sketchfab(firstModelViewer).init(
             e.target.closest("div").nextElementSibling.dataset.certosa,
             {
-              success: function() {}
+              success: function(api) {
+                firstModelApi = api;
+              }
             }
           );
         }
@@ -754,61 +803,103 @@
       startingPosition = null;
     }
   }
+
+  function drag(e) {
+    e.dataTransfer.setData("text/plain", e.target.dataset.certosa);
+    var img = document.createElement("img");
+
+    if (e.target.dataset.certosa === "a9214249dc844fa99e11e931ff17942e") {
+      img.src = "./img/certosa-di-san-martino-large.jpg";
+    } else if (
+      e.target.dataset.certosa === "a10966d718a44958bf57e078fb02f62d"
+    ) {
+      img.src = "./img/certosa-di-san-giacomo-large.jpg";
+    } else {
+      img.src = "./img/certosa-di-san-lorenzo-large.jpg";
+    }
+
+    e.dataTransfer.setDragImage(img, 0, 0);
+  }
+
+  function allowDrop(e) {
+    e.preventDefault();
+  }
+
+  function drop(e) {
+    e.preventDefault();
+    this.classList.remove("allowdrop");
+    this.classList.add("drop");
+    const iframe = e.target.firstElementChild,
+      chartreuseToLoad = document.querySelector(
+        `[data-certosa="${e.dataTransfer.getData("text")}"]`
+      );
+
+    setTimeout(() => this.classList.remove("drop"), 750);
+
+    chartreuseToLoad.classList.toggle("active");
+    chartreuseToLoad.setAttribute("draggable", false);
+
+    if (!e.target.classList.contains("hide")) {
+      e.target.classList.add("hide", "dropped");
+    }
+
+    if (this.firstElementChild.src.includes("sketchfab")) {
+      const chartreuseToUnload = document.querySelector(
+        `[data-certosa="${this.firstElementChild.src.split("/")[4]}"]`
+      );
+
+      chartreuseToUnload.classList.toggle("active");
+      chartreuseToUnload.setAttribute("draggable", true);
+    }
+
+    currentImage = iframe.dataset.index = chartreuseToLoad.dataset.index;
+
+    if (this.dataset.dropzone === "first-model") {
+      new Sketchfab(iframe).init(e.dataTransfer.getData("text"), {
+        success: function onSuccess(api) {
+          firstModelApi = api;
+          api.start();
+
+          api.addEventListener("viewerready", function() {
+            api.setTextureQuality("ld", () => {});
+          });
+
+          api.addEventListener("annotationSelect", function(index) {
+            secondModelApi && secondModelApi.gotoAnnotation(index);
+          });
+          api.addEventListener("annotationFocus", function(index) {
+            secondModelApi && secondModelApi.gotoAnnotation(index);
+          });
+        }
+      });
+    } else {
+      new Sketchfab(iframe).init(e.dataTransfer.getData("text"), {
+        success: function onSuccess(api) {
+          secondModelApi = api;
+          api.start();
+
+          api.addEventListener("viewerready", function() {
+            api.setTextureQuality("ld", () => {});
+          });
+
+          api.addEventListener("annotationSelect", function(index) {
+            firstModelApi && firstModelApi.gotoAnnotation(index);
+          });
+          api.addEventListener("annotationFocus", function(index) {
+            firstModelApi && firstModelApi.gotoAnnotation(index);
+          });
+        }
+      });
+    }
+  }
 })();
 
 let startingPosition = null,
   currentImage = 0,
   currentTab = 0,
-  touched = false;
-
-// target elements with the "draggable" class
-interact(".draggable").draggable({
-  // enable inertial throwing
-  inertia: true,
-  // keep the element within the area of it's parent
-  restrict: {
-    restriction: "parent",
-    endOnly: true,
-    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-  },
-  // enable autoScroll
-  autoScroll: true,
-
-  // call this function on every dragmove event
-  onmove: dragMoveListener,
-  // call this function on every dragend event
-  onend: function(event) {
-    var textEl = event.target.querySelector("p");
-
-    textEl &&
-      (textEl.textContent =
-        "moved a distance of " +
-        Math.sqrt(
-          (Math.pow(event.pageX - event.x0, 2) +
-            Math.pow(event.pageY - event.y0, 2)) |
-            0
-        ).toFixed(2) +
-        "px");
-  }
-});
-
-function dragMoveListener(event) {
-  var target = event.target,
-    // keep the dragged position in the data-x/data-y attributes
-    x = (parseFloat(target.getAttribute("data-x")) || 0) + event.dx,
-    y = (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
-
-  // translate the element
-  target.style.webkitTransform = target.style.transform =
-    "translate(" + x + "px, " + y + "px)";
-
-  // update the posiion attributes
-  target.setAttribute("data-x", x);
-  target.setAttribute("data-y", y);
-}
-
-// this is used later in the resizing and gesture demos
-window.dragMoveListener = dragMoveListener;
+  touched = false,
+  firstModelApi = null,
+  secondModelApi = null;
 
 let scrollpos = document.getElementById("main").scrollTop;
 const header = document.getElementById("nav-bar");
