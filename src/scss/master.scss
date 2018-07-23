@@ -530,12 +530,20 @@ main {
         &:not(.caption),
         &:not(.features){
           cursor: grab;
+
+          @media only screen and (max-width: 768px) {
+            animation: showSlides 1.7s ease 0.7s 1 normal;
+          }
         }
 
         &.caption,
         &.features
         {
           cursor: default;
+          
+          @media only screen and (max-width: 768px) {
+            animation: none;
+          }          
         }        
 
         &[draggable="false"]{
@@ -676,7 +684,6 @@ main {
         @media only screen and (max-width: 768px) {
           flex: 1 0 auto;
           width: 33%;
-          animation: showSlides 2s ease 0.7s 1 normal;
         }
 
         @media only screen and (min-width: 768px) {
@@ -732,7 +739,7 @@ main {
           }
         }
       }
-
+      
       @media only screen and (max-width: 768px) {
         flex-direction: column;
         flex-wrap: wrap;
