@@ -304,7 +304,6 @@ function minifyJS() {
   return _src([
     folder.src + "js/fontAwesome.js",
     folder.src + "js/sketchfabViewer.js",
-    folder.src + "js/interact.js",
     folder.src + "js/main.js"
   ])
     .pipe(concat("main.js"))
