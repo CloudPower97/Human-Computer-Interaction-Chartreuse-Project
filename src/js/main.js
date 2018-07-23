@@ -253,7 +253,7 @@
   }
 
   function initTab(tabContainer) {
-    const tabList = tabContainer.querySelector('[role="tablist"]');
+    const tabList = tabContainer.querySelector("[role=\"tablist\"]");
     const tabPanels = tabContainer.querySelector(".tabs");
     const tabs = tabList.querySelectorAll("button");
 
@@ -261,7 +261,7 @@
       tab.addEventListener("click", function() {
         if (this.getAttribute("aria-selected") === "false") {
           tabContainer
-            .querySelector('button[aria-selected="true"]')
+            .querySelector("button[aria-selected=\"true\"]")
             .setAttribute("aria-selected", "false");
           this.setAttribute("aria-selected", "true");
           tabPanels.style.setProperty(
@@ -273,7 +273,7 @@
       });
     });
 
-    tabPanels.querySelectorAll('[role="tabpanel"]').forEach(function(tab) {
+    tabPanels.querySelectorAll("[role=\"tabpanel\"]").forEach(function(tab) {
       if (tab.dataset.savedElements !== "true") {
         tab
           .querySelector(".no-data")
@@ -319,7 +319,7 @@
         tabPanels.style.setProperty("--f", f);
         tabPanels.classList.toggle("smooth", !(touched = false));
         tabContainer
-          .querySelector('button[aria-selected="true"]')
+          .querySelector("button[aria-selected=\"true\"]")
           .setAttribute("aria-selected", "false");
         tabs[currentTab].setAttribute("aria-selected", true);
         startingPosition = null;
@@ -496,15 +496,15 @@
 
     if (mediaQuery.matches) {
       const firstModelViewer = dropZones[0].firstElementChild;
-      chartreuses.forEach(function(chartreuses) {
-        // chartreuses.removeEventListener("click", loadChartreuseModel, false);
-        chartreuses.removeEventListener("dragstart", drag, false);
+      chartreuses.forEach(function(chartreuse) {
+        chartreuse.removeEventListener("dragstart", drag, false);
+        chartreuse.setAttribute("draggable", "false");
       });
 
+      // Questo per aprire il menu a tendina sui telefoni
       chartreuseSelection
         .querySelectorAll("figcaption")
         .forEach(function(caption) {
-          console.log(caption);
           caption.addEventListener("click", function() {
             this.style.cssText = "transform: translate(0%)";
           });
@@ -539,8 +539,9 @@
       chartreuseSelection.addEventListener("mouseup", swipeEnd, false);
       chartreuseSelection.addEventListener("touchend", swipeEnd, false);
     } else {
-      chartreuses.forEach(function(chartreuses) {
-        chartreuses.addEventListener("dragstart", drag, false);
+      chartreuses.forEach(function(chartreuse) {
+        chartreuse.addEventListener("dragstart", drag, false);
+        chartreuse.setAttribute("draggable", "true");
       });
 
       chartreuseSelection.removeEventListener("mousedown", swipeStart, false);
@@ -805,18 +806,11 @@
   }
 
   function drag(e) {
-    e.dataTransfer.setData("text/plain", e.target.dataset.certosa);
-    var img = document.createElement("img");
+    let img = document.createElement("img");
 
-    if (e.target.dataset.certosa === "a9214249dc844fa99e11e931ff17942e") {
-      img.src = "./img/certosa-di-san-martino-large.jpg";
-    } else if (
-      e.target.dataset.certosa === "a10966d718a44958bf57e078fb02f62d"
-    ) {
-      img.src = "./img/certosa-di-san-giacomo-large.jpg";
-    } else {
-      img.src = "./img/certosa-di-san-lorenzo-large.jpg";
-    }
+    e.dataTransfer.setData("text/plain", e.target.dataset.certosa);
+
+    img.src = e.target.querySelector("img").currentSrc;
 
     e.dataTransfer.setDragImage(img, 0, 0);
   }
