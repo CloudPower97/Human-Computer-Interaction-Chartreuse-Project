@@ -253,7 +253,7 @@
   }
 
   function initTab(tabContainer) {
-    const tabList = tabContainer.querySelector("[role=\"tablist\"]");
+    const tabList = tabContainer.querySelector('[role="tablist"]');
     const tabPanels = tabContainer.querySelector(".tabs");
     const tabs = tabList.querySelectorAll("button");
 
@@ -261,7 +261,7 @@
       tab.addEventListener("click", function() {
         if (this.getAttribute("aria-selected") === "false") {
           tabContainer
-            .querySelector("button[aria-selected=\"true\"]")
+            .querySelector('button[aria-selected="true"]')
             .setAttribute("aria-selected", "false");
           this.setAttribute("aria-selected", "true");
           tabPanels.style.setProperty(
@@ -273,7 +273,7 @@
       });
     });
 
-    tabPanels.querySelectorAll("[role=\"tabpanel\"]").forEach(function(tab) {
+    tabPanels.querySelectorAll('[role="tabpanel"]').forEach(function(tab) {
       if (tab.dataset.savedElements !== "true") {
         tab
           .querySelector(".no-data")
@@ -319,7 +319,7 @@
         tabPanels.style.setProperty("--f", f);
         tabPanels.classList.toggle("smooth", !(touched = false));
         tabContainer
-          .querySelector("button[aria-selected=\"true\"]")
+          .querySelector('button[aria-selected="true"]')
           .setAttribute("aria-selected", "false");
         tabs[currentTab].setAttribute("aria-selected", true);
         startingPosition = null;
@@ -768,10 +768,11 @@
         firstModelViewer.dataset.index = currentImage;
         f = 1 - f;
 
-        const activeChartreuse = chartreuseSelection
-          .querySelector("div[data-certosa].active");
+        const activeChartreuse = chartreuseSelection.querySelector(
+          "div[data-certosa].active"
+        );
 
-          activeChartreuse && activeChartreuse.classList.remove("active");
+        activeChartreuse && activeChartreuse.classList.remove("active");
 
         if (sign > 0) {
           e.target
@@ -858,9 +859,10 @@
             api.setTextureQuality("ld", () => {});
           });
 
-          api.addEventListener("annotationSelect", function(index) {
-            secondModelApi && secondModelApi.gotoAnnotation(index);
-          });
+          // api.addEventListener("annotationSelect", function(index) {
+          //   secondModelApi && secondModelApi.gotoAnnotation(index);
+          // });
+
           api.addEventListener("annotationFocus", function(index) {
             secondModelApi && secondModelApi.gotoAnnotation(index);
           });
@@ -876,9 +878,10 @@
             api.setTextureQuality("ld", () => {});
           });
 
-          api.addEventListener("annotationSelect", function(index) {
-            firstModelApi && firstModelApi.gotoAnnotation(index);
-          });
+          // api.addEventListener("annotationSelect", function(index) {
+          //   firstModelApi && firstModelApi.gotoAnnotation(index);
+          // });
+
           api.addEventListener("annotationFocus", function(index) {
             firstModelApi && firstModelApi.gotoAnnotation(index);
           });
