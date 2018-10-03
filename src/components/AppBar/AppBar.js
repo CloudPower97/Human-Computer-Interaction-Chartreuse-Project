@@ -1,5 +1,14 @@
 import React from "react";
 import Style from "./AppBar.css";
+import AppBarButton from "./AppBarButton/AppBarButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faStreetView,
+  faShareAlt,
+  faUser,
+  faFont
+} from "@fortawesome/free-solid-svg-icons";
 
 const AppBar = props => {
   return (
@@ -9,52 +18,39 @@ const AppBar = props => {
       tabIndex="-1"
       aria-orientation="vertical"
     >
-      <button
-        id="home"
-        className="active"
-        role="menuitem"
-        aria-controls="intro"
-        tabIndex="0"
-        data-tooltip="Visualizza la sezione introduttiva"
+      <AppBarButton
+        to="/"
+        tooltip="Visualizza la sezione introduttiva"
+        controls="intro"
       >
-        <span className="fa-fw">
-          <i className="fas fa-home" />
-        </span>
-      </button>
+        <FontAwesomeIcon icon={faHome} />
+      </AppBarButton>
 
-      <button
-        id="explore-btn"
-        role="menuitem"
-        aria-controls="explore"
-        data-tooltip="Immergiti in un tour virtuale delle certose campane"
+      <AppBarButton
+        to="/esplora"
+        tooltip="Immergiti in un tour virtuale delle certose campane"
+        controls="explore"
       >
-        <span className="fa-fw">
-          <i className="fas fa-street-view" />
-        </span>
-      </button>
+        <FontAwesomeIcon icon={faStreetView} />
+      </AppBarButton>
 
-      <button
+      <a
         id="social-btn"
         role="menuitem"
         aria-haspopup="dialog"
         aria-controls="social-modal"
         data-tooltip="Condividi questa pagina"
       >
-        <span className="fa-fw">
-          <i className="fas fa-share-alt" />
-        </span>
-      </button>
+        <FontAwesomeIcon icon={faShareAlt} />
+      </a>
 
-      <button
-        id="saved-elements-btn"
-        role="menuitem"
-        aria-controls="saved-elements"
-        data-tooltip="Accedi alla tua area personale"
+      <AppBarButton
+        to="/area-personale"
+        tooltip="Accedi alla tua area personale"
+        controls="saved-elements"
       >
-        <span className="fa-fw">
-          <i className="fas fa-user" />
-        </span>
-      </button>
+        <FontAwesomeIcon icon={faUser} />
+      </AppBarButton>
 
       <button
         id="font-btn"
@@ -64,8 +60,8 @@ const AppBar = props => {
         data-tooltip="Personalizza l'esperienza di lettura"
       >
         <span className="fa-fw">
-          <i className="fas fa-font" />
-          <i className="fas fa-font" />
+          <FontAwesomeIcon icon={faFont} />
+          <FontAwesomeIcon icon={faFont} />
         </span>
       </button>
     </div>

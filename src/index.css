@@ -44,6 +44,162 @@ html {
   color: var(--text-color);
   text-rendering: optimizeLegibility;
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    transition: all 0.5s ease;
+    text-align: center;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 300;
+    color: #777;
+  }
+
+  h1 {
+    font-family: var(--heading-font);
+    font-size: calc(3.5rem + var(--font-size-increase));
+    margin: 2.8rem 0 1.68rem 0;
+  }
+
+  h2 {
+    font-size: calc(3rem + var(--font-size-increase));
+    margin: 2.3733333333rem 0 1.424rem 0;
+  }
+
+  h3 {
+    font-size: calc(2.5rem + var(--font-size-increase));
+    margin: 1.9466666667rem 0 1.168rem 0;
+  }
+
+  h4 {
+    font-size: calc(2rem + var(--font-size-increase));
+    margin: 1.52rem 0 0.912rem 0;
+  }
+
+  h5 {
+    font-size: calc(1.5rem + var(--font-size-increase));
+    margin: 1.0933333333rem 0 0.656rem 0;
+  }
+
+  h6 {
+    font-size: calc(1rem + var(--font-size-increase));
+    margin: 0.7666666667rem 0 0.46rem 0;
+  }
+
+  p {
+    transition: all 0.5s ease;
+    padding-left: var(--paragraph-margin-left);
+    padding-right: var(--paragraph-margin-right);
+    line-height: var(--line-height);
+
+    &:first-letter {
+      color: #c0b283;
+      float: left;
+      font-size: 75px;
+      line-height: 60px;
+      padding-top: 4px;
+      padding-right: 8px;
+      padding-left: 3px;
+    }
+
+    @media only screen and (min-width: 360px) {
+      font-size: calc(1rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 390px) {
+      font-size: calc(1.05rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 420px) {
+      font-size: calc(1.1rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 450px) {
+      font-size: calc(1.12rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 480px) {
+      font-size: calc(1.14rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 510px) {
+      font-size: calc(1.16rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 540px) {
+      font-size: calc(1.18rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 570px) {
+      font-size: calc(1.2rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 600px) {
+      font-size: calc(1.22rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 630px) {
+      font-size: calc(1.24rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 660px) {
+      font-size: calc(1.26rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 690px) {
+      font-size: calc(1.28rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 720px) {
+      font-size: calc(1.3rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 750px) {
+      font-size: calc(1.32rem + var(--font-size-increase));
+    }
+
+    @media (max-width: 768px) {
+      margin-left: calc(var(--paragraph-margin-left) - 10vw);
+      margin-right: calc(var(--paragraph-margin-left) - 10vw);
+    }
+
+    @media only screen and (min-width: 780px) {
+      font-size: calc(1.34rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 810px) {
+      font-size: calc(1.38rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 840px) {
+      font-size: calc(1.4rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 870px) {
+      font-size: calc(1.44rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 900px) {
+      font-size: calc(1.46rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 930px) {
+      font-size: calc(1.48rem + var(--font-size-increase));
+    }
+
+    @media only screen and (min-width: 960px) {
+      font-size: calc(1.5rem + var(--font-size-increase));
+    }
+  }
+
   body {
     min-height: 100vh;
     max-height: 100vh;

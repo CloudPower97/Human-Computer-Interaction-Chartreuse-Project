@@ -1,26 +1,26 @@
 import React from "react";
-import Styles from "Intro.css";
+import Styles from "./Intro.css";
 
 const Intro = () => {
   return (
-    <section className={Styles.Intro}>
+    <section id="intro" className={Styles.Intro}>
       <header>
         <nav id="nav-bar">
           <ul>
             <li>
-              <a href="#">Test 1</a>
+              <a href="#!">Test 1</a>
             </li>
             <li>
-              <a href="#">Test 2</a>
+              <a href="#!">Test 2</a>
             </li>
             <li>
-              <a href="#">Test 3</a>
+              <a href="#!">Test 3</a>
             </li>
             <li>
-              <a href="#">Test 4</a>
+              <a href="#!">Test 4</a>
             </li>
             <li>
-              <a href="#">Test 5</a>
+              <a href="#!">Test 5</a>
             </li>
           </ul>
         </nav>
@@ -54,8 +54,8 @@ const Intro = () => {
         </h2>
 
         <div id="features-wrapper">
-          <div class="features">
-            <i class="fas fa-map-marked-alt fa-4x" />
+          <div className="features">
+            <i className="fas fa-map-marked-alt fa-4x" />
             <h3>Lorem, ipsum.</h3>
             <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias,
@@ -63,8 +63,8 @@ const Intro = () => {
             </p>
           </div>
 
-          <div class="features">
-            <i class="far fa-calendar fa-4x" />
+          <div className="features">
+            <i className="far fa-calendar fa-4x" />
             <h3>Lorem, ipsum.</h3>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
@@ -72,8 +72,8 @@ const Intro = () => {
             </p>
           </div>
 
-          <div class="features">
-            <i class="fas fa-paint-brush fa-4x" />
+          <div className="features">
+            <i className="fas fa-paint-brush fa-4x" />
             <h3>Lorem, ipsum.</h3>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -82,9 +82,9 @@ const Intro = () => {
           </div>
         </div>
 
-        <button class="btn">
+        <button className="btn">
           Discover More
-          <i class="fas fa-arrow-right" />
+          <i className="fas fa-arrow-right" />
         </button>
       </div>
 

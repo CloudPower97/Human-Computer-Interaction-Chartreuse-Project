@@ -1,0 +1,136 @@
+.ChartreusesEditor {
+  grid-area: editor;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  max-height: 100vh;
+  overflow: hidden;
+
+  @media only screen and (max-width: 768px) {
+    grid-template-rows: 1fr;
+
+    .model {
+      &::before,
+      &::after {
+        z-index: -1;
+        visibility: hidden;
+      }
+
+      &:last-of-type {
+        display: none;
+      }
+    }
+  }
+}
+
+.ChartreusesEditorModel {
+  transition: all 0.5s ease;
+  width: calc(100vw - 400px - 64px);
+  height: 100%;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+    z-index: -1;
+  }
+
+  &::after {
+    content: "Trascina qui per iniziare il tour della certosa";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    font-size: 2em;
+    font-family: "Montserrat", sans-serif;
+    color: #373737;
+    text-align: center;
+    text-shadow: 0px 2px 20px rgba(41, 41, 41, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.hide {
+    &::after {
+      content: "";
+      z-index: -1;
+    }
+  }
+
+  &.allowdrop {
+    &::before {
+      z-index: 1;
+      background-color: rgba(110, 110, 110, 0.7);
+    }
+
+    &::after {
+      content: "Rilascia qui per iniziare il tour della certosa";
+      z-index: 2;
+    }
+  }
+
+  &.drop {
+    &::before {
+      z-index: 1;
+      background-color: rgba(40, 40, 40, 0.8);
+    }
+
+    iframe {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+  }
+
+  &.dropped {
+    &::after {
+      color: white;
+    }
+  }
+
+  span {
+    position: absolute;
+    color: white;
+    bottom: 14px;
+    right: 205px;
+    transition: all 0.5s ease;
+
+    &.show {
+      opacity: 1;
+    }
+  }
+
+  iframe {
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    border: 0px;
+    transition: all 0.5s ease;
+  }
+
+  p {
+    display: none;
+  }
+
+  @media only screen and (max-width: 768px) {
+    width: 100vw;
+
+    &::before,
+    &::after {
+      z-index: -1;
+      visibility: hidden;
+    }
+
+    &:last-of-type {
+      display: none;
+    }
+  }
+}
