@@ -1,9 +1,83 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+:root {
+  --font-size-increase: 0rem;
+  --heading-font: "Libre Baskerville", serif;
+  --paragraph-font: "Montserrat", sans-serif;
+  --paragraph-margin-left: 15vw;
+  --paragraph-margin-right: 15vw;
+  --line-height: 1.7em;
+  --background-color: #f4f4f4;
+  --text-color: #333;
+  --button-border-color: rgba(192, 178, 129, 1);
+  --pop-over-left: 50%;
+  --pop-over-top: 50%;
+}
+
+::selection {
+  color: #f4f4f4;
+  background: #52acda;
+  text-shadow: 0px 3px 20px #333;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #2980b9, ease-in, #6dd5fa);
+  border-radius: 6px;
+}
+
+html {
+  box-sizing: border-box;
+  font-family: var(--paragraph-font);
+  color: var(--text-color);
+  text-rendering: optimizeLegibility;
+
+  body {
+    min-height: 100vh;
+    max-height: 100vh;
+    height: 100%;
+    background-color: var(--background-color);
+    transition: all 0.5s ease;
+
+    main {
+      grid-area: main;
+      max-height: 100vh;
+      overflow: hidden;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      grid-auto-rows: 0px;
+      grid-auto-columns: 0px;
+      grid-template-areas: "content";
+      max-width: 100vw;
+      scroll-behavior: smooth;
+
+      &::before {
+        content: "";
+        position: fixed;
+        background: rgba(51, 51, 51, 0.7);
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        display: none;
+      }
+
+      @media only screen and (max-width: 768px) {
+        max-height: calc(100vh - 64px);
+      }
+    }
+  }
 }

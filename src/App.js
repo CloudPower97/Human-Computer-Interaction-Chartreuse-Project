@@ -1,14 +1,19 @@
 import React, { Component } from "react";
-import AppBar from "./components/AppBar/AppBar";
-
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+import "./App.css";
+import Layout from "./components/Layout/Layout";
+import Intro from "./containers/Intro/Intro";
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <AppBar />
-      </div>
+      <Layout>
+        <Switch>
+          <Route path="/" exact component={Intro} />
+          <Redirect to="/" />
+        </Switch>
+      </Layout>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

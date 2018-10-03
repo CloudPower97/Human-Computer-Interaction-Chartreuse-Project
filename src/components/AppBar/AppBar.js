@@ -6,19 +6,19 @@ const AppBar = props => {
     <div
       className={Style.AppBar}
       role="menubar"
-      tabindex="-1"
+      tabIndex="-1"
       aria-orientation="vertical"
     >
       <button
         id="home"
-        class="active"
+        className="active"
         role="menuitem"
         aria-controls="intro"
-        tabindex="0"
+        tabIndex="0"
         data-tooltip="Visualizza la sezione introduttiva"
       >
-        <span class="fa-fw">
-          <i class="fas fa-home" />
+        <span className="fa-fw">
+          <i className="fas fa-home" />
         </span>
       </button>
 
@@ -28,8 +28,8 @@ const AppBar = props => {
         aria-controls="explore"
         data-tooltip="Immergiti in un tour virtuale delle certose campane"
       >
-        <span class="fa-fw">
-          <i class="fas fa-street-view" />
+        <span className="fa-fw">
+          <i className="fas fa-street-view" />
         </span>
       </button>
 
@@ -40,8 +40,8 @@ const AppBar = props => {
         aria-controls="social-modal"
         data-tooltip="Condividi questa pagina"
       >
-        <span class="fa-fw">
-          <i class="fas fa-share-alt" />
+        <span className="fa-fw">
+          <i className="fas fa-share-alt" />
         </span>
       </button>
 
@@ -51,8 +51,8 @@ const AppBar = props => {
         aria-controls="saved-elements"
         data-tooltip="Accedi alla tua area personale"
       >
-        <span class="fa-fw">
-          <i class="fas fa-user" />
+        <span className="fa-fw">
+          <i className="fas fa-user" />
         </span>
       </button>
 
@@ -63,9 +63,9 @@ const AppBar = props => {
         aria-controls="font-modal"
         data-tooltip="Personalizza l'esperienza di lettura"
       >
-        <span class="fa-fw">
-          <i class="fas fa-font" />
-          <i class="fas fa-font" />
+        <span className="fa-fw">
+          <i className="fas fa-font" />
+          <i className="fas fa-font" />
         </span>
       </button>
     </div>
