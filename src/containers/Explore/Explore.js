@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Styles from "./Explore.css";
-import ChartreusesList from "./ChartreusesList";
-import ChartreusesEditor from "./ChartreusesEditor";
+import ChartreusesList from "../../components/ChartreusesList/ChartreusesList";
+import ChartreusesEditor from "../../components/ChartreusesEditor/ChartreusesEditor";
 
 export default class Explore extends Component {
   render() {

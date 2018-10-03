@@ -113,6 +113,7 @@
   "devDependencies": {
     "postcss-easing-gradients": "^3.0.1",
     "postcss-nested": "^4.1.0",
+    "postcss-nested-ancestors": "^2.0.0",
     "prop-types": "^15.6.2",
     "react-router-dom": "^4.3.1"
   }
