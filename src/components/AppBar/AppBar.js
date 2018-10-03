@@ -1,8 +1,14 @@
 import React from "react";
+import Style from "./AppBar.css";
 
 const AppBar = props => {
   return (
-    <div id="app-bar" role="menubar" tabindex="-1" aria-orientation="vertical">
+    <div
+      className={Style.AppBar}
+      role="menubar"
+      tabindex="-1"
+      aria-orientation="vertical"
+    >
       <button
         id="home"
         class="active"
