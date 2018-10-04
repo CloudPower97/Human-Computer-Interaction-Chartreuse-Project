@@ -43,6 +43,7 @@ html {
   font-family: var(--paragraph-font);
   color: var(--text-color);
   text-rendering: optimizeLegibility;
+  background-color: transparent;
 
   h1,
   h2,
@@ -235,5 +236,27 @@ html {
         max-height: calc(100vh - 64px);
       }
     }
+  }
+}
+
+@keyframes :global(appbarSlideUp) {
+  0% {
+    transform: translateY(100px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes :global(slideIn) {
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes :global(zoomIn) {
+  100% {
+    transform: scale(1, 1);
   }
 }
