@@ -15,6 +15,17 @@ const Chartreuse = props => {
 
   const capitalizedName = name.replace(/\b\w/g, l => l.toUpperCase());
 
+  const drag = e => {
+    console.log(e.target.dataset.certosa);
+    let img = document.createElement("img");
+
+    e.dataTransfer.setData("text/plain", e.target.dataset.certosa);
+
+    img.src = e.target.querySelector("img").currentSrc;
+
+    e.dataTransfer.setDragImage(img, 0, 0);
+  };
+
   return (
     <div
       data-certosa={sketchfabUrl}
@@ -23,6 +34,7 @@ const Chartreuse = props => {
       aria-controls="editor"
       draggable="true"
       className={Styles.Chartreuse}
+      onDragStart={drag}
     >
       <figure>
         <picture>{children}</picture>

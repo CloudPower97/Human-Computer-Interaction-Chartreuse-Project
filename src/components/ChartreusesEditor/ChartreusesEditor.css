@@ -8,7 +8,7 @@
   @media only screen and (max-width: 768px) {
     grid-template-rows: 1fr;
 
-    .model {
+    .ChartreusesEditorModel {
       &::before,
       &::after {
         z-index: -1;
@@ -59,7 +59,7 @@
     justify-content: center;
   }
 
-  &.hide {
+  &.ChartreusesEditorModelHide {
     &::after {
       content: "";
       z-index: -1;
@@ -103,7 +103,7 @@
     right: 205px;
     transition: all 0.5s ease;
 
-    &.show {
+    &.ChartreusesEditorModelShow {
       opacity: 1;
     }
   }

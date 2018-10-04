@@ -7,139 +7,158 @@ class ChartreusesEditor extends Component {
   };
 
   componentDidMount() {
-    this.initExploreSection();
-  }
-
-  componentWillUnmount() {}
-
-  initExploreSection() {
     this.state._dropZones.forEach(dropZone => {
       dropZone.addEventListener("dragenter", e => {
-        e.preventDefault();
-        dropZone.classList.add(Styles.ChartreusesEditorModelAllowDrop);
+        this.dragEnter(e, dropZone);
       });
       dropZone.addEventListener("dragleave", e => {
-        e.preventDefault();
-        dropZone.classList.remove(Styles.ChartreusesEditorModelAllowDrop);
+        this.dragLeave(e, dropZone);
       });
       dropZone.addEventListener("dragover", e => {
-        e.preventDefault();
+        this.dragOver(e);
       });
-      dropZone.addEventListener("drop", this.forEachdrop);
-      dropZone.addEventListener("mouseenter", () => {
-        dropZone.firstElementChild.style.cssText = "pointer-events: auto";
+      dropZone.addEventListener("drop", this.drop.bind(this));
+      dropZone.addEventListener("mouseenter", dropZone => {
+        this.mouseEnter(dropZone);
       });
-      dropZone.addEventListener("mouseleave", () => {
-        dropZone.firstElementChild.style.cssText = "pointer-events: none";
+      dropZone.addEventListener("mouseleave", dropZone => {
+        this.mouseLeave(dropZone);
       });
     });
   }
 
-  clearExploreSection() {
+  componentWillUnmount() {
     this.state._dropZones.forEach(dropZone => {
       dropZone.removeEventListener("dragenter", e => {
-        e.preventDefault();
-        dropZone.classList.add(Styles.ChartreusesEditorModelAllowDrop);
+        this.dragEnter(e, dropZone);
       });
-      dropZone.addEventListener("dragleave", e => {
-        e.preventDefault();
-        dropZone.classList.remove(Styles.ChartreusesEditorModelAllowDrop);
+      dropZone.removeEventListener("dragleave", e => {
+        this.dragLeave(e, dropZone);
       });
-      dropZone.addEventListener("dragover", e => {
-        e.preventDefault();
+      dropZone.removeEventListener("dragover", e => {
+        this.dragOver(e);
       });
-      dropZone.addEventListener("drop", this.forEachdrop);
-      dropZone.addEventListener("mouseenter", () => {
-        dropZone.firstElementChild.style.cssText = "pointer-events: auto";
+      dropZone.removeEventListener("drop", this.drop.bind(this));
+      dropZone.removeEventListener("mouseenter", dropZone => {
+        this.mouseEnter(dropZone);
       });
-      dropZone.addEventListener("mouseleave", () => {
-        dropZone.firstElementChild.style.cssText = "pointer-events: none";
+      dropZone.removeEventListener("mouseleave", dropZone => {
+        this.mouseLeave(dropZone);
       });
     });
+  }
+
+  dragEnter(e, dropZone) {
+    e.preventDefault();
+    dropZone.classList.add(Styles.ChartreusesEditorModelAllowDrop);
+  }
+
+  dragLeave(e, dropZone) {
+    e.preventDefault();
+    dropZone.classList.remove(Styles.ChartreusesEditorModelAllowDrop);
+  }
+
+  dragOver(e) {
+    e.preventDefault();
   }
 
   drop(e) {
-    console.log(e);
     e.preventDefault();
-    // this.classList.remove("allowdrop");
-    // this.classList.add("drop");
+    e.target.classList.remove(Styles.ChartreusesEditorModelAllowDrop);
+    e.target.classList.add(Styles.ChartreusesEditorModelDrop);
     const iframe = e.target.firstElementChild,
       chartreuseToLoad = document.querySelector(
         `[data-certosa="${e.dataTransfer.getData("text")}"]`
       );
 
-    // setTimeout(() => this.classList.remove("drop"), 750);
+    setTimeout(
+      () => e.target.classList.remove(Styles.ChartreusesEditorModelDrop),
+      750
+    );
 
-    chartreuseToLoad.classList.toggle("active");
+    // chartreuseToLoad.classList.toggle("active");
     chartreuseToLoad.setAttribute("draggable", false);
 
-    if (!e.target.classList.contains("hide")) {
-      e.target.classList.add("hide", "dropped");
+    if (!e.target.classList.contains(Styles.ChartreusesEditorModelHide)) {
+      e.target.classList.add(
+        Styles.ChartreusesEditorModelHide,
+        Styles.ChartreusesEditorModelDropped
+      );
     }
 
-    if (this.firstElementChild.src.includes("sketchfab")) {
+    if (e.target.firstElementChild.src.includes("sketchfab")) {
       const chartreuseToUnload = document.querySelector(
         `[data-certosa="${this.firstElementChild.src.split("/")[4]}"]`
       );
 
-      chartreuseToUnload.classList.toggle("active");
+      // chartreuseToUnload.classList.toggle("active");
       chartreuseToUnload.setAttribute("draggable", true);
     }
 
     // currentImage = iframe.dataset.index = chartreuseToLoad.dataset.index;
 
-    if (this.dataset.dropzone === "first-model") {
-      new window.Sketchfab(iframe).init(e.dataTransfer.getData("text"), {
-        success: function onSuccess(api) {
-          this.setState(
-            {
-              firstModelApi: api
-            },
-            () => {
-              api.start();
-
-              api.addEventListener("viewerready", function() {
-                api.setTextureQuality("ld", () => {});
-              });
-
-              // api.addEventListener("annotationSelect", function(index) {
-              //   secondModelApi && secondModelApi.gotoAnnotation(index);
-              // });
-
-              api.addEventListener("annotationFocus", function(index) {
+    if (e.target.dataset.dropzone === "first-model") {
+      const setFirstModelApi = api => {
+        this.setState(
+          {
+            firstModelApi: api
+          },
+          () => {
+            this.state.firstModelApi.start();
+            this.state.firstModelApi.start();
+            this.state.firstModelApi.addEventListener(
+              "annotationFocus",
+              index => {
                 this.state.secondModelApi &&
                   this.state.secondModelApi.gotoAnnotation(index);
-              });
-            }
-          );
+              }
+            );
+          }
+        );
+      };
+
+      new window.Sketchfab(iframe).init(e.dataTransfer.getData("text"), {
+        success: function onSuccess(api) {
+          setFirstModelApi(api);
         }
       });
     } else {
+      const setSecondModelApi = api => {
+        this.setState(
+          {
+            secondModelApi: api
+          },
+          () => {
+            this.state.secondModelApi.start();
+            this.state.secondModelApi.start();
+            this.state.secondModelApi.addEventListener(
+              "annotationFocus",
+              index => {
+                this.state.firstModelApi &&
+                  this.state.firstModelApi.gotoAnnotation(index);
+              }
+            );
+          }
+        );
+      };
+
       new window.Sketchfab(iframe).init(e.dataTransfer.getData("text"), {
         success: function onSuccess(api) {
-          this.setState(
-            {
-              secondModelApi: api
-            },
-            () => {
-              api.start();
-
-              api.addEventListener("viewerready", function() {
-                api.setTextureQuality("ld", () => {});
-              });
-
-              // api.addEventListener("annotationSelect", function(index) {
-              //   firstModelApi && firstModelApi.gotoAnnotation(index);
-              // });
-
-              api.addEventListener("annotationFocus", function(index) {
-                this.state.firstModelApi &&
-                  this.statefirstModelApi.gotoAnnotation(index);
-              });
-            }
-          );
+          setSecondModelApi(api);
         }
       });
+    }
+  }
+
+  mouseEnter(dropZone) {
+    if (dropZone.firstElementChild) {
+      dropZone.firstElementChild.style.cssText = "pointer-events: auto";
+    }
+  }
+
+  mouseLeave(dropZone) {
+    if (dropZone.firstElementChild) {
+      dropZone.firstElementChild.style.cssText = "pointer-events: none";
     }
   }
 
