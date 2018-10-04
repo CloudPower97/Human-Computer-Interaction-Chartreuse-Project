@@ -11,6 +11,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const AppBar = props => {
+  const { toggleFontModal } = props;
+
   return (
     <div
       className={Style.AppBar}
@@ -22,6 +24,7 @@ const AppBar = props => {
         to="/"
         tooltip="Visualizza la sezione introduttiva"
         controls="intro"
+        active={window.location.pathname === "/"}
       >
         <FontAwesomeIcon icon={faHome} />
       </AppBarButton>
@@ -30,40 +33,37 @@ const AppBar = props => {
         to="/esplora"
         tooltip="Immergiti in un tour virtuale delle certose campane"
         controls="explore"
+        active={window.location.pathname === "/esplora"}
       >
         <FontAwesomeIcon icon={faStreetView} />
       </AppBarButton>
 
-      <a
-        id="social-btn"
-        role="menuitem"
-        aria-haspopup="dialog"
-        aria-controls="social-modal"
-        data-tooltip="Condividi questa pagina"
-      >
+      <AppBarButton tooltip="Condividi questa pagina" controls="social-modal">
         <FontAwesomeIcon icon={faShareAlt} />
-      </a>
+      </AppBarButton>
 
       <AppBarButton
         to="/area-personale"
         tooltip="Accedi alla tua area personale"
         controls="saved-elements"
+        active={window.location.pathname === "/area-personale"}
       >
         <FontAwesomeIcon icon={faUser} />
       </AppBarButton>
 
-      <button
+      <AppBarButton
         id="font-btn"
         role="menuitem"
         aria-haspopup="dialog"
-        aria-controls="font-modal"
-        data-tooltip="Personalizza l'esperienza di lettura"
+        controls="font-modal"
+        tooltip="Personalizza l'esperienza di lettura"
+        toggleFontModal={toggleFontModal}
       >
         <span className="fa-fw">
           <FontAwesomeIcon icon={faFont} />
           <FontAwesomeIcon icon={faFont} />
         </span>
-      </button>
+      </AppBarButton>
     </div>
   );
 };
