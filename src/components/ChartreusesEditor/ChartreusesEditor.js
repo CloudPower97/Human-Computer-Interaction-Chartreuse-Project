@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Styles from "./ChartreusesEditor.css";
-
+import ChartreuseStyles from "../ChartreusesList/Chartreuse/Chartreuse";
 class ChartreusesEditor extends Component {
   state = {
     _dropZones: []
@@ -77,7 +77,7 @@ class ChartreusesEditor extends Component {
       750
     );
 
-    // chartreuseToLoad.classList.toggle("active");
+    chartreuseToLoad.dataset.active = true;
     chartreuseToLoad.setAttribute("draggable", false);
 
     if (!e.target.classList.contains(Styles.ChartreusesEditorModelHide)) {
@@ -92,7 +92,7 @@ class ChartreusesEditor extends Component {
         `[data-certosa="${e.target.firstElementChild.src.split("/")[4]}"]`
       );
 
-      // chartreuseToUnload.classList.toggle("active");
+      delete chartreuseToUnload.dataset.active;
       chartreuseToUnload.setAttribute("draggable", true);
     }
 
@@ -160,8 +160,8 @@ class ChartreusesEditor extends Component {
               }
             });
             firstModel.api.addEventListener("annotationFocus", index => {
-              this.state.secondModelApi &&
-                this.state.secondModelApi.gotoAnnotation(index);
+              this.state.secondModel &&
+                this.state.secondModel.api.gotoAnnotation(index);
             });
           }
         );
@@ -234,7 +234,7 @@ class ChartreusesEditor extends Component {
               }
             });
             secondModel.api.addEventListener("annotationFocus", index => {
-              this.state.firstModel.api &&
+              this.state.firstModel &&
                 this.state.firstModel.api.gotoAnnotation(index);
             });
           }
@@ -264,13 +264,39 @@ class ChartreusesEditor extends Component {
   render() {
     const { annotationIndex } = this.state;
     let annotationBox = null;
-    let annotationDescription = null;
-    let annotationTitle = null;
+    let annotationDescription =
+      "Una certosa è un monastero di monaci certosini, di norma situato in zone solitarie. Il nome deriva dalla Grande Certosa (Grande Chartreuse), monastero principale dell'Ordine Certosino, che si trova sul massiccio della Chartreuse sulle Alpi francesi a nord della città di Grenoble in Val-d'Isère.";
+    let annotationTitle = "Le Certose";
 
     switch (annotationIndex) {
       case 0:
-        annotationBox = "Chiostro Grande";
-        annotationDescription = "boh";
+        annotationTitle = "Chiostro Grande";
+        annotationDescription =
+          "Intorno al chiostro grande sono disposte le celle dei padri, rappresentava pertanto il cuore della vita di clausura.";
+        break;
+
+      case 1:
+        annotationTitle = "Chiesa";
+        annotationDescription =
+          "Il luogo sacro per eccellenza dove i padri si recavano più volte al giorno, nel rispetto della liturgia certosina che prevede la preghiera notturna o Mattutino, la celebrazione della Messa conventuale e i Vespri.";
+        break;
+
+      case 2:
+        annotationTitle = "Celle";
+        annotationDescription =
+          "Le celle sono spazi sufficientemente ampi dove i monaci trascorrevano molto tempo, non solo vi dormivano e mangiavano, ma potevano dedicarsi alla preghiera solitaria e al lavoro, nel rispetto del motto ‘ora et labora’ cui è improntata la regola certosina. Nei giorni non festivi i padri ricevevano i pasti attraverso i passavivande, piccole aperture collocate accanto alla porta.";
+        break;
+
+      case 3:
+        annotationTitle = "Refrettorio";
+        annotationDescription =
+          "È il luogo destinato a consumare i pasti in comunità, la domenica o nei giorni di festa. I monaci mangiavano in silenzio, ascoltando la sacra scrittura o altri testi indicati dal Priore, che venivano letti da un apposito pulpito.";
+        break;
+
+      case 4:
+        annotationTitle = "Quarto del Priore";
+        annotationDescription =
+          "Il Priore, capo spirituale della comunità certosina, disponeva di un quarto, un appartamento, più spazioso rispetto alle celle degli altri monaci e di solito riccamente decorato e dotato di giardino privato.";
         break;
 
       default:
@@ -326,7 +352,9 @@ class ChartreusesEditor extends Component {
           </span>
         </div>
 
-        <div className={Styles.ChartreusesEditorDescription} />
+        <div className={Styles.ChartreusesEditorDescription}>
+          {annotationBox}
+        </div>
       </div>
     );
   }

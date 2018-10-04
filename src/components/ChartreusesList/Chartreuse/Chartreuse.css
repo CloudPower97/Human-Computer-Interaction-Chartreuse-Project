@@ -115,7 +115,7 @@
 
   @media only screen and (min-width: 768px) {
     &:hover,
-    &.active {
+    &[data-active] {
       & > figure {
         box-shadow: inset 0px 0px 100px 7px rgba(45, 45, 45, 0.8);
 
@@ -157,7 +157,7 @@
       }
     }
 
-    &.active {
+    &[data-active] {
       & > figure {
         & > svg {
           color: #c0b282;

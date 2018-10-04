@@ -11,12 +11,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Chartreuse = props => {
-  const { children, sketchfabUrl, name } = props;
+  const { children, sketchfabUrl, name, active } = props;
 
   const capitalizedName = name.replace(/\b\w/g, l => l.toUpperCase());
 
   const drag = e => {
-    console.log(e.target.dataset.certosa);
     let img = document.createElement("img");
 
     e.dataTransfer.setData("text/plain", e.target.dataset.certosa);
@@ -33,7 +32,7 @@ const Chartreuse = props => {
       role="menuitem"
       aria-controls="editor"
       draggable="true"
-      className={Styles.Chartreuse}
+      className={`${Styles.Chartreuse} ${active && Styles.ChartreuseActive}`}
       onDragStart={drag}
     >
       <figure>
@@ -66,8 +65,10 @@ const Chartreuse = props => {
 };
 
 Chartreuse.propTypes = {
+  children: PropTypes.node.isRequired,
   sketchfabUrl: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  active: PropTypes.bool
 };
 
 export default Chartreuse;
