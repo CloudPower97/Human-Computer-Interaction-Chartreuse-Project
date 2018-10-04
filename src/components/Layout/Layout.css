@@ -4,6 +4,7 @@
   grid-template-columns: 64px 1fr 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: "sidebar main main";
+  background-color: transparent;
 
   @media only screen and (max-width: 768px) {
     grid-template-areas: "main main main" "main main main" "sidebar sidebar sidebar";
