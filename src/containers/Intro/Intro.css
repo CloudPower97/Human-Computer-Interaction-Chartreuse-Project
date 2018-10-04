@@ -22,7 +22,6 @@
     background-attachment: fixed;
     min-height: 50vh;
     position: relative;
-    z-index: -1;
 
     &:before {
       content: "";
