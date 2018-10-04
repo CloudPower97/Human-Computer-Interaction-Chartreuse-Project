@@ -18,11 +18,11 @@ class ChartreusesEditor extends Component {
         this.dragOver(e);
       });
       dropZone.addEventListener("drop", this.drop.bind(this));
-      dropZone.addEventListener("mouseenter", dropZone => {
-        this.mouseEnter(dropZone);
+      dropZone.addEventListener("mouseenter", e => {
+        this.mouseEnter(e, dropZone);
       });
-      dropZone.addEventListener("mouseleave", dropZone => {
-        this.mouseLeave(dropZone);
+      dropZone.addEventListener("mouseleave", e => {
+        this.mouseLeave(e, dropZone);
       });
     });
   }
@@ -39,11 +39,11 @@ class ChartreusesEditor extends Component {
         this.dragOver(e);
       });
       dropZone.removeEventListener("drop", this.drop.bind(this));
-      dropZone.removeEventListener("mouseenter", dropZone => {
-        this.mouseEnter(dropZone);
+      dropZone.removeEventListener("mouseenter", e => {
+        this.mouseEnter(e, dropZone);
       });
-      dropZone.removeEventListener("mouseleave", dropZone => {
-        this.mouseLeave(dropZone);
+      dropZone.removeEventListener("mouseleave", e => {
+        this.mouseLeave(e, dropZone);
       });
     });
   }
@@ -67,8 +67,9 @@ class ChartreusesEditor extends Component {
     e.target.classList.remove(Styles.ChartreusesEditorModelAllowDrop);
     e.target.classList.add(Styles.ChartreusesEditorModelDrop);
     const iframe = e.target.firstElementChild,
+      sketchfabUrl = e.dataTransfer.getData("text"),
       chartreuseToLoad = document.querySelector(
-        `[data-certosa="${e.dataTransfer.getData("text")}"]`
+        `[data-certosa="${sketchfabUrl}"]`
       );
 
     setTimeout(
@@ -101,18 +102,58 @@ class ChartreusesEditor extends Component {
       const setFirstModelApi = api => {
         this.setState(
           {
-            firstModelApi: api
+            firstModelApi: api,
+            firstModelSketchfabUrl: sketchfabUrl
           },
           () => {
-            this.state.firstModelApi.start();
-            this.state.firstModelApi.start();
-            this.state.firstModelApi.addEventListener(
-              "annotationFocus",
-              index => {
-                this.state.secondModelApi &&
-                  this.state.secondModelApi.gotoAnnotation(index);
+            const { firstModelApi } = this.state;
+
+            firstModelApi.start();
+            firstModelApi.start();
+            firstModelApi.addEventListener("annotationSelect", index => {
+              if (
+                this.state.firstModelSketchfabUrl ===
+                "3beb68e77080431b9bc1003bf0e23a3b"
+              ) {
+                firstModelApi.getAnnotation(index, (err, inf) => {
+                  if (index === 0 || index === 1) {
+                    const eye = inf.eye,
+                      target = inf.target;
+
+                    firstModelApi.setCameraLookAt(eye, [
+                      target[0],
+                      target[1],
+                      target[2] + 45
+                    ]);
+                  }
+                });
+              } else if (
+                this.state.firstModelSketchfabUrl ===
+                "a9214249dc844fa99e11e931ff17942e"
+              ) {
+                firstModelApi.getAnnotation(index, (err, inf) => {
+                  const eye = inf.eye,
+                    target = inf.target;
+                  if (index === 0) {
+                    firstModelApi.setCameraLookAt(eye, [
+                      target[0],
+                      target[1],
+                      target[2] + 45
+                    ]);
+                  } else if (index === 1) {
+                    firstModelApi.setCameraLookAt(eye, [
+                      target[0],
+                      target[1],
+                      target[2] + 25
+                    ]);
+                  }
+                });
               }
-            );
+            });
+            firstModelApi.addEventListener("annotationFocus", index => {
+              this.state.secondModelApi &&
+                this.state.secondModelApi.gotoAnnotation(index);
+            });
           }
         );
       };
@@ -126,18 +167,58 @@ class ChartreusesEditor extends Component {
       const setSecondModelApi = api => {
         this.setState(
           {
-            secondModelApi: api
+            secondModelApi: api,
+            secondModelSketchfabUrl: sketchfabUrl
           },
           () => {
-            this.state.secondModelApi.start();
-            this.state.secondModelApi.start();
-            this.state.secondModelApi.addEventListener(
-              "annotationFocus",
-              index => {
-                this.state.firstModelApi &&
-                  this.state.firstModelApi.gotoAnnotation(index);
+            const { secondModelApi } = this.state;
+
+            secondModelApi.start();
+            secondModelApi.start();
+            secondModelApi.addEventListener("annotationSelect", index => {
+              if (
+                this.state.secondModelSketchfabUrl ===
+                "3beb68e77080431b9bc1003bf0e23a3b"
+              ) {
+                secondModelApi.getAnnotation(index, (err, inf) => {
+                  if (index === 0 || index === 1) {
+                    const eye = inf.eye,
+                      target = inf.target;
+
+                    secondModelApi.setCameraLookAt(eye, [
+                      target[0],
+                      target[1],
+                      target[2] + 45
+                    ]);
+                  }
+                });
+              } else if (
+                this.state.secondModelSketchfabUrl ===
+                "a9214249dc844fa99e11e931ff17942e"
+              ) {
+                secondModelApi.getAnnotation(index, (err, inf) => {
+                  const eye = inf.eye,
+                    target = inf.target;
+                  if (index === 0) {
+                    secondModelApi.setCameraLookAt(eye, [
+                      target[0],
+                      target[1],
+                      target[2] + 45
+                    ]);
+                  } else if (index === 1) {
+                    secondModelApi.setCameraLookAt(eye, [
+                      target[0],
+                      target[1],
+                      target[2] + 25
+                    ]);
+                  }
+                });
               }
-            );
+            });
+            secondModelApi.addEventListener("annotationFocus", index => {
+              this.state.firstModelApi &&
+                this.state.firstModelApi.gotoAnnotation(index);
+            });
           }
         );
       };
@@ -150,13 +231,13 @@ class ChartreusesEditor extends Component {
     }
   }
 
-  mouseEnter(dropZone) {
+  mouseEnter(e, dropZone) {
     if (dropZone.firstElementChild) {
       dropZone.firstElementChild.style.cssText = "pointer-events: auto";
     }
   }
 
-  mouseLeave(dropZone) {
+  mouseLeave(e, dropZone) {
     if (dropZone.firstElementChild) {
       dropZone.firstElementChild.style.cssText = "pointer-events: none";
     }
