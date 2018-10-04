@@ -29,7 +29,10 @@
   width: calc(100% + 1px);
   height: 100%;
   position: relative;
-
+  transform: scale(0, 0);
+  :global {
+    animation: zoomIn 1s ease-out forwards;
+  }
   &::before {
     content: "";
     position: absolute;
@@ -142,7 +145,10 @@
   grid-row-end: 3;
   grid-column-start: 2;
   background-color: #313030;
-
+  transform: translateX(100%);
+  :global {
+    animation: slideIn 1s ease-out forwards;
+  }
   h2,
   p {
     color: white;
@@ -151,5 +157,6 @@
   p {
     padding: 0px 20px 0px 20px;
     text-align: left;
+    font-weight: 300;
   }
 }

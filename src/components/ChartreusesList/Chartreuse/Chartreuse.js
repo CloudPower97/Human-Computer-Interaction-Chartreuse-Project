@@ -11,7 +11,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Chartreuse = props => {
-  const { children, sketchfabUrl, name, active } = props;
+  const {
+    children,
+    sketchfabUrl,
+    name,
+    location,
+    year,
+    artStyle,
+    active
+  } = props;
 
   const capitalizedName = name.replace(/\b\w/g, l => l.toUpperCase());
 
@@ -47,15 +55,15 @@ const Chartreuse = props => {
           <div className={Styles.ChartreuseFeature}>
             <div>
               <FontAwesomeIcon icon={faMapMarkedAlt} size="2x" />
-              <h3>Napoli</h3>
+              <h3>{location}</h3>
             </div>
             <div>
               <FontAwesomeIcon icon={faCalendar} size="2x" />
-              <h3>1300</h3>
+              <h3>{year}</h3>
             </div>
             <div>
               <FontAwesomeIcon icon={faPaintBrush} size="2x" />
-              <h3>Barocco</h3>
+              <h3>{artStyle}</h3>
             </div>
           </div>
         </figcaption>
@@ -68,7 +76,15 @@ Chartreuse.propTypes = {
   children: PropTypes.node.isRequired,
   sketchfabUrl: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequred,
+  year: PropTypes.number.isRequired,
+  artStyle: PropTypes.string.isRequired,
   active: PropTypes.bool
+};
+
+Chartreuse.defaultProps = {
+  artStyle: "Barocco",
+  active: false
 };
 
 export default Chartreuse;

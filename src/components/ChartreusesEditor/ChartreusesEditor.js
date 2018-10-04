@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Styles from "./ChartreusesEditor.css";
-import ChartreuseStyles from "../ChartreusesList/Chartreuse/Chartreuse";
 class ChartreusesEditor extends Component {
   state = {
     _dropZones: []
@@ -319,6 +318,7 @@ class ChartreusesEditor extends Component {
         >
           <iframe
             src=""
+            title="first model"
             allow="autoplay; fullscreen; vr"
             allowvr="true"
             allowFullScreen
@@ -339,6 +339,7 @@ class ChartreusesEditor extends Component {
         >
           <iframe
             src=""
+            title="second model"
             allow="autoplay; fullscreen; vr"
             allowvr="true"
             allowFullScreen

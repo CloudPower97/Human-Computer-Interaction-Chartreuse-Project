@@ -38,6 +38,9 @@ const ChartreusesList = () => {
       >
         <Chartreuse
           name="San Martino"
+          location="Napoli (NA)"
+          year={1368}
+          artStyle="Barocco"
           sketchfabUrl="a9214249dc844fa99e11e931ff17942e"
         >
           <source
@@ -62,6 +65,9 @@ const ChartreusesList = () => {
 
         <Chartreuse
           name="San Giacomo"
+          location="Capri (NA)"
+          year={1371}
+          artStyle="Barocco"
           sketchfabUrl="a10966d718a44958bf57e078fb02f62d"
         >
           <source
@@ -86,6 +92,9 @@ const ChartreusesList = () => {
 
         <Chartreuse
           name="San Lorenzo"
+          location="Padula (SA)"
+          year={1306}
+          artStyle="Barocco"
           sketchfabUrl="3beb68e77080431b9bc1003bf0e23a3b"
         >
           <source
