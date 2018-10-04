@@ -26,7 +26,7 @@ import CertosaDiSanLorenzoLargeWebP from "../../assets/images/certosa-di-san-lor
 import CertosaDiSanLorenzoLarge2xWebP from "../../assets/images/certosa-di-san-lorenzo-large@2x.webp";
 import Chartreuse from "./Chartreuse/Chartreuse";
 
-export default () => {
+const ChartreusesList = () => {
   return (
     <div id="list" className={Styles.ChartreusesList}>
       <h2>Scegli la certosa</h2>
@@ -111,3 +111,5 @@ export default () => {
     </div>
   );
 };
+
+export default ChartreusesList;

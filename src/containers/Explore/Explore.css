@@ -1,7 +1,7 @@
 .Explore {
   display: grid;
   grid-area: content;
-  grid-template-columns: 400px auto;
+  grid-template-columns: 350px 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: "list editor";
   background-color: white;

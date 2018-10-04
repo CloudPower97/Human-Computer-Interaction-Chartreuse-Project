@@ -1,6 +1,7 @@
 .ChartreusesEditor {
   grid-area: editor;
   display: grid;
+  grid-template-columns: 0.8fr 0.3fr;
   grid-template-rows: 1fr 1fr;
   max-height: 100vh;
   overflow: hidden;
@@ -23,8 +24,9 @@
 }
 
 .ChartreusesEditorModel {
+  grid-column-start: 1;
   transition: all 0.5s ease;
-  width: calc(100vw - 400px - 64px);
+  width: calc(100vw - 380px - 0.3fr);
   height: 100%;
   position: relative;
 
@@ -132,5 +134,22 @@
     &:last-of-type {
       display: none;
     }
+  }
+}
+
+.ChartreusesEditorDescription {
+  grid-row-start: 1;
+  grid-row-end: 3;
+  grid-column-start: 2;
+  background-color: #313030;
+
+  h2,
+  p {
+    color: white;
+  }
+
+  p {
+    padding: 0px 20px 0px 20px;
+    text-align: left;
   }
 }
