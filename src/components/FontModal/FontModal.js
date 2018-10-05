@@ -260,6 +260,7 @@ class FontModal extends Component {
                   data-paragraph-font="'Montserrat', sans-serif"
                   data-heading-font="'Libre Baskerville', serif"
                   role="option"
+                  aria-selected="true"
                 >
                   Montserrat
                 </li>
@@ -268,6 +269,7 @@ class FontModal extends Component {
                   data-paragraph-font="'Open Sans', sans-serif"
                   data-heading-font="'Merriweather', serif"
                   role="option"
+                  aria-selected="false"
                 >
                   Open Sans
                 </li>
@@ -276,6 +278,7 @@ class FontModal extends Component {
                   data-paragraph-font="'Questrial', sans-serif"
                   data-heading-font="'Old Standard TT', serif"
                   role="option"
+                  aria-selected="false"
                 >
                   Questrial
                 </li>
@@ -305,22 +308,37 @@ class FontModal extends Component {
                 aria-labelledby="margin-label"
                 aria-hidden="true"
               >
-                <li data-description="Stretti" data-margin="5vw" role="option">
+                <li
+                  data-description="Stretti"
+                  data-margin="5vw"
+                  role="option"
+                  aria-selected="true"
+                >
                   <span aria-hidden="true" className="font-margin">
                     <span />
                   </span>
                   Stretti
                 </li>
 
-                <li data-description="Normali" data-margin="10vw" role="option">
+                <li
+                  data-description="Normali"
+                  data-margin="10vw"
+                  role="option"
+                  aria-selected="false"
+                >
                   <span aria-hidden="true" className="font-margin">
                     <span />
                   </span>
                   Normali
                 </li>
 
-                <li data-description="Larghi" data-margin="15vw" role="option">
-                  <span aria-hidden="true" className="font-margin">
+                <li
+                  data-description="Larghi"
+                  data-margin="15vw"
+                  role="option"
+                  aria-selected="false"
+                >
+                  <span className="font-margin">
                     <span />
                   </span>
                   Larghi
@@ -355,6 +373,7 @@ class FontModal extends Component {
                   data-description="Stretta"
                   data-line-height="1.7em"
                   role="option"
+                  aria-selected="true"
                 >
                   <span aria-hidden="true" className="bars">
                     <span />
@@ -368,6 +387,7 @@ class FontModal extends Component {
                   data-description="Normale"
                   data-line-height="2.0em"
                   role="option"
+                  aria-selected="false"
                 >
                   <span aria-hidden="true" className="bars">
                     <span />
@@ -381,6 +401,7 @@ class FontModal extends Component {
                   data-description="Larga"
                   data-line-height="2.3em"
                   role="option"
+                  aria-selected="false"
                 >
                   <span aria-hidden="true" className="bars">
                     <span />
