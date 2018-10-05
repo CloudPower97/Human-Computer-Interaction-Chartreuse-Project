@@ -6,7 +6,7 @@ class ChartreusesEditor extends Component {
   };
 
   componentDidMount() {
-    this.state._dropZones.forEach(dropZone => {
+    [this._dropZones0, this._dropZones1].forEach(dropZone => {
       dropZone.addEventListener("dragenter", e => {
         this.dragEnter(e, dropZone);
       });
@@ -66,8 +66,10 @@ class ChartreusesEditor extends Component {
       750
     );
 
-    chartreuseToLoad.dataset.active = true;
-    chartreuseToLoad.setAttribute("draggable", false);
+    if (chartreuseToLoad) {
+      chartreuseToLoad.dataset.active = true;
+      chartreuseToLoad.setAttribute("draggable", false);
+    }
 
     if (!e.target.classList.contains(Styles.ChartreusesEditorModelHide)) {
       e.target.classList.add(
@@ -81,8 +83,10 @@ class ChartreusesEditor extends Component {
         `[data-certosa="${e.target.firstElementChild.src.split("/")[4]}"]`
       );
 
-      delete chartreuseToUnload.dataset.active;
-      chartreuseToUnload.setAttribute("draggable", true);
+      if (chartreuseToUnload) {
+        delete chartreuseToUnload.dataset.active;
+        chartreuseToUnload.setAttribute("draggable", true);
+      }
     }
 
     // currentImage = iframe.dataset.index = chartreuseToLoad.dataset.index;
@@ -100,9 +104,6 @@ class ChartreusesEditor extends Component {
             const { firstModel } = this.state;
 
             firstModel.api.start();
-            firstModel.api.addEventListener("viewerready", () => {
-              firstModel.api.gotoAnnotation(0);
-            });
             firstModel.api.addEventListener("annotationSelect", index => {
               this.setState({
                 annotationIndex: index
@@ -130,20 +131,23 @@ class ChartreusesEditor extends Component {
                 "a9214249dc844fa99e11e931ff17942e"
               ) {
                 firstModel.api.getAnnotation(index, (err, inf) => {
-                  const eye = inf.eye,
-                    target = inf.target;
-                  if (index === 0) {
-                    firstModel.api.setCameraLookAt(eye, [
-                      target[0],
-                      target[1],
-                      target[2] + 45
-                    ]);
-                  } else if (index === 1) {
-                    firstModel.api.setCameraLookAt(eye, [
-                      target[0],
-                      target[1],
-                      target[2] + 25
-                    ]);
+                  const eye = inf && inf.eye,
+                    target = inf && inf.target;
+
+                  if (eye && target) {
+                    if (index === 0) {
+                      firstModel.api.setCameraLookAt(eye, [
+                        target[0],
+                        target[1],
+                        target[2] + 45
+                      ]);
+                    } else if (index === 1) {
+                      firstModel.api.setCameraLookAt(eye, [
+                        target[0],
+                        target[1],
+                        target[2] + 25
+                      ]);
+                    }
                   }
                 });
               }
@@ -174,9 +178,6 @@ class ChartreusesEditor extends Component {
             const { secondModel } = this.state;
 
             secondModel.api.start();
-            secondModel.api.addEventListener("viewerready", () => {
-              secondModel.api.gotoAnnotation(0);
-            });
             secondModel.api.addEventListener("annotationSelect", index => {
               if (
                 this.state.secondModel.modelUrl ===
@@ -277,7 +278,7 @@ class ChartreusesEditor extends Component {
         break;
 
       case 3:
-        annotationTitle = "Refrettorio";
+        annotationTitle = "Refettorio";
         annotationDescription =
           "È il luogo destinato a consumare i pasti in comunità, la domenica o nei giorni di festa. I monaci mangiavano in silenzio, ascoltando la sacra scrittura o altri testi indicati dal Priore, che venivano letti da un apposito pulpito.";
         break;
@@ -304,7 +305,7 @@ class ChartreusesEditor extends Component {
         <div
           className={Styles.ChartreusesEditorModel}
           data-dropzone="first-model"
-          ref={div => (this.state._dropZones[0] = div)}
+          ref={div => (this._dropZones0 = div)}
         >
           <iframe
             src=""
@@ -325,7 +326,7 @@ class ChartreusesEditor extends Component {
         <div
           className={Styles.ChartreusesEditorModel}
           data-dropzone="second-model"
-          ref={div => (this.state._dropZones[1] = div)}
+          ref={div => (this._dropZones1 = div)}
         >
           <iframe
             src=""

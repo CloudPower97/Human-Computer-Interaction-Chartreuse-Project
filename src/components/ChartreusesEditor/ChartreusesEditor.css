@@ -1,7 +1,7 @@
 .ChartreusesEditor {
   grid-area: editor;
   display: grid;
-  grid-template-columns: 0.8fr 0.3fr;
+  grid-template-columns: 0.73fr 0.27fr;
   grid-template-rows: 1fr 1fr;
   max-height: 100vh;
   overflow: hidden;
@@ -146,9 +146,15 @@
   grid-column-start: 2;
   background-color: #313030;
   transform: translateX(100%);
+  box-shadow: 0px 2px 20px #333;
   :global {
     animation: slideIn 1s ease-out forwards;
   }
+
+  h2 {
+    font-size: 2.25em;
+  }
+
   h2,
   p {
     color: white;
@@ -158,5 +164,6 @@
     padding: 0px 20px 0px 20px;
     text-align: left;
     font-weight: 300;
+    font-size: 1.25em;
   }
 }
