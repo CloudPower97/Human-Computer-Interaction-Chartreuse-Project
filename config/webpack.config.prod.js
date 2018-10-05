@@ -56,10 +56,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
         shouldUseRelativeAssetPaths ? { publicPath: "../../" } : undefined
       )
     },
-    {
-      loader: require.resolve("css-loader"),
-      options: cssOptions
-    },
+    { loader: require.resolve("css-loader"), options: cssOptions },
     {
       // Options for PostCSS as we reference these options twice
       // Adds vendor prefixing based on your specified browser support in
@@ -71,6 +68,9 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
         ident: "postcss",
         plugins: () => [
           require("postcss-flexbugs-fixes"),
+          require("postcss-nested-ancestors"),
+          require("postcss-nested"),
+          require("postcss-easing-gradients"),
           require("postcss-preset-env")({
             autoprefixer: {
               flexbox: "no-2009"
