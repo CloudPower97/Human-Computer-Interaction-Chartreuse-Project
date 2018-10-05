@@ -48,46 +48,6 @@ const Intro = () => {
         </p>
       </div>
 
-      <div id="features" data-section-title="">
-        <h2>
-          <span style={{ color: "#c0b282" }}>Lorem</span> ipsum
-        </h2>
-
-        <div id="features-wrapper">
-          <div className="features">
-            <i className="fas fa-map-marked-alt fa-4x" />
-            <h3>Lorem, ipsum.</h3>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias,
-              esse.
-            </p>
-          </div>
-
-          <div className="features">
-            <i className="far fa-calendar fa-4x" />
-            <h3>Lorem, ipsum.</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
-              velit.
-            </p>
-          </div>
-
-          <div className="features">
-            <i className="fas fa-paint-brush fa-4x" />
-            <h3>Lorem, ipsum.</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Inventore, doloremque!
-            </p>
-          </div>
-        </div>
-
-        <button className="btn">
-          Discover More
-          <i className="fas fa-arrow-right" />
-        </button>
-      </div>
-
       <div
         id="z"
         data-section-title="La Certosa di San Martino - Una storia tutta Napoletana"

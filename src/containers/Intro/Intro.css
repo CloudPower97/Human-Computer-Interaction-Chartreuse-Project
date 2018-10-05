@@ -102,7 +102,7 @@
         }
       }
 
-      &.fixed {
+      &.IntroFixed {
         background: rgba(255, 255, 255, 0.9);
         box-shadow: 10px 0px 20px 2px #333;
         position: fixed;
@@ -151,59 +151,6 @@
         /*
   Hamburger menu should go here!
 */
-      }
-    }
-  }
-
-  #features {
-    background: #eeeeee;
-    text-align: center;
-    position: relative;
-    transition: background 0s ease;
-
-    &:before {
-      @supports not (clip-path: polygon(0% 100%, 100% 0%, 100% 0%, 0% 0%)) {
-        content: none;
-      }
-
-      content: "";
-      height: 80px;
-      width: 100%;
-      background-color: var(--background-color);
-      position: absolute;
-      top: -1px;
-      left: 0;
-      clip-path: polygon(0% 100%, 100% 0%, 100% 0%, 0% 0%);
-      transition: background 0s ease;
-    }
-
-    #features-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-column-gap: 150px;
-
-      .features {
-        padding: 20px;
-
-        svg {
-          color: #5fa9d7;
-          filter: drop-shadow(0px 4px 2px #c0b281);
-        }
-
-        h3 {
-          font-weight: 300;
-        }
-
-        p {
-          color: #9e9e9e;
-          padding-left: unset;
-          padding-right: unset;
-        }
-      }
-
-      @media (max-width: 1024px) {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr);
       }
     }
   }
