@@ -28,22 +28,12 @@ class ChartreusesEditor extends Component {
 
   componentWillUnmount() {
     this.state._dropZones.forEach(dropZone => {
-      dropZone.removeEventListener("dragenter", e => {
-        this.dragEnter(e, dropZone);
-      });
-      dropZone.removeEventListener("dragleave", e => {
-        this.dragLeave(e, dropZone);
-      });
-      dropZone.removeEventListener("dragover", e => {
-        this.dragOver(e);
-      });
-      dropZone.removeEventListener("drop", this.drop.bind(this));
-      dropZone.removeEventListener("mouseenter", e => {
-        this.mouseEnter(e, dropZone);
-      });
-      dropZone.removeEventListener("mouseleave", e => {
-        this.mouseLeave(e, dropZone);
-      });
+      dropZone.removeEventListener("dragenter", this.dragEnter);
+      dropZone.removeEventListener("dragleave", this.dragLeave);
+      dropZone.removeEventListener("dragover", this.dragOver);
+      dropZone.removeEventListener("drop", this.drop);
+      dropZone.removeEventListener("mouseenter", this.mouseEnter);
+      dropZone.removeEventListener("mouseleave", this.mouseLeave);
     });
   }
 
@@ -314,7 +304,7 @@ class ChartreusesEditor extends Component {
         <div
           className={Styles.ChartreusesEditorModel}
           data-dropzone="first-model"
-          ref={div => this.state._dropZones.push(div)}
+          ref={div => (this.state._dropZones[0] = div)}
         >
           <iframe
             src=""
@@ -335,7 +325,7 @@ class ChartreusesEditor extends Component {
         <div
           className={Styles.ChartreusesEditorModel}
           data-dropzone="second-model"
-          ref={div => this.state._dropZones.push(div)}
+          ref={div => (this.state._dropZones[1] = div)}
         >
           <iframe
             src=""
