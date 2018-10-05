@@ -12,8 +12,8 @@ class App extends Component {
         <Switch>
           <Route path="/area-personale" exact component={SavedElements} />
           <Route path="/esplora" exact component={Explore} />
-          <Route path="/" exact component={Intro} />
-          <Redirect to="/" />
+          <Route path="/intro" exact component={Intro} />
+          <Redirect to="/intro" />
         </Switch>
       </Layout>
     );
