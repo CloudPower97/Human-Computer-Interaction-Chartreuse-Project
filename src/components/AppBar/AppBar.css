@@ -8,28 +8,17 @@
   box-shadow: 0px 0px 20px 0px rgba(45, 45, 45, 0.7);
   will-change: transform;
   z-index: 1;
-}
 
-@media only screen and (max-width: 768px) {
-  flex-direction: row;
-  justify-content: space-around;
-  background: linear-gradient(to right, #2980b9, ease-in, #6dd5fa);
-  animation: appbarSlideUp 1s ease 1 0s normal forwards;
-  z-index: 2;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-
-  button {
+  @media only screen and (max-width: 768px) {
+    flex-direction: row;
+    justify-content: space-around;
+    background: linear-gradient(to right, #2980b9, ease-in, #6dd5fa);
+    :global {
+      animation: appbarSlideUp 1s ease 1 0s normal forwards;
+    }
+    z-index: 2;
+    position: fixed;
+    bottom: 0;
     width: 100%;
-
-    &.AppBarActive {
-      border-left: none !important;
-      border-bottom: 3px solid white;
-    }
-
-    &#top-btn {
-      position: static;
-    }
   }
 }

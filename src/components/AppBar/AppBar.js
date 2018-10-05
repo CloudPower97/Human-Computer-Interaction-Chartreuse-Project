@@ -21,10 +21,10 @@ const AppBar = props => {
       aria-orientation="vertical"
     >
       <AppBarButton
-        to="/"
+        to="/intro"
         tooltip="Visualizza la sezione introduttiva"
         controls="intro"
-        active={window.location.pathname === "/"}
+        active={window.location.pathname.includes("/intro")}
       >
         <FontAwesomeIcon icon={faHome} />
       </AppBarButton>
@@ -33,7 +33,7 @@ const AppBar = props => {
         to="/esplora"
         tooltip="Immergiti in un tour virtuale delle certose campane"
         controls="explore"
-        active={window.location.pathname === "/esplora"}
+        active={window.location.pathname.includes("/esplora")}
       >
         <FontAwesomeIcon icon={faStreetView} />
       </AppBarButton>
@@ -46,7 +46,7 @@ const AppBar = props => {
         to="/area-personale"
         tooltip="Accedi alla tua area personale"
         controls="saved-elements"
-        active={window.location.pathname === "/area-personale"}
+        active={window.location.pathname.includes("/area-personale")}
       >
         <FontAwesomeIcon icon={faUser} />
       </AppBarButton>
