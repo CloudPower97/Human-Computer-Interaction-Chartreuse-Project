@@ -2,7 +2,7 @@
   "name": "hci-chartreuses-project",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://www.chrome.unina.it/hci_project_v2/",
+  "homepage": "http://www.chrome.unina.it/hci_project/",
   "dependencies": {
     "@babel/core": "7.1.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.4",
