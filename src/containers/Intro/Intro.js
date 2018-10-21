@@ -1,30 +1,19 @@
 import React from "react";
 import Styles from "./Intro.css";
 
+import Navbar from "../../components/Navbar/Navbar";
+import NavItem from "../../components/NavItem/NavItem";
+
 const Intro = () => {
   return (
-    <section id="intro" className={Styles.Intro}>
-      <header>
-        <nav id="nav-bar">
-          <ul>
-            <li>
-              <a href="#!">Test 1</a>
-            </li>
-            <li>
-              <a href="#!">Test 2</a>
-            </li>
-            <li>
-              <a href="#!">Test 3</a>
-            </li>
-            <li>
-              <a href="#!">Test 4</a>
-            </li>
-            <li>
-              <a href="#!">Test 5</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+    <section className={Styles.Intro}>
+      <Navbar>
+        <NavItem to="#!">Test 1</NavItem>
+        <NavItem to="#!">Test 2</NavItem>
+        <NavItem to="#!">Test 3</NavItem>
+        <NavItem to="#!">Test 4</NavItem>
+        <NavItem to="#!">Test 5</NavItem>
+      </Navbar>
 
       <div
         id="intro"
