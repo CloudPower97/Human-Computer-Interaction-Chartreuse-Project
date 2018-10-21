@@ -29,7 +29,7 @@ import Chartreuse from "./Chartreuse/Chartreuse";
 const ChartreusesList = () => {
   return (
     <div id="list" className={Styles.ChartreusesList}>
-      <h2>Scegli la certosa</h2>
+      <h2>Scegli le certose</h2>
 
       <div
         className={Styles.ChartreusesListImages}
