@@ -1,16 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import Styles from "./Explore.css";
 import ChartreusesList from "../../components/ChartreusesList/ChartreusesList";
 import ChartreusesEditor from "../../components/ChartreusesEditor/ChartreusesEditor";
 
-export default class Explore extends Component {
-  render() {
-    return (
-      <section id="explore" className={Styles.Explore}>
-        <ChartreusesList />
+const Explore = () => (
+  <section className={Styles.Explore}>
+    <ChartreusesList />
 
-        <ChartreusesEditor />
-      </section>
-    );
-  }
-}
+    <ChartreusesEditor />
+  </section>
+);
+
+export default Explore;
