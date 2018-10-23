@@ -1,3 +1,8 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub contributors](https://img.shields.io/github/contributors/CloudPower97/Human-Computer-Interaction-Chartreuse-Project.svg)](https://GitHub.com/CloudPower97/Human-Computer-Interaction-Chartreuse-Project/graphs/contributors/)
+[![made-with-react](https://img.shields.io/badge/Made%20with-React-1f425f.svg)](https://reactjs.org/)
+[![Code Climate](https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg)](https://codeclimate.com/github/CloudPower97/Human-Computer-Interaction-Chartreuse-Project)
+
 # Visualizzatore dei modelli tridimensionali delle certose campane
 
 ## Introduzione
