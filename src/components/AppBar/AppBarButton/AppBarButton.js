@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import Styles from "./AppBarButton.css";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import Styles from './AppBarButton.css'
 
 const AppBarButton = props => {
-  const { children, tooltip, to, controls, active, toggleFontModal } = props;
+  const { children, tooltip, to, controls, active, toggleFontModal } = props
 
-  let btn = null;
-  let css = Styles.AppBarButton;
+  let btn = null
+  let css = Styles.AppBarButton
 
   if (active) {
-    css += ` ${Styles.AppBarButtonActive}`;
+    css += ` ${Styles.AppBarButtonActive}`
   }
 
   if (to) {
@@ -21,11 +21,10 @@ const AppBarButton = props => {
         aria-controls={controls}
         tabIndex="0"
         data-tooltip={tooltip}
-        className={css}
-      >
+        className={css}>
         {children}
       </Link>
-    );
+    )
   } else {
     if (toggleFontModal) {
       btn = (
@@ -35,11 +34,10 @@ const AppBarButton = props => {
           tabIndex="0"
           data-tooltip={tooltip}
           className={css}
-          onClick={() => toggleFontModal()}
-        >
+          onClick={() => toggleFontModal()}>
           {children}
         </button>
-      );
+      )
     } else {
       btn = (
         <button
@@ -47,22 +45,21 @@ const AppBarButton = props => {
           aria-controls={controls}
           tabIndex="0"
           data-tooltip={tooltip}
-          className={css}
-        >
+          className={css}>
           {children}
         </button>
-      );
+      )
     }
   }
-  return btn;
-};
+  return btn
+}
 
 AppBarButton.propTypes = {
   children: PropTypes.node.isRequired,
   active: PropTypes.bool,
   tooltip: PropTypes.string.isRequired,
   to: PropTypes.string,
-  controls: PropTypes.string.isRequired
-};
+  controls: PropTypes.string.isRequired,
+}
 
-export default AppBarButton;
+export default AppBarButton

@@ -1,123 +1,115 @@
-import React, { Component } from "react";
-import Styles from "./FontModal.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFont, faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+import React, { Component } from 'react'
+import Styles from './FontModal.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFont, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
 class FontModal extends Component {
   state = {
     preferences: {
-      headingFont: "",
-      paragraphFont: "",
-      marginLeft: "",
-      marginRight: "",
-      lineHeight: "",
-      fontSizeIncrease: "0rem",
-      backgroundColor: "",
-      textColor: "",
-      nightMode: ""
-    }
-  };
+      headingFont: '',
+      paragraphFont: '',
+      marginLeft: '',
+      marginRight: '',
+      lineHeight: '',
+      fontSizeIncrease: '0rem',
+      backgroundColor: '',
+      textColor: '',
+      nightMode: '',
+    },
+  }
 
   componentDidMount() {
-    const toggleNightMode = this._fontModal.querySelector("#toggle-night-mode");
-    const buttons = this._fontModal.querySelectorAll(".select > button");
+    const toggleNightMode = this._fontModal.querySelector('#toggle-night-mode')
+    const buttons = this._fontModal.querySelectorAll('.select > button')
     const buttonClickHandler = function() {
-      this.getAttribute("aria-expanded") === "true" && this.blur();
-    };
+      this.getAttribute('aria-expanded') === 'true' && this.blur()
+    }
 
     buttons.forEach(function(button) {
-      const li = button.nextElementSibling.querySelectorAll("li");
+      const li = button.nextElementSibling.querySelectorAll('li')
 
-      button.addEventListener("focus", function() {
-        this.setAttribute("aria-expanded", "true");
-        this.nextElementSibling.setAttribute("aria-hidden", "false");
-        this.closest(".option").classList.add("active");
+      button.addEventListener('focus', function() {
+        this.setAttribute('aria-expanded', 'true')
+        this.nextElementSibling.setAttribute('aria-hidden', 'false')
+        this.closest('.option').classList.add('active')
 
         setTimeout(function() {
-          button.addEventListener("click", buttonClickHandler);
-        }, 1000);
-      });
+          button.addEventListener('click', buttonClickHandler)
+        }, 1000)
+      })
 
-      button.addEventListener("blur", function() {
-        this.setAttribute("aria-expanded", "false");
-        this.nextElementSibling.setAttribute("aria-hidden", "true");
-        this.closest(".option").classList.remove("active");
-        this.removeEventListener("click", buttonClickHandler);
-      });
+      button.addEventListener('blur', function() {
+        this.setAttribute('aria-expanded', 'false')
+        this.nextElementSibling.setAttribute('aria-hidden', 'true')
+        this.closest('.option').classList.remove('active')
+        this.removeEventListener('click', buttonClickHandler)
+      })
 
       li.forEach(function(li) {
-        li.addEventListener("click", function() {
-          const button = this.parentNode.previousElementSibling;
+        li.addEventListener('click', function() {
+          const button = this.parentNode.previousElementSibling
 
-          if ("paragraphFont" in this.dataset) {
-            button.dataset.active = this.dataset.paragraphFont.split("'")[1];
-            button.style.fontFamily = this.dataset.paragraphFont;
-            this.updateFont.call(this);
+          if ('paragraphFont' in this.dataset) {
+            button.dataset.active = this.dataset.paragraphFont.split("'")[1]
+            button.style.fontFamily = this.dataset.paragraphFont
+            this.updateFont.call(this)
           } else {
-            button.dataset.active = this.dataset.description;
+            button.dataset.active = this.dataset.description
 
-            if ("margin" in this.dataset) {
-              this.updateMargin.call(this);
+            if ('margin' in this.dataset) {
+              this.updateMargin.call(this)
             } else {
-              this.updateLineHeight.call(this);
+              this.updateLineHeight.call(this)
             }
           }
-        });
-      });
+        })
+      })
 
       if (localStorage.getItem(this.state.preferences)) {
-        const firstLi = li[0].dataset;
+        const firstLi = li[0].dataset
 
-        if ("paragraphFont" in firstLi) {
-          button.dataset.active = this.state.preferences.paragraphFont.split(
-            "'"
-          )[1];
-          button.style.fontFamily = this.state.preferences.paragraphFont;
-        } else if ("margin" in firstLi) {
+        if ('paragraphFont' in firstLi) {
+          button.dataset.active = this.state.preferences.paragraphFont.split("'")[1]
+          button.style.fontFamily = this.state.preferences.paragraphFont
+        } else if ('margin' in firstLi) {
           for (let value of li.values()) {
             if (value.dataset.margin === this.state.preferences.marginRight) {
-              button.dataset.active = value.dataset.description;
+              button.dataset.active = value.dataset.description
             }
           }
         } else {
           for (let value of li.values()) {
-            if (
-              value.dataset.lineHeight === this.state.preferences.lineHeight
-            ) {
-              button.dataset.active = value.dataset.description;
+            if (value.dataset.lineHeight === this.state.preferences.lineHeight) {
+              button.dataset.active = value.dataset.description
             }
           }
         }
       }
-    });
+    })
 
-    this._fontModal
-      .querySelector("#decrease-font-size")
-      .addEventListener("click", e => {
-        this.updateFontSize();
-        e.target.blur();
-      });
+    this._fontModal.querySelector('#decrease-font-size').addEventListener('click', e => {
+      this.updateFontSize()
+      e.target.blur()
+    })
 
-    this._fontModal
-      .querySelector("#increase-font-size")
-      .addEventListener("click", function() {
-        this.updateFontSize();
-        this.blur();
-      });
+    this._fontModal.querySelector('#increase-font-size').addEventListener('click', function() {
+      this.updateFontSize()
+      this.blur()
+    })
 
-    toggleNightMode.addEventListener("click", function() {
-      if (this.hasAttribute("checked")) {
-        this.removeAttribute("checked");
-        this.setNightMode.call(this);
+    toggleNightMode.addEventListener('click', function() {
+      if (this.hasAttribute('checked')) {
+        this.removeAttribute('checked')
+        this.setNightMode.call(this)
       } else {
-        this.setAttribute("checked", "true");
-        this.setNightMode.call(this);
+        this.setAttribute('checked', 'true')
+        this.setNightMode.call(this)
       }
-    });
+    })
 
     if (localStorage.getItem(this.state.preferences)) {
-      if (this.state.preferences.nightMode === "on") {
-        this.toggleNightMode.setAttribute("checked", "true");
+      if (this.state.preferences.nightMode === 'on') {
+        this.toggleNightMode.setAttribute('checked', 'true')
       }
     }
   }
@@ -125,32 +117,17 @@ class FontModal extends Component {
   componentWillUnmount() {}
 
   updateFont() {
-    document.documentElement.style.setProperty(
-      "--heading-font",
-      this.dataset.headingFont
-    );
-    document.documentElement.style.setProperty(
-      "--paragraph-font",
-      this.dataset.paragraphFont
-    );
-    this.state.preferences.paragraphFont = this.dataset.paragraphFont;
-    this.state.preferences.headingFont = this.dataset.headingFont;
-    localStorage.setItem(
-      this.state.preferences,
-      JSON.stringify(this.state.preferences).trim()
-    );
+    document.documentElement.style.setProperty('--heading-font', this.dataset.headingFont)
+    document.documentElement.style.setProperty('--paragraph-font', this.dataset.paragraphFont)
+    this.state.preferences.paragraphFont = this.dataset.paragraphFont
+    this.state.preferences.headingFont = this.dataset.headingFont
+    localStorage.setItem(this.state.preferences, JSON.stringify(this.state.preferences).trim())
   }
 
   updateLineHeight() {
-    document.documentElement.style.setProperty(
-      "--line-height",
-      this.dataset.lineHeight
-    );
-    this.state.preferences.lineHeight = this.dataset.lineHeight;
-    localStorage.setItem(
-      this.state.preferences,
-      JSON.stringify(this.state.preferences).trim()
-    );
+    document.documentElement.style.setProperty('--line-height', this.dataset.lineHeight)
+    this.state.preferences.lineHeight = this.dataset.lineHeight
+    localStorage.setItem(this.state.preferences, JSON.stringify(this.state.preferences).trim())
   }
 
   updateFontSize() {
@@ -158,52 +135,40 @@ class FontModal extends Component {
       prevState => ({
         preferences: {
           fontSizeIncrease: (
-            Number.parseFloat(this.state.preferences.fontSizeIncrease) +
-            Number.parseFloat(2)
+            Number.parseFloat(this.state.preferences.fontSizeIncrease) + Number.parseFloat(2)
           )
             .toString()
-            .concat("rem")
-        }
+            .concat('rem'),
+        },
       }),
       () => {
         document.documentElement.style.setProperty(
-          "--font-size-increase",
+          '--font-size-increase',
           this.state.preferences.fontSizeIncrease
-        );
-        localStorage.setItem(
-          this.state.preferences,
-          JSON.stringify(this.state.preferences).trim()
-        );
+        )
+        localStorage.setItem(this.state.preferences, JSON.stringify(this.state.preferences).trim())
       }
-    );
+    )
   }
 
   setNightMode() {
     if (
-      getComputedStyle(document.documentElement).getPropertyValue(
-        "--background-color"
-      ) === "#333"
+      getComputedStyle(document.documentElement).getPropertyValue('--background-color') === '#333'
     ) {
-      this.state.preferences.backgroundColor = "#F4F4F4";
-      this.state.preferences.textColor = "#333";
-      this.state.preferences.nightMode = "off";
-      document.documentElement.style.setProperty(
-        "--background-color",
-        "#F4F4F4"
-      );
-      document.documentElement.style.setProperty("--text-color", "#333");
+      this.state.preferences.backgroundColor = '#F4F4F4'
+      this.state.preferences.textColor = '#333'
+      this.state.preferences.nightMode = 'off'
+      document.documentElement.style.setProperty('--background-color', '#F4F4F4')
+      document.documentElement.style.setProperty('--text-color', '#333')
     } else {
-      this.state.preferences.backgroundColor = "#333";
-      this.state.preferences.textColor = "#F4F4F4";
-      this.state.preferences.nightMode = "on";
-      document.documentElement.style.setProperty("--background-color", "#333");
-      document.documentElement.style.setProperty("--text-color", "#F4F4F4");
+      this.state.preferences.backgroundColor = '#333'
+      this.state.preferences.textColor = '#F4F4F4'
+      this.state.preferences.nightMode = 'on'
+      document.documentElement.style.setProperty('--background-color', '#333')
+      document.documentElement.style.setProperty('--text-color', '#F4F4F4')
     }
 
-    localStorage.setItem(
-      this.state.preferences,
-      JSON.stringify(this.state.preferences).trim()
-    );
+    localStorage.setItem(this.state.preferences, JSON.stringify(this.state.preferences).trim())
   }
 
   render() {
@@ -213,23 +178,20 @@ class FontModal extends Component {
         id="font-modal"
         aria-hidden="true"
         role="dialog"
-        className={Styles.FontModal}
-      >
+        className={Styles.FontModal}>
         <div className={Styles.FontModalContent}>
           <div>
             <button
               id="decrease-font-size"
               data-font-size-increase="-0.25"
-              data-tooltip="Diminuisci la dimensione del font"
-            >
+              data-tooltip="Diminuisci la dimensione del font">
               <FontAwesomeIcon icon={faFont} size="2x" />
             </button>
 
             <button
               id="increase-font-size"
               data-font-size-increase="0.25"
-              data-tooltip="Aumenta la dimensione del font"
-            >
+              data-tooltip="Aumenta la dimensione del font">
               <FontAwesomeIcon icon={faFont} size="3x" />
             </button>
           </div>
@@ -243,25 +205,18 @@ class FontModal extends Component {
                 aria-haspopup="listbox"
                 aria-labelledby="font-label font-button"
                 aria-expanded="false"
-                data-active="Montserrat"
-              >
+                data-active="Montserrat">
                 <span className="fa-fw">
                   <i className="fas fa-caret-down" />
                 </span>
               </button>
 
-              <ul
-                tabIndex="-1"
-                role="listbox"
-                aria-labelledby="font-label"
-                aria-hidden="true"
-              >
+              <ul tabIndex="-1" role="listbox" aria-labelledby="font-label" aria-hidden="true">
                 <li
                   data-paragraph-font="'Montserrat', sans-serif"
                   data-heading-font="'Libre Baskerville', serif"
                   role="option"
-                  aria-selected="true"
-                >
+                  aria-selected="true">
                   Montserrat
                 </li>
 
@@ -269,8 +224,7 @@ class FontModal extends Component {
                   data-paragraph-font="'Open Sans', sans-serif"
                   data-heading-font="'Merriweather', serif"
                   role="option"
-                  aria-selected="false"
-                >
+                  aria-selected="false">
                   Open Sans
                 </li>
 
@@ -278,8 +232,7 @@ class FontModal extends Component {
                   data-paragraph-font="'Questrial', sans-serif"
                   data-heading-font="'Old Standard TT', serif"
                   role="option"
-                  aria-selected="false"
-                >
+                  aria-selected="false">
                   Questrial
                 </li>
               </ul>
@@ -295,25 +248,14 @@ class FontModal extends Component {
                 aria-haspopup="listbox"
                 aria-labelledby="margin-label margin-button"
                 aria-expanded="false"
-                data-active="Stretti"
-              >
+                data-active="Stretti">
                 <span className="fa-fw">
                   <i className="fas fa-caret-down" />
                 </span>
               </button>
 
-              <ul
-                tabIndex="-1"
-                role="listbox"
-                aria-labelledby="margin-label"
-                aria-hidden="true"
-              >
-                <li
-                  data-description="Stretti"
-                  data-margin="5vw"
-                  role="option"
-                  aria-selected="true"
-                >
+              <ul tabIndex="-1" role="listbox" aria-labelledby="margin-label" aria-hidden="true">
+                <li data-description="Stretti" data-margin="5vw" role="option" aria-selected="true">
                   <span aria-hidden="true" className="font-margin">
                     <span />
                   </span>
@@ -324,8 +266,7 @@ class FontModal extends Component {
                   data-description="Normali"
                   data-margin="10vw"
                   role="option"
-                  aria-selected="false"
-                >
+                  aria-selected="false">
                   <span aria-hidden="true" className="font-margin">
                     <span />
                   </span>
@@ -336,8 +277,7 @@ class FontModal extends Component {
                   data-description="Larghi"
                   data-margin="15vw"
                   role="option"
-                  aria-selected="false"
-                >
+                  aria-selected="false">
                   <span className="font-margin">
                     <span />
                   </span>
@@ -356,8 +296,7 @@ class FontModal extends Component {
                 aria-haspopup="listbox"
                 aria-labelledby="line-height-label line-height-button"
                 aria-expanded="false"
-                data-active="Stretta"
-              >
+                data-active="Stretta">
                 <span className="fa-fw">
                   <i className="fas fa-caret-down" />
                 </span>
@@ -367,14 +306,12 @@ class FontModal extends Component {
                 tabIndex="-1"
                 role="listbox"
                 aria-labelledby="line-height-label"
-                aria-hidden="true"
-              >
+                aria-hidden="true">
                 <li
                   data-description="Stretta"
                   data-line-height="1.7em"
                   role="option"
-                  aria-selected="true"
-                >
+                  aria-selected="true">
                   <span aria-hidden="true" className="bars">
                     <span />
                     <span />
@@ -387,8 +324,7 @@ class FontModal extends Component {
                   data-description="Normale"
                   data-line-height="2.0em"
                   role="option"
-                  aria-selected="false"
-                >
+                  aria-selected="false">
                   <span aria-hidden="true" className="bars">
                     <span />
                     <span />
@@ -401,8 +337,7 @@ class FontModal extends Component {
                   data-description="Larga"
                   data-line-height="2.3em"
                   role="option"
-                  aria-selected="false"
-                >
+                  aria-selected="false">
                   <span aria-hidden="true" className="bars">
                     <span />
                     <span />
@@ -428,8 +363,8 @@ class FontModal extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default FontModal;
+export default FontModal

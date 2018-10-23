@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import AppBar from "../AppBar/AppBar";
-import FontModal from "../FontModal/FontModal";
-import Styles from "./Layout.css";
-import Backdrop from "../Backdrop/Backdrop";
+import React, { Component } from 'react'
+import AppBar from '../AppBar/AppBar'
+import FontModal from '../FontModal/FontModal'
+import Styles from './Layout.css'
+import Backdrop from '../Backdrop/Backdrop'
 
 class Layout extends Component {
   state = {
-    showFontModal: false
-  };
+    showFontModal: false,
+  }
 
   toggleFontModal() {
     this.setState(prevState => ({
-      showFontModal: !prevState.showFontModal
-    }));
+      showFontModal: !prevState.showFontModal,
+    }))
   }
 
   render() {
-    const { children } = this.props;
-    const { showFontModal } = this.state;
+    const { children } = this.props
+    const { showFontModal } = this.state
 
     return (
       <div className={Styles.Layout}>
@@ -31,8 +31,8 @@ class Layout extends Component {
 
         <main>{children}</main>
       </div>
-    );
+    )
   }
 }
 
-export default Layout;
+export default Layout

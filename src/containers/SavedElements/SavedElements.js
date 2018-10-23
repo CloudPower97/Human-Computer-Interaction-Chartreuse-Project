@@ -1,5 +1,5 @@
-import React from "react";
-import Styles from "./SavedElements.css";
+import React from 'react'
+import Styles from './SavedElements.css'
 
 const SavedElements = () => {
   return (
@@ -10,8 +10,7 @@ const SavedElements = () => {
           aria-selected="true"
           aria-controls="testi-salvati-tab"
           id="testi-salvati-label"
-          tabIndex="0"
-        >
+          tabIndex="0">
           <span className="fa-fw">
             <i className="fas fa-align-left" />
           </span>
@@ -22,8 +21,7 @@ const SavedElements = () => {
           aria-selected="false"
           aria-controls="immagini-salvate-tab"
           id="immagini-salvate-label"
-          tabIndex="0"
-        >
+          tabIndex="0">
           <span className="fa-fw">
             <i className="fas fa-images" />
           </span>
@@ -36,8 +34,7 @@ const SavedElements = () => {
           role="tabpanel"
           id="testi-salvati-tab"
           aria-labelledby="testi-salvati-label"
-          data-saved-elements="Sembra che tu non abbia salvato ancora alcun testo... Perche' non ci provi subito?"
-        >
+          data-saved-elements="Sembra che tu non abbia salvato ancora alcun testo... Perche' non ci provi subito?">
           <span className="no-data" />
 
           <template id="card-template">
@@ -47,9 +44,7 @@ const SavedElements = () => {
               </div>
 
               <div className="card--alert" hidden>
-                <span>
-                  Sei sicuro di voler eliminare questo elemento salvato?
-                </span>
+                <span>Sei sicuro di voler eliminare questo elemento salvato?</span>
 
                 <div>
                   <button className="btn" data-remove tabIndex="0">
@@ -61,11 +56,7 @@ const SavedElements = () => {
                 </div>
               </div>
 
-              <div
-                className="card--action"
-                role="menubar"
-                aria-orientation="vertical"
-              >
+              <div className="card--action" role="menubar" aria-orientation="vertical">
                 <button data-view-element role="menuitem">
                   <span className="fa-fw">
                     <i className="fas fa-eye" />
@@ -78,11 +69,7 @@ const SavedElements = () => {
                   </span>
                 </button>
 
-                <button
-                  data-delete-item
-                  role="menuitem"
-                  aria-controls="card--alert"
-                >
+                <button data-delete-item role="menuitem" aria-controls="card--alert">
                   <span className="fa-fw">
                     <i className="fas fa-times" />
                   </span>
@@ -96,13 +83,12 @@ const SavedElements = () => {
           role="tabpanel"
           id="immagini-salvate-tab"
           aria-labelledby="immagini-salvate-label"
-          data-saved-elements="Sembra che tu non abbia salvato ancora alcuna immagine... Perche' non ci provi subito?"
-        >
+          data-saved-elements="Sembra che tu non abbia salvato ancora alcuna immagine... Perche' non ci provi subito?">
           <span className="no-data" />
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default SavedElements;
+export default SavedElements

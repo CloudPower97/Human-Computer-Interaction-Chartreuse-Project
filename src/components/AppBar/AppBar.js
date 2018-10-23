@@ -1,31 +1,19 @@
-import React from "react";
-import Style from "./AppBar.css";
-import AppBarButton from "./AppBarButton/AppBarButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faStreetView,
-  faShareAlt,
-  faUser,
-  faFont
-} from "@fortawesome/free-solid-svg-icons";
+import React from 'react'
+import Style from './AppBar.css'
+import AppBarButton from './AppBarButton/AppBarButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome, faStreetView, faShareAlt, faUser, faFont } from '@fortawesome/free-solid-svg-icons'
 
 const AppBar = props => {
-  const { toggleFontModal } = props;
+  const { toggleFontModal } = props
 
   return (
-    <div
-      className={Style.AppBar}
-      role="menubar"
-      tabIndex="-1"
-      aria-orientation="vertical"
-    >
+    <div className={Style.AppBar} role="menubar" tabIndex="-1" aria-orientation="vertical">
       <AppBarButton
         to="/intro"
         tooltip="Visualizza la sezione introduttiva"
         controls="intro"
-        active={window.location.pathname.includes("/intro")}
-      >
+        active={window.location.pathname.includes('/intro')}>
         <FontAwesomeIcon icon={faHome} />
       </AppBarButton>
 
@@ -33,8 +21,7 @@ const AppBar = props => {
         to="/esplora"
         tooltip="Immergiti in un tour virtuale delle certose campane"
         controls="explore"
-        active={window.location.pathname.includes("/esplora")}
-      >
+        active={window.location.pathname.includes('/esplora')}>
         <FontAwesomeIcon icon={faStreetView} />
       </AppBarButton>
 
@@ -46,8 +33,7 @@ const AppBar = props => {
         to="/area-personale"
         tooltip="Accedi alla tua area personale"
         controls="saved-elements"
-        active={window.location.pathname.includes("/area-personale")}
-      >
+        active={window.location.pathname.includes('/area-personale')}>
         <FontAwesomeIcon icon={faUser} />
       </AppBarButton>
 
@@ -57,15 +43,14 @@ const AppBar = props => {
         aria-haspopup="dialog"
         controls="font-modal"
         tooltip="Personalizza l'esperienza di lettura"
-        toggleFontModal={toggleFontModal}
-      >
+        toggleFontModal={toggleFontModal}>
         <span className="fa-fw">
           <FontAwesomeIcon icon={faFont} />
           <FontAwesomeIcon icon={faFont} />
         </span>
       </AppBarButton>
     </div>
-  );
-};
+  )
+}
 
-export default AppBar;
+export default AppBar

@@ -1,37 +1,29 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Styles from "./Chartreuse.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Styles from './Chartreuse.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faCaretUp,
   faMapMarkedAlt,
   faCalendar,
   faPaintBrush,
-  faCheck
-} from "@fortawesome/free-solid-svg-icons";
+  faCheck,
+} from '@fortawesome/free-solid-svg-icons'
 
 const Chartreuse = props => {
-  const {
-    children,
-    sketchfabUrl,
-    name,
-    location,
-    year,
-    artStyle,
-    active
-  } = props;
+  const { children, sketchfabUrl, name, location, year, artStyle, active } = props
 
-  const capitalizedName = name.replace(/\b\w/g, l => l.toUpperCase());
+  const capitalizedName = name.replace(/\b\w/g, l => l.toUpperCase())
 
   const drag = e => {
-    let img = document.createElement("img");
+    let img = document.createElement('img')
 
-    e.dataTransfer.setData("text/plain", e.target.dataset.certosa);
+    e.dataTransfer.setData('text/plain', e.target.dataset.certosa)
 
-    img.src = e.target.querySelector("img").currentSrc;
+    img.src = e.target.querySelector('img').currentSrc
 
-    e.dataTransfer.setDragImage(img, 0, 0);
-  };
+    e.dataTransfer.setDragImage(img, 0, 0)
+  }
 
   return (
     <div
@@ -41,8 +33,7 @@ const Chartreuse = props => {
       aria-controls="editor"
       draggable="true"
       className={`${Styles.Chartreuse} ${active && Styles.ChartreuseActive}`}
-      onDragStart={drag}
-    >
+      onDragStart={drag}>
       <figure>
         <picture>{children}</picture>
         <FontAwesomeIcon icon={faCheck} size="3x" />
@@ -69,8 +60,8 @@ const Chartreuse = props => {
         </figcaption>
       </figure>
     </div>
-  );
-};
+  )
+}
 
 Chartreuse.propTypes = {
   children: PropTypes.node.isRequired,
@@ -79,12 +70,12 @@ Chartreuse.propTypes = {
   location: PropTypes.string.isRequred,
   year: PropTypes.number.isRequired,
   artStyle: PropTypes.string.isRequired,
-  active: PropTypes.bool
-};
+  active: PropTypes.bool,
+}
 
 Chartreuse.defaultProps = {
-  artStyle: "Barocco",
-  active: false
-};
+  artStyle: 'Barocco',
+  active: false,
+}
 
-export default Chartreuse;
+export default Chartreuse
