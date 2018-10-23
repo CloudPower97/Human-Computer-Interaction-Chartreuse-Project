@@ -413,7 +413,7 @@
             0px 0px 20px 0px #777;
         }
 
-        & input {
+        .FontModalSwitchToggle {
           position: absolute;
           top: 0;
           left: 0;
@@ -421,7 +421,7 @@
           box-sizing: content-box;
 
           &:checked {
-            & ~ .switch-label {
+            & ~ .FontModalSwitchLabel {
               background: #c0b282;
               box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15),
                 inset 0 0 3px rgba(0, 0, 0, 0.2);
@@ -440,12 +440,12 @@
               box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
 
               & svg {
-                &.fa-sun {
+                &[data-icon="sun"] {
                   display: none;
                   opacity: 0;
                 }
 
-                &.fa-moon {
+                &[data-icon="moon"] {
                   display: inline-block;
                   opacity: 1;
                 }

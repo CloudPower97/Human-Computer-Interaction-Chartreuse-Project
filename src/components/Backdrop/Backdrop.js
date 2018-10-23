@@ -5,11 +5,7 @@ import PropTypes from 'prop-types'
 const Backdrop = props => {
   const { children, toggleModal } = props
 
-  return (
-    <div onClick={() => toggleModal()} className={Styles.Backdrop}>
-      {children}
-    </div>
-  )
+  return <div className={Styles.Backdrop}>{children}</div>
 }
 
 Backdrop.propTypes = {

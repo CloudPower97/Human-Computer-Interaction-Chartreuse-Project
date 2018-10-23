@@ -9,7 +9,7 @@ class Layout extends Component {
     showFontModal: false,
   }
 
-  toggleFontModal() {
+  toggleFontModal = () => {
     this.setState(prevState => ({
       showFontModal: !prevState.showFontModal,
     }))
@@ -21,10 +21,10 @@ class Layout extends Component {
 
     return (
       <div className={Styles.Layout}>
-        <AppBar toggleFontModal={() => this.toggleFontModal()} />
+        <AppBar toggleFontModal={this.toggleFontModal} />
 
         {showFontModal && (
-          <Backdrop toggleModal={() => this.toggleFontModal()}>
+          <Backdrop>
             <FontModal />
           </Backdrop>
         )}
